@@ -1,0 +1,22 @@
+body {
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  background-image: url("dark.png");
+}
+
+video,
+canvas#tracker,
+canvas#_imageData {
+  margin-left: 0px;
+  margin-top: 0px;
+  position: absolute;
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+
+.navbar-brand > img {
+  height: 5%;
+  padding: 15px;
+  width: auto;
+}

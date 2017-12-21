@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  left_px: 9.99
+  top_px: 9.99
+  width_px: 9.99
+  height_px: 9.99
+  visual_prowess_id: 1
+  sharingan_id: 1
+  user_id: 1
+  record_id: 1
+  session: 1
+
+two:
+  left_px: 9.99
+  top_px: 9.99
+  width_px: 9.99
+  height_px: 9.99
+  visual_prowess_id: 1
+  sharingan_id: 1
+  user_id: 1
+  record_id: 1
+  session: 1

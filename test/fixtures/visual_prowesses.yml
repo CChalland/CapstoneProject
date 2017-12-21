@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  anger: 9.99
+  contempt: 9.99
+  disgust: 9.99
+  fear: 9.99
+  happiness: 9.99
+  neutral: 9.99
+  sadness: 9.99
+  surprise: 9.99
+
+two:
+  anger: 9.99
+  contempt: 9.99
+  disgust: 9.99
+  fear: 9.99
+  happiness: 9.99
+  neutral: 9.99
+  sadness: 9.99
+  surprise: 9.99
