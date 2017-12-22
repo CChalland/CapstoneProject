@@ -77,7 +77,7 @@ var VisualProwessPage = {
         axios.get("/keys").then(function(response) {
           EMOTION_API_ID = response.data.id;
           EMOTION_API_KEY1 = response.data.key;
-          sessionId = response.data.session_id;
+          sessionId = response.data.session_id + 1;
           setInterval(function() {
             takepicture();
             ev.preventDefault();
@@ -232,7 +232,7 @@ var VisualProwessPage = {
                 topPx: result[0].faceRectangle.top,
                 widthPx: result[0].faceRectangle.width,
                 heightPx: result[0].faceRectangle.height,
-                session: sessionId + 1
+                session: sessionId
               },
               function(data, textStatus) {
                 alert("Response from server: " + data);
@@ -436,9 +436,6 @@ var SharinganPage = {
           ua.indexOf("OS 11_") > 0;
 
         var stats = uchihaExample.stats;
-        if (stats.init) {
-          stats.init(60);
-        }
 
         startCamera();
 
@@ -517,7 +514,7 @@ var SharinganPage = {
               axios.get("/keys").then(function(response) {
                 EMOTION_API_ID = response.data.id;
                 EMOTION_API_KEY1 = response.data.key;
-                sessionId = response.data.session_id;
+                sessionId = response.data.session_id + 1;
                 setInterval(function() {
                   takepicture();
                   ev.preventDefault();
@@ -934,7 +931,7 @@ var SharinganPage = {
                     topPx: result[0].faceRectangle.top,
                     widthPx: result[0].faceRectangle.width,
                     heightPx: result[0].faceRectangle.height,
-                    session: sessionId + 1
+                    session: sessionId
                   },
                   function(data, textStatus) {
                     alert("Response from server: " + data);
@@ -942,7 +939,7 @@ var SharinganPage = {
                 );
               });
 
-            photo.setAttribute("src", data);
+            photo.setAttribute("src", dataURL);
           } else {
             clearphoto();
           }
@@ -954,7 +951,7 @@ var SharinganPage = {
       var emotions = [];
       axios
         // axios.get("/v1/faces/?avg_session_visual_prowesses=" + this.$route.params.id).then(
-        .get("/v1/sharingans/?session_emotions=" + 4)
+        .get(`/v1/sharingans/?session_emotions=${sessionId}`)
         .then(function(response) {
           var faces = response.data;
           for (var i = 0; i < faces.length; i++) {
