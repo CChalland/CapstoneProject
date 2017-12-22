@@ -38,13 +38,13 @@ class V1::UsersController < ApplicationController
 
   def update
     user = User.find_by(id: params[:id].to_i)
-    user.user_name = params[:user_name]
-    user.email = params[:email]
-    user.password = params[:password]
-    user.password_confirmation = params[:password_confirmation]
-    user.full_name = params[:full_name]
-    user.birth_date = params[:birth_date]
-    user.gender = params[:gender]
+    user.user_name = params[:user_name] || user.user_name
+    user.email = params[:email] || user.email
+    user.password = params[:password] || user.password
+    user.password_confirmation = params[:password_confirmation] || user.password_confirmation
+    user.full_name = params[:full_name] || user.full_name
+    user.birth_date = params[:birth_date] || user.birth_date
+    user.gender = params[:gender] || user.gender
 
     if user.save
       render json: user.as_json

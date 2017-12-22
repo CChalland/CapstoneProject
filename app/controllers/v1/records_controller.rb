@@ -27,8 +27,8 @@ class V1::RecordsController < ApplicationController
 
   def update
     record = Record.find_by(id: params[:id].to_i)
-    record.type = params[:type]
-    record.image = params[:image]
+    record.type = params[:type] || record.type
+    record.image = params[:image] || record.image
     if record.save
       render json: record.as_json
     else

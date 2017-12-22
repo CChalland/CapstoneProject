@@ -1,7 +1,19 @@
 class V1::VisualProwessesController < ApplicationController
   
   def index
-
+    if params[:session_emotions]
+      emotions = []
+      faces = Face.where({session: params[:session_emotions].to_i})
+      # faces = Face.where({session: params[:session_emotions], user_id: current_user.id})
+      faces.each do |face|
+        emotions << face.visual_prowess
+      end
+      emotions.select! { |emotion| emotion != nil }
+      
+    else
+      emotions = VisualProwess.all.order(:id)
+    end
+    render json: emotions.as_json
   end
 
   def create
@@ -51,14 +63,14 @@ class V1::VisualProwessesController < ApplicationController
 
   def update
     visual_prowess = EomtionState.find_by(id: params[:id].to_i)
-    visual_prowess.anger = params[:anger]
-    visual_prowess.contempt = params[:contempt]
-    visual_prowess.disgust = params[:disgust]
-    visual_prowess.fear = params[:fear]
-    visual_prowess.happiness = params[:happiness]
-    visual_prowess.neutral = params[:neutral]
-    visual_prowess.sadness = params[:sadness]
-    visual_prowess.surprise = params[:surprise]
+    visual_prowess.anger = params[:anger] || visual_prowess.anger
+    visual_prowess.contempt = params[:contempt] || visual_prowess.contempt
+    visual_prowess.disgust = params[:disgust] || visual_prowess.disgust
+    visual_prowess.fear = params[:fear] || visual_prowess.fear
+    visual_prowess.happiness = params[:happiness] || visual_prowess.happiness
+    visual_prowess.neutral = params[:neutral] || visual_prowess.neutral
+    visual_prowess.sadness = params[:sadness] || visual_prowess.sadness
+    visual_prowess.surprise = params[:surprise] || visual_prowess.surprise
 
     if emotion_state.save
       render json: emotion_state.as_json
