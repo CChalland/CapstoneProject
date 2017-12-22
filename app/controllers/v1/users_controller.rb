@@ -14,12 +14,12 @@ class V1::UsersController < ApplicationController
 
   def create
     user = User.new(
-      user_name: params[:user_name],
+      user_name: params[:userName],
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation],
-      full_name: params[:full_name],
-      birth_date: params[:birth_date],
+      password_confirmation: params[:passwordConfirmation],
+      full_name: params[:fullName],
+      birth_date: params[:birthDate],
       gender: params[:gender],
       membership: false,
       admin: false

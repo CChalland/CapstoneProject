@@ -109,30 +109,14 @@
           <div class="card-header" role="tab" id="headingTwo">
             <h5 class="mb-0">
               <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Session #2
+                Statistics
               </a>
             </h5>
           </div>
           <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body text-center">
-              Average Emotions for Session 2
-              <div id="chartdiv" style="width: 100%; height: 400px;"></div>
-
-            </div>
-          </div>
-        </div>
-        <div class="card text-white bg-dark">
-          <div class="card-header" role="tab" id="headingThree">
-            <h5 class="mb-0">
-              <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Session #1
-              </a>
-            </h5>
-          </div>
-          <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-            <div class="card-body text-center">
-              Average Emotions for Session 3
-              <div id="chartdiv" style="width: 100%; height: 362px;"></div>
+              Statistics of your Emotions
+              <div id="visualProwess-chartdiv" style="width: 100%; height: 400px;"></div>
 
             </div>
           </div>
@@ -144,18 +128,16 @@
 
 <template id="sharingan-page">
   <div class="container">
-    <div class="card text-center text-white bg-dark" style="width: 45rem;">
-      <figure class="figure">
+    <div class="card text-white bg-dark" style="width: 45rem;">
+      <figure class="figure text-center">
         <video id="_webcam" style="display: none;" playsinline></video>
         <canvas id="_imageData"></canvas>
         <canvas id="canvas">
         </canvas>
         <span id="photo" alt="The screen capture will appear in this box."> 
       </figure>
-      <div class="card-body">
+      <div class="card-body text-center">
         <button id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
-        <br>
-        <br>
         <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
       <div id="accordion" role="tablist">
@@ -163,30 +145,14 @@
           <div class="card-header" role="tab" id="headingTwo">
             <h5 class="mb-0">
               <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Session #2
+                Statistics
               </a>
             </h5>
           </div>
           <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body text-center">
-              Average Emotions for Session 2
-              <div id="chartdiv" style="width: 100%; height: 362px;"></div>
-
-            </div>
-          </div>
-        </div>
-        <div class="card text-white bg-dark">
-          <div class="card-header" role="tab" id="headingThree">
-            <h5 class="mb-0">
-              <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Session #1
-              </a>
-            </h5>
-          </div>
-          <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-            <div class="card-body text-center">
-              Average Emotions for Session 3
-              <div id="chartdiv" style="width: 100%; height: 362px;"></div>
+              Statistics of your Emotions
+              <div id="sharingan-chartdiv" style="width: 100%; height: 362px;"></div>
 
             </div>
           </div>
@@ -268,7 +234,7 @@
 </template>
 
 
- <template id="chart-page">
+<template id="chart-page">
   <div class="container">
     <div id="accordion" role="tablist">
       <div class="card text-white bg-dark">

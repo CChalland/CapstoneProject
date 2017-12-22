@@ -77,7 +77,7 @@ var VisualProwessPage = {
         axios.get("/keys").then(function(response) {
           EMOTION_API_ID = response.data.id;
           EMOTION_API_KEY1 = response.data.key;
-          sessionId = response.data.session_id + 1;
+          sessionId = response.data.session_id;
           setInterval(function() {
             takepicture();
             ev.preventDefault();
@@ -232,7 +232,7 @@ var VisualProwessPage = {
                 topPx: result[0].faceRectangle.top,
                 widthPx: result[0].faceRectangle.width,
                 heightPx: result[0].faceRectangle.height,
-                session: sessionId
+                session: sessionId + 1
               },
               function(data, textStatus) {
                 alert("Response from server: " + data);
@@ -252,12 +252,12 @@ var VisualProwessPage = {
 
     axios
       // axios.get("/v1/faces/?avg_session_visual_prowesses=" + this.$route.params.id).then(
-      .get("/v1/visual_prowesses/?session_emotions=" + 4)
+      .get("/v1/visual_prowesses/?admin=true")
       .then(function(response) {
         var faces = response.data;
         for (var i = 0; i < faces.length; i++) {
           emotions.push({
-            id: faces[i].id,
+            visualProwessId: faces[i].id,
             anger: faces[i].anger,
             contempt: faces[i].contempt,
             disgust: faces[i].disgust,
@@ -269,7 +269,7 @@ var VisualProwessPage = {
           });
         }
 
-        var chart = AmCharts.makeChart("chartdiv", {
+        var chart = AmCharts.makeChart("visualProwess-chartdiv", {
           type: "serial",
           theme: "black",
           legend: {
@@ -353,7 +353,7 @@ var VisualProwessPage = {
             cursorAlpha: 0,
             zoomable: true
           },
-          categoryField: "time",
+          categoryField: "visualProwessId",
           categoryAxis: {
             gridPosition: "start",
             axisAlpha: 0,
@@ -381,7 +381,7 @@ var SharinganPage = {
       // video from the camera. Obviously, we start at false.
       var streaming = false;
 
-      // detect WebAssembly support and load either WASM or ASM version of BRFv4
+      // detect WebAssembly support and load either WASM or ASM version of Uchiha
       var support = typeof WebAssembly === "object";
 
       if (!support) {
@@ -405,7 +405,7 @@ var SharinganPage = {
 
       function initExample() {
         var webcam = document.getElementById("_webcam"); // our webcam video
-        var imageData = document.getElementById("_imageData"); // image data for BRFv4
+        var imageData = document.getElementById("_imageData"); // image data for Uchiha
         var canvas = document.getElementById("canvas");
         var photo = document.getElementById("photo");
         var startbutton = document.getElementById("sharinganButton");
@@ -449,7 +449,7 @@ var SharinganPage = {
             webcam.srcObject = mediaStream;
             webcam.play();
 
-            // Check whether we know the video dimensions yet, if so, start BRFv4.
+            // Check whether we know the video dimensions yet, if so, start Uchiha.
             function onStreamDimensionsAvailable() {
               console.log("onStreamDimensionsAvailable");
 
@@ -469,7 +469,7 @@ var SharinganPage = {
                 // window.addEventListener("resize", onResize);
 
                 // on iOS we want to close the video stream first and
-                // wait for the heavy BRFv4 initialization to finish.
+                // wait for the heavy Uchiha initialization to finish.
                 // Once that is done, we start the stream again.
 
                 if (isIOS11) {
@@ -514,7 +514,7 @@ var SharinganPage = {
               axios.get("/keys").then(function(response) {
                 EMOTION_API_ID = response.data.id;
                 EMOTION_API_KEY1 = response.data.key;
-                sessionId = response.data.session_id + 1;
+                sessionId = response.data.session_id;
                 setInterval(function() {
                   takepicture();
                   ev.preventDefault();
@@ -618,7 +618,7 @@ var SharinganPage = {
         }
 
         function onResize() {
-          var imageData = document.getElementById("_imageData"); // image data for BRFv4
+          var imageData = document.getElementById("_imageData"); // image data for Uchiha
 
           var ww = window.innerWidth;
           var wh = window.innerHeight;
@@ -638,10 +638,8 @@ var SharinganPage = {
           imageData.style.transform =
             "matrix(" + s + ", 0, 0, " + s + ", " + ix + ", " + iy + ")";
         }
-
         // Fill the photo with an indication that none has been
         // captured.
-
         function clearphoto() {
           var context = canvas.getContext("2d");
           context.fillStyle = "#AAA";
@@ -650,13 +648,11 @@ var SharinganPage = {
           var data = canvas.toDataURL("image/png");
           photo.setAttribute("src", data);
         }
-
         // Capture a photo by fetching the current contents of the video
         // and drawing it into a canvas, then converting that to a PNG
         // format data URL. By drawing it on an offscreen canvas and then
         // drawing that to the screen, we can change its size and/or apply
         // other changes before drawing it.
-
         function takepicture() {
           var context = canvas.getContext("2d");
           if (width && height) {
@@ -931,7 +927,7 @@ var SharinganPage = {
                     topPx: result[0].faceRectangle.top,
                     widthPx: result[0].faceRectangle.width,
                     heightPx: result[0].faceRectangle.height,
-                    session: sessionId
+                    session: sessionId + 1
                   },
                   function(data, textStatus) {
                     alert("Response from server: " + data);
@@ -951,12 +947,12 @@ var SharinganPage = {
       var emotions = [];
       axios
         // axios.get("/v1/faces/?avg_session_visual_prowesses=" + this.$route.params.id).then(
-        .get(`/v1/sharingans/?session_emotions=${sessionId}`)
+        .get("/v1/sharingans/?admin=true")
         .then(function(response) {
           var faces = response.data;
           for (var i = 0; i < faces.length; i++) {
             emotions.push({
-              id: faces[i].id,
+              SharinganId: faces[i].id,
               anger: faces[i].anger,
               contempt: faces[i].contempt,
               disgust: faces[i].disgust,
@@ -968,7 +964,7 @@ var SharinganPage = {
             });
           }
 
-          var chart = AmCharts.makeChart("chartdiv", {
+          var chart = AmCharts.makeChart("sharingan-chartdiv", {
             type: "serial",
             theme: "black",
             legend: {
@@ -1052,7 +1048,7 @@ var SharinganPage = {
               cursorAlpha: 0,
               zoomable: true
             },
-            categoryField: "time",
+            categoryField: "SharinganId",
             categoryAxis: {
               gridPosition: "start",
               axisAlpha: 0,
@@ -1069,126 +1065,124 @@ var SharinganPage = {
     })();
   },
   mounted: function() {
-    var emotion = {};
-    var emotions = [];
-
-    axios
-      // axios.get("/v1/faces/?avg_session_visual_prowesses=" + this.$route.params.id).then(
-      .get("/v1/visual_prowesses/?session_emotions=" + 4)
-      .then(function(response) {
-        var faces = response.data;
-        for (var i = 0; i < faces.length; i++) {
-          emotions.push({
-            id: faces[i].id,
-            anger: faces[i].anger,
-            contempt: faces[i].contempt,
-            disgust: faces[i].disgust,
-            fear: faces[i].fear,
-            happiness: faces[i].happiness,
-            neutral: faces[i].neutral,
-            sadness: faces[i].sadness,
-            surprise: faces[i].surprise
-          });
-        }
-
-        var chart = AmCharts.makeChart("chartdiv", {
-          type: "serial",
-          theme: "black",
-          legend: {
-            useGraphSettings: true
-          },
-          dataProvider: emotions,
-          valueAxes: [
-            {
-              integersOnly: false,
-              maximum: 100,
-              minimum: 0,
-              reversed: false,
-              axisAlpha: 0,
-              dashLength: 5,
-              gridCount: 10,
-              position: "left",
-              title: "Emotion taken"
-            }
-          ],
-          startDuration: 0,
-          graphs: [
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              hidden: false,
-              title: "Anger",
-              valueField: "anger",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Contempt",
-              valueField: "contempt",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Disgust",
-              valueField: "disgust",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Fear",
-              valueField: "fear",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Happiness",
-              valueField: "happiness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Neutral",
-              valueField: "neutral",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Sadness",
-              valueField: "sadness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Surprise",
-              valueField: "surprise",
-              fillAlphas: 0
-            }
-          ],
-          chartCursor: {
-            cursorAlpha: 0,
-            zoomable: true
-          },
-          categoryField: "time",
-          categoryAxis: {
-            gridPosition: "start",
-            axisAlpha: 0,
-            fillAlpha: 0.05,
-            fillColor: "#000000",
-            gridAlpha: 0,
-            position: "top"
-          },
-          gridAlpha: 0,
-          position: "top"
-        });
-        console.log(chart);
-      });
+    // var emotion = {};
+    // var emotions = [];
+    // axios
+    //   // axios.get("/v1/faces/?avg_session_visual_prowesses=" + this.$route.params.id).then(
+    //   .get("/v1/sharingans/?session_emotions=" + sessionId)
+    //   .then(function(response) {
+    //     var faces = response.data;
+    //     for (var i = 0; i < faces.length; i++) {
+    //       emotions.push({
+    //         id: faces[i].id,
+    //         anger: faces[i].anger,
+    //         contempt: faces[i].contempt,
+    //         disgust: faces[i].disgust,
+    //         fear: faces[i].fear,
+    //         happiness: faces[i].happiness,
+    //         neutral: faces[i].neutral,
+    //         sadness: faces[i].sadness,
+    //         surprise: faces[i].surprise
+    //       });
+    //     }
+    //     var chart = AmCharts.makeChart("chartdiv", {
+    //       type: "serial",
+    //       theme: "black",
+    //       legend: {
+    //         useGraphSettings: true
+    //       },
+    //       dataProvider: emotions,
+    //       valueAxes: [
+    //         {
+    //           integersOnly: false,
+    //           maximum: 100,
+    //           minimum: 0,
+    //           reversed: false,
+    //           axisAlpha: 0,
+    //           dashLength: 5,
+    //           gridCount: 10,
+    //           position: "left",
+    //           title: "Emotion taken"
+    //         }
+    //       ],
+    //       startDuration: 0,
+    //       graphs: [
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           hidden: false,
+    //           title: "Anger",
+    //           valueField: "anger",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Contempt",
+    //           valueField: "contempt",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Disgust",
+    //           valueField: "disgust",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Fear",
+    //           valueField: "fear",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Happiness",
+    //           valueField: "happiness",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Neutral",
+    //           valueField: "neutral",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Sadness",
+    //           valueField: "sadness",
+    //           fillAlphas: 0
+    //         },
+    //         {
+    //           balloonText: "[[title]]: [[value]]",
+    //           bullet: "round",
+    //           title: "Surprise",
+    //           valueField: "surprise",
+    //           fillAlphas: 0
+    //         }
+    //       ],
+    //       chartCursor: {
+    //         cursorAlpha: 0,
+    //         zoomable: true
+    //       },
+    //       categoryField: "time",
+    //       categoryAxis: {
+    //         gridPosition: "start",
+    //         axisAlpha: 0,
+    //         fillAlpha: 0.05,
+    //         fillColor: "#000000",
+    //         gridAlpha: 0,
+    //         position: "top"
+    //       },
+    //       gridAlpha: 0,
+    //       position: "top"
+    //     });
+    //     console.log(chart);
+    //   });
   },
   methods: {},
   computed: {}

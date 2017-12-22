@@ -1,17 +1,17 @@
 class V1::VisualProwessesController < ApplicationController
-  
+
   def index
     if params[:session_emotions]
       emotions = []
-      faces = Face.where({session: params[:session_emotions].to_i})
-      # faces = Face.where({session: params[:session_emotions], user_id: current_user.id})
+      faces = Face.where({session: params[:session_emotions]})
+      # faces = current_user.faces.where({session: params[:session_emotions]})
       faces.each do |face|
         emotions << face.visual_prowess
       end
       emotions.select! { |emotion| emotion != nil }
-      
-    else
-      emotions = VisualProwess.all.order(:id)
+
+    elsif params[:admin]
+      emotions = VisualProwess.all.order(id: :desc)
     end
     render json: emotions.as_json
   end
@@ -46,7 +46,7 @@ class V1::VisualProwessesController < ApplicationController
         width_px: params[:widthPx],
         height_px: params[:heightPx],
         visual_prowess_id: VisualProwess.last.id,
-        # user_id: current_user.id,
+        user_id: current_user.id,
         record_id: Record.last.id,
         session: params[:session].to_i
       )

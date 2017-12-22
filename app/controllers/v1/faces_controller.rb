@@ -17,7 +17,7 @@ class V1::FacesController < ApplicationController
       height_px: params[:heightPx],
       visual_prowess_id: params[:visualProwessId],
       sharingan_id: params[:sharinganId],
-      user_id: params[:userId],
+      user_id: current_user.id,
       record_id: params[:recordId],
       session: params[:session]
     )
