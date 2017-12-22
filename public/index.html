@@ -26,6 +26,11 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <script src="index.js" defer></script>
 
+
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="https://www.amcharts.com/lib/3/radar.js"></script>
+  <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
+
 </head>
 <body>
   <div id="app">
@@ -86,35 +91,92 @@
 
 <template id="visualProwess-page">
   <div class="container">
-    <figure class="figure">
-      <video id="video" width="640" height="480" preload autoplay loop muted></video>
-      <canvas id="tracker" width="640" height="480"></canvas>
-      <canvas id="frame">
-      </canvas>
-      <span id="photo" alt="The screen capture will appear in this box."> 
-    </figure>
-    <br>
-    <button id="visualProwessButton" type="button" class="btn btn-danger">Activate Visual Prowess</button>
-    <br>
-    <br>
-    <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+    <div class="card text-white bg-dark" style="width: 45rem;">
+      <figure class="figure text-center">
+        <video id="video" width="640" height="480" preload autoplay loop muted></video>
+        <canvas id="tracker" width="640" height="480"></canvas>
+        <canvas id="frame">
+        </canvas>
+        <span id="photo" alt="The screen capture will appear in this box."> 
+      </figure>
+      <div class="card-body text-center">
+        <button id="visualProwessButton" type="button" class="btn btn-danger">Activate Visual Prowess</button>
+        <br>
+        <br>
+        <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+      </div>
+      <div id="accordion" role="tablist">
+        <div class="card text-white bg-dark">
+          <div class="card-header" role="tab" id="headingOne">
+            <h5 class="mb-0">
+              <a class="btn btn-danger" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Session #1
+                
+              </a>
+            </h5>
+          </div>
+
+          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body text-center">
+              Average Emotions for Session 1
+              <div id="chartdiv"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card text-white bg-dark">
+          <div class="card-header" role="tab" id="headingTwo">
+            <h5 class="mb-0">
+              <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Session #2
+              </a>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body text-center">
+              Average Emotions for Session 2
+              <div id="chartdiv"></div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card text-white bg-dark">
+          <div class="card-header" role="tab" id="headingThree">
+            <h5 class="mb-0">
+              <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Session #3
+              </a>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body text-center">
+              Average Emotions for Session 3
+              <div id="chartdiv"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <template id="sharingan-page">
   <div class="container">
-    <figure class="figure">
-      <video id="_webcam" style="display: none;" playsinline></video>
-      <canvas id="_imageData"></canvas>
-      <canvas id="canvas">
-      </canvas>
-      <span id="photo" alt="The screen capture will appear in this box."> 
-    </figure>
-    <br>
-    <button id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
-    <br>
-    <br>
-    <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
+    <div class="card text-center text-white bg-dark" style="width: 45rem;">
+      <figure class="figure">
+        <video id="_webcam" style="display: none;" playsinline></video>
+        <canvas id="_imageData"></canvas>
+        <canvas id="canvas">
+        </canvas>
+        <span id="photo" alt="The screen capture will appear in this box."> 
+      </figure>
+      <div class="card-body">
+        <button id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
+        <br>
+        <br>
+        <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -190,8 +252,61 @@
 </template>
 
 
-<!--  <template id="home-page">
+ <template id="chart-page">
   <div class="container">
-    <h1>{{ message }}</h1>
+    <div id="accordion" role="tablist">
+      <div class="card text-white bg-dark">
+        <div class="card-header" role="tab" id="headingOne">
+          <h5 class="mb-0">
+            <a class="btn btn-danger" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              Session #1
+              
+            </a>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body text-center">
+            Session 1
+            <div id="chartdiv"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card text-white bg-dark">
+        <div class="card-header" role="tab" id="headingTwo">
+          <h5 class="mb-0">
+            <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Session #2
+            </a>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body text-center">
+            Session 2
+            <div id="chartdiv"></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="card text-white bg-dark">
+        <div class="card-header" role="tab" id="headingThree">
+          <h5 class="mb-0">
+            <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Session #3
+            </a>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body text-center">
+            Session 3
+            <div id="chartdiv"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</template> -->
+</template>
+
+
+

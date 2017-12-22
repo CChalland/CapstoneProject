@@ -20,3 +20,12 @@ canvas#_imageData {
   padding: 15px;
   width: auto;
 }
+
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+.amcharts-chart-div a {
+  display: none !important;
+}

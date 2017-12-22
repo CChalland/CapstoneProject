@@ -24,6 +24,7 @@ class V1::VisualProwessesController < ApplicationController
         image: params[:image]
       )
       @record.save
+      # render json: response.body
     end
 
     if @visual_prowess.save && @record.save
