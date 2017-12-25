@@ -2,11 +2,24 @@ class V1::FacesController < ApplicationController
 
   def index
     if params[:sessions]
-      faces = Face.where({session: params[:sessions], user_id: current_user.id})
+      # faces = Face.where({session: params[:sessions], user_id: current_user.id})
+      faces = Face.all.order(id: :desc)
+      render json: faces.as_json
+
+    elsif params[:admin]
+      index = 0
+      emotions = []
+      faces = Face.all.order(id: :desc)
+      faces.each do |face|
+        face.select! {|emotion| emotion[:session] == index }]
+        emotions = face.map! {|face| face.visual_prowess}
+        index += 1
+      end
+
     else
       faces = Face.all.order(:id)
+      render json: faces.as_json
     end
-    render json: faces.as_json
   end
 
   def create

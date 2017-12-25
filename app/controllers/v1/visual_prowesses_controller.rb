@@ -10,14 +10,20 @@ class V1::VisualProwessesController < ApplicationController
       end
       emotions.select! { |emotion| emotion != nil }
 
+    elsif params[:last]
+      emotions = VisualProwess.last
+
     elsif params[:admin]
+      emotions = VisualProwess.all.order(id: :desc)
+
+    else
       emotions = VisualProwess.all.order(id: :desc)
     end
     render json: emotions.as_json
   end
 
-  def create
 
+  def create
     @visual_prowess = VisualProwess.new(
       anger: params[:anger],
       contempt: params[:contempt],
@@ -46,7 +52,7 @@ class V1::VisualProwessesController < ApplicationController
         width_px: params[:widthPx],
         height_px: params[:heightPx],
         visual_prowess_id: VisualProwess.last.id,
-        user_id: current_user.id,
+        # user_id: current_user.id,
         record_id: Record.last.id,
         session: params[:session].to_i
       )
@@ -58,7 +64,8 @@ class V1::VisualProwessesController < ApplicationController
   end
 
   def show
-
+    emotion = VisualProwess.find_by(id: params[:id].to_i)
+    render json: emotion.as_json
   end
 
   def update
