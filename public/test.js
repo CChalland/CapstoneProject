@@ -21,6 +21,7 @@ var VisualProwessPage = {
   template: "#visualProwess-page",
   data: function() {
     return {
+      statsEmotions: [],
       emotions: [],
       result: [
         {
@@ -114,6 +115,104 @@ var VisualProwessPage = {
           gridPosition: "start",
           labelRotation: 90
         }
+      });
+    },
+    statsEmotions: function(statsEmotion) {
+      var chart = AmCharts.makeChart("visualProwess-chartdiv", {
+        type: "serial",
+        theme: "black",
+        legend: {
+          useGraphSettings: true
+        },
+        dataProvider: this.statsEmotions,
+        valueAxes: [
+          {
+            integersOnly: false,
+            maximum: 100,
+            minimum: 0,
+            reversed: false,
+            axisAlpha: 0,
+            dashLength: 5,
+            gridCount: 10,
+            position: "left",
+            title: "Emotion taken"
+          }
+        ],
+        startDuration: 0,
+        graphs: [
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            hidden: false,
+            title: "Anger",
+            valueField: "anger",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Contempt",
+            valueField: "contempt",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Disgust",
+            valueField: "disgust",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Fear",
+            valueField: "fear",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Happiness",
+            valueField: "happiness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Neutral",
+            valueField: "neutral",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Sadness",
+            valueField: "sadness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Surprise",
+            valueField: "surprise",
+            fillAlphas: 0
+          }
+        ],
+        chartCursor: {
+          cursorAlpha: 0,
+          zoomable: true
+        },
+        categoryField: "id",
+        categoryAxis: {
+          gridPosition: "start",
+          axisAlpha: 0,
+          fillAlpha: 0.05,
+          fillColor: "#000000",
+          gridAlpha: 0,
+          position: "top"
+        },
+        gridAlpha: 0,
+        position: "top"
       });
       console.log(chart);
     }
@@ -297,6 +396,17 @@ var VisualProwessPage = {
               success: function(data) {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
+                vm.statsEmotions.push({
+                  // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
+                  anger: vm.result[0].scores.anger,
+                  contempt: vm.result[0].scores.contempt,
+                  disgust: vm.result[0].scores.disgust,
+                  fear: vm.result[0].scores.fear,
+                  happiness: vm.result[0].scores.happiness,
+                  neutral: vm.result[0].scores.neutral,
+                  sadness: vm.result[0].scores.sadness,
+                  surprise: vm.result[0].scores.surprise
+                });
                 // code to show result will be here
               }
             }).fail(function(data) {
@@ -344,103 +454,7 @@ var VisualProwessPage = {
   mounted: function() {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
-        this.emotions = response.data;
-        var chart = AmCharts.makeChart("visualProwess-chartdiv", {
-          type: "serial",
-          theme: "black",
-          legend: {
-            useGraphSettings: true
-          },
-          dataProvider: this.emotions,
-          valueAxes: [
-            {
-              integersOnly: false,
-              maximum: 100,
-              minimum: 0,
-              reversed: false,
-              axisAlpha: 0,
-              dashLength: 5,
-              gridCount: 10,
-              position: "left",
-              title: "Emotion taken"
-            }
-          ],
-          startDuration: 0,
-          graphs: [
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              hidden: false,
-              title: "Anger",
-              valueField: "anger",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Contempt",
-              valueField: "contempt",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Disgust",
-              valueField: "disgust",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Fear",
-              valueField: "fear",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Happiness",
-              valueField: "happiness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Neutral",
-              valueField: "neutral",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Sadness",
-              valueField: "sadness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Surprise",
-              valueField: "surprise",
-              fillAlphas: 0
-            }
-          ],
-          chartCursor: {
-            cursorAlpha: 0,
-            zoomable: true
-          },
-          categoryField: "id",
-          categoryAxis: {
-            gridPosition: "start",
-            axisAlpha: 0,
-            fillAlpha: 0.05,
-            fillColor: "#000000",
-            gridAlpha: 0,
-            position: "top"
-          },
-          gridAlpha: 0,
-          position: "top"
-        });
+        this.statsEmotions = response.data;
       }.bind(this)
     );
   },
@@ -452,6 +466,7 @@ var SharinganPage = {
   template: "#sharingan-page",
   data: function() {
     return {
+      statsEmotions: [],
       emotions: [],
       result: [
         {
@@ -545,6 +560,104 @@ var SharinganPage = {
           gridPosition: "start",
           labelRotation: 90
         }
+      });
+    },
+    statsEmotions: function(statsEmotion) {
+      var chart = AmCharts.makeChart("sharingan-chartdiv", {
+        type: "serial",
+        theme: "black",
+        legend: {
+          useGraphSettings: true
+        },
+        dataProvider: this.statsEmotions,
+        valueAxes: [
+          {
+            integersOnly: false,
+            maximum: 100,
+            minimum: 0,
+            reversed: false,
+            axisAlpha: 0,
+            dashLength: 5,
+            gridCount: 10,
+            position: "left",
+            title: "Emotion taken"
+          }
+        ],
+        startDuration: 0,
+        graphs: [
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            hidden: false,
+            title: "Anger",
+            valueField: "anger",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Contempt",
+            valueField: "contempt",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Disgust",
+            valueField: "disgust",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Fear",
+            valueField: "fear",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Happiness",
+            valueField: "happiness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Neutral",
+            valueField: "neutral",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Sadness",
+            valueField: "sadness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Surprise",
+            valueField: "surprise",
+            fillAlphas: 0
+          }
+        ],
+        chartCursor: {
+          cursorAlpha: 0,
+          zoomable: true
+        },
+        categoryField: "id",
+        categoryAxis: {
+          gridPosition: "start",
+          axisAlpha: 0,
+          fillAlpha: 0.05,
+          fillColor: "#000000",
+          gridAlpha: 0,
+          position: "top"
+        },
+        gridAlpha: 0,
+        position: "top"
       });
       console.log(chart);
     }
@@ -864,6 +977,17 @@ var SharinganPage = {
                 success: function(data) {
                   vm.result = data;
                   vm.emotions = vm.result[0].scores;
+                  vm.statsEmotions.push({
+                    // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
+                    anger: vm.result[0].scores.anger,
+                    contempt: vm.result[0].scores.contempt,
+                    disgust: vm.result[0].scores.disgust,
+                    fear: vm.result[0].scores.fear,
+                    happiness: vm.result[0].scores.happiness,
+                    neutral: vm.result[0].scores.neutral,
+                    sadness: vm.result[0].scores.sadness,
+                    surprise: vm.result[0].scores.surprise
+                  });
                 }
               }).fail(function(data) {
                 alert(
@@ -1106,103 +1230,7 @@ var SharinganPage = {
   mounted: function() {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
-        this.emotions = response.data;
-        var chart = AmCharts.makeChart("sharingan-chartdiv", {
-          type: "serial",
-          theme: "black",
-          legend: {
-            useGraphSettings: true
-          },
-          dataProvider: this.emotions,
-          valueAxes: [
-            {
-              integersOnly: false,
-              maximum: 100,
-              minimum: 0,
-              reversed: false,
-              axisAlpha: 0,
-              dashLength: 5,
-              gridCount: 10,
-              position: "left",
-              title: "Emotion taken"
-            }
-          ],
-          startDuration: 0,
-          graphs: [
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              hidden: false,
-              title: "Anger",
-              valueField: "anger",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Contempt",
-              valueField: "contempt",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Disgust",
-              valueField: "disgust",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Fear",
-              valueField: "fear",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Happiness",
-              valueField: "happiness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Neutral",
-              valueField: "neutral",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Sadness",
-              valueField: "sadness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Surprise",
-              valueField: "surprise",
-              fillAlphas: 0
-            }
-          ],
-          chartCursor: {
-            cursorAlpha: 0,
-            zoomable: true
-          },
-          categoryField: "id",
-          categoryAxis: {
-            gridPosition: "start",
-            axisAlpha: 0,
-            fillAlpha: 0.05,
-            fillColor: "#000000",
-            gridAlpha: 0,
-            position: "top"
-          },
-          gridAlpha: 0,
-          position: "top"
-        });
+        this.statsEmotions = response.data;
       }.bind(this)
     );
   },
@@ -1214,8 +1242,7 @@ var router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
     { path: "/visual_prowess", component: VisualProwessPage },
-    { path: "/sharingan", component: SharinganPage },
-    { path: "/chart", component: ChartPage }
+    { path: "/sharingan", component: SharinganPage }
   ]
 });
 
