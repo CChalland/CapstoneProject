@@ -365,6 +365,124 @@ var VisualProwessPage = {
   computed: {}
 };
 
+var ChartPage = {
+  template: "#chart-page",
+  data: function() {
+    return {
+      emotions: []
+    };
+  },
+  created: function() {
+    console.log(this.emotions);
+    axios.get("/v1/visual_prowesses").then(
+      function(response) {
+        this.emotions = response.data;
+      }.bind(this)
+    );
+  },
+  mounted: function() {},
+  methods: {},
+  computed: function() {
+    var chart = AmCharts.makeChart("chartdiv", {
+      type: "serial",
+      theme: "black",
+      legend: {
+        useGraphSettings: true
+      },
+      dataProvider: this.emotions,
+      valueAxes: [
+        {
+          integersOnly: false,
+          maximum: 100,
+          minimum: 0,
+          reversed: false,
+          axisAlpha: 0,
+          dashLength: 5,
+          gridCount: 10,
+          position: "left",
+          title: "Emotion taken"
+        }
+      ],
+      startDuration: 0,
+      graphs: [
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          hidden: false,
+          title: "Anger",
+          valueField: "anger",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Contempt",
+          valueField: "contempt",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Disgust",
+          valueField: "disgust",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Fear",
+          valueField: "fear",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Happiness",
+          valueField: "happiness",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Neutral",
+          valueField: "neutral",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Sadness",
+          valueField: "sadness",
+          fillAlphas: 0
+        },
+        {
+          balloonText: "[[title]]: [[value]]",
+          bullet: "round",
+          title: "Surprise",
+          valueField: "surprise",
+          fillAlphas: 0
+        }
+      ],
+      chartCursor: {
+        cursorAlpha: 0,
+        zoomable: true
+      },
+      categoryField: "id",
+      categoryAxis: {
+        gridPosition: "start",
+        axisAlpha: 0,
+        fillAlpha: 0.05,
+        fillColor: "#000000",
+        gridAlpha: 0,
+        position: "top"
+      },
+      gridAlpha: 0,
+      position: "top"
+    });
+    console.log(chart);
+  }
+};
+
 var SharinganPage = {
   template: "#sharingan-page",
   data: function() {
@@ -1057,18 +1175,7 @@ var AboutPage = {
       message: "Welcome to About."
     };
   },
-  mounted: function() {},
-  methods: {},
-  computed: {}
-};
-
-var SignUpPage = {
-  template: "#signup-page",
-  data: function() {
-    return {
-      message: "Welcome to Signup."
-    };
-  },
+  created: function() {},
   mounted: function() {},
   methods: {},
   computed: {}
@@ -1088,6 +1195,8 @@ var SignupPage = {
       errors: []
     };
   },
+  created: function() {},
+  mounted: function() {},
   methods: {
     submit: function() {
       var params = {
@@ -1122,6 +1231,8 @@ var LoginPage = {
       errors: []
     };
   },
+  created: function() {},
+  mounted: function() {},
   methods: {
     submit: function() {
       var params = {
@@ -1152,122 +1263,6 @@ var LogoutPage = {
     localStorage.removeItem("jwt");
     router.push("/");
   }
-};
-
-var ChartPage = {
-  template: "#chart-page",
-  data: function() {
-    return {
-      emotions: []
-    };
-  },
-  created: function() {
-    console.log(this.emotions);
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.emotions = response.data;
-        var chart = AmCharts.makeChart("chartdiv", {
-          type: "serial",
-          theme: "black",
-          legend: {
-            useGraphSettings: true
-          },
-          dataProvider: this.emotions,
-          valueAxes: [
-            {
-              integersOnly: false,
-              maximum: 100,
-              minimum: 0,
-              reversed: false,
-              axisAlpha: 0,
-              dashLength: 5,
-              gridCount: 10,
-              position: "left",
-              title: "Emotion taken"
-            }
-          ],
-          startDuration: 0,
-          graphs: [
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              hidden: false,
-              title: "Anger",
-              valueField: "anger",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Contempt",
-              valueField: "contempt",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Disgust",
-              valueField: "disgust",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Fear",
-              valueField: "fear",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Happiness",
-              valueField: "happiness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Neutral",
-              valueField: "neutral",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Sadness",
-              valueField: "sadness",
-              fillAlphas: 0
-            },
-            {
-              balloonText: "[[title]]: [[value]]",
-              bullet: "round",
-              title: "Surprise",
-              valueField: "surprise",
-              fillAlphas: 0
-            }
-          ],
-          chartCursor: {
-            cursorAlpha: 0,
-            zoomable: true
-          },
-          categoryField: "id",
-          categoryAxis: {
-            gridPosition: "start",
-            axisAlpha: 0,
-            fillAlpha: 0.05,
-            fillColor: "#000000",
-            gridAlpha: 0,
-            position: "top"
-          },
-          gridAlpha: 0,
-          position: "top"
-        });
-        console.log(chart);
-      }.bind(this)
-    );
-  },
-  methods: {},
-  computed: {}
 };
 
 var router = new VueRouter({
