@@ -48,42 +48,42 @@ var VisualProwessPage = {
         dataProvider: [
           {
             emotion: "Anger",
-            score: this.emotions.anger,
+            score: emotion.anger,
             color: "#FF0F00"
           },
           {
             emotion: "Contempt",
-            score: this.emotions.contempt,
+            score: emotion.contempt,
             color: "#FF6600"
           },
           {
             emotion: "Disgust",
-            score: this.emotions.disgust,
+            score: emotion.disgust,
             color: "#FF9E01"
           },
           {
             emotion: "Fear",
-            score: this.emotions.fear,
+            score: emotion.fear,
             color: "#FCD202"
           },
           {
             emotion: "Happiness",
-            score: this.emotions.happiness,
+            score: emotion.happiness,
             color: "#F8FF01"
           },
           {
             emotion: "Neutral",
-            score: this.emotions.neutral,
+            score: emotion.neutral,
             color: "#B0DE09"
           },
           {
             emotion: "Sadness",
-            score: this.emotions.sadness,
+            score: emotion.sadness,
             color: "#04D215"
           },
           {
             emotion: "Surprise",
-            score: this.emotions.surprise,
+            score: emotion.surprise,
             color: "#0D8ECF"
           }
         ],
@@ -398,14 +398,14 @@ var VisualProwessPage = {
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
                   // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
-                  anger: vm.result[0].scores.anger,
-                  contempt: vm.result[0].scores.contempt,
-                  disgust: vm.result[0].scores.disgust,
-                  fear: vm.result[0].scores.fear,
-                  happiness: vm.result[0].scores.happiness,
-                  neutral: vm.result[0].scores.neutral,
-                  sadness: vm.result[0].scores.sadness,
-                  surprise: vm.result[0].scores.surprise
+                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
+                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
+                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
+                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
+                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
+                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
+                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
+                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
                 });
                 // code to show result will be here
               }
@@ -493,42 +493,42 @@ var SharinganPage = {
         dataProvider: [
           {
             emotion: "Anger",
-            score: this.emotions.anger,
+            score: emotion.anger,
             color: "#FF0F00"
           },
           {
             emotion: "Contempt",
-            score: this.emotions.contempt,
+            score: emotion.contempt,
             color: "#FF6600"
           },
           {
             emotion: "Disgust",
-            score: this.emotions.disgust,
+            score: emotion.disgust,
             color: "#FF9E01"
           },
           {
             emotion: "Fear",
-            score: this.emotions.fear,
+            score: emotion.fear,
             color: "#FCD202"
           },
           {
             emotion: "Happiness",
-            score: this.emotions.happiness,
+            score: emotion.happiness,
             color: "#F8FF01"
           },
           {
             emotion: "Neutral",
-            score: this.emotions.neutral,
+            score: emotion.neutral,
             color: "#B0DE09"
           },
           {
             emotion: "Sadness",
-            score: this.emotions.sadness,
+            score: emotion.sadness,
             color: "#04D215"
           },
           {
             emotion: "Surprise",
-            score: this.emotions.surprise,
+            score: emotion.surprise,
             color: "#0D8ECF"
           }
         ],
@@ -979,14 +979,14 @@ var SharinganPage = {
                   vm.emotions = vm.result[0].scores;
                   vm.statsEmotions.push({
                     // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
-                    anger: vm.result[0].scores.anger,
-                    contempt: vm.result[0].scores.contempt,
-                    disgust: vm.result[0].scores.disgust,
-                    fear: vm.result[0].scores.fear,
-                    happiness: vm.result[0].scores.happiness,
-                    neutral: vm.result[0].scores.neutral,
-                    sadness: vm.result[0].scores.sadness,
-                    surprise: vm.result[0].scores.surprise
+                    anger: (vm.result[0].scores.anger * 100).toFixed(4),
+                    contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
+                    disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
+                    fear: (vm.result[0].scores.fear * 100).toFixed(4),
+                    happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
+                    neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
+                    sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
+                    surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
                   });
                 }
               }).fail(function(data) {
