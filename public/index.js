@@ -1242,109 +1242,27 @@ var ChartPage = {
   data: function() {
     return {
       statsEmotions: [],
-      emotions: [],
-      result: [
-        {
-          scores: {
-            anger: 0,
-            contempt: 0,
-            disgust: 0,
-            fear: 0,
-            happiness: 0,
-            neutral: 0,
-            sadness: 0,
-            surprise: 0
-          }
-        }
-      ]
+      emotions: []
     };
   },
-  watch: {
-    emotions: function(emotion) {
-      var chart = AmCharts.makeChart("emotion-chartdiv", {
-        theme: "black",
-        type: "serial",
-        startDuration: 0,
-        dataProvider: [
-          {
-            emotion: "Anger",
-            score: emotion.anger,
-            color: "#FF0F00"
-          },
-          {
-            emotion: "Contempt",
-            score: emotion.contempt,
-            color: "#FF6600"
-          },
-          {
-            emotion: "Disgust",
-            score: emotion.disgust,
-            color: "#FF9E01"
-          },
-          {
-            emotion: "Fear",
-            score: emotion.fear,
-            color: "#FCD202"
-          },
-          {
-            emotion: "Happiness",
-            score: emotion.happiness,
-            color: "#F8FF01"
-          },
-          {
-            emotion: "Neutral",
-            score: emotion.neutral,
-            color: "#B0DE09"
-          },
-          {
-            emotion: "Sadness",
-            score: emotion.sadness,
-            color: "#04D215"
-          },
-          {
-            emotion: "Surprise",
-            score: emotion.surprise,
-            color: "#0D8ECF"
-          }
-        ],
-        valueAxes: [
-          {
-            position: "left",
-            title: "Emotion"
-          }
-        ],
-        graphs: [
-          {
-            balloonText: "[[category]]: <b>[[value]]</b>",
-            fillColorsField: "color",
-            fillAlphas: 1,
-            lineAlpha: 0.1,
-            type: "column",
-            valueField: "score"
-          }
-        ],
-        depth3D: 20,
-        angle: 30,
-        chartCursor: {
-          categoryBalloonEnabled: false,
-          cursorAlpha: 0,
-          zoomable: false
-        },
-        categoryField: "emotion",
-        categoryAxis: {
-          gridPosition: "start",
-          labelRotation: 90
-        }
-      });
-    },
-    statsEmotions: function(statsEmotion) {
+  watch: {},
+  created: function() {},
+  mounted: function() {
+    axios.get("/v1/visual_prowesses?admin=true").then(
+      function(response) {
+        this.statsEmotions = response.data;
+      }.bind(this)
+    );
+  },
+  methods: {
+    currentEmotionsChart: function(statsEmotion) {
       var chart = AmCharts.makeChart("currentEmotion-chartdiv", {
         type: "serial",
         theme: "black",
         legend: {
           useGraphSettings: true
         },
-        dataProvider: this.statsEmotions,
+        dataProvider: statsEmotion,
         valueAxes: [
           {
             integersOnly: false,
@@ -1437,15 +1355,6 @@ var ChartPage = {
       console.log(chart);
     }
   },
-  created: function() {},
-  mounted: function() {
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
-  },
-  methods: {},
   computed: {}
 };
 
