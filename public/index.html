@@ -50,7 +50,7 @@
                     <a class="nav-link text-white" href="/#/sharingan/">Sharingan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="/#/chart/">Chart</a>
+                    <a class="nav-link text-white" href="/#/chart/">Charts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="/#/about/">About</a>
@@ -283,8 +283,28 @@
         </div>
         <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
           <div class="card-body text-center">
-            Statistics of your Emotions
-            <div id="currentEmotion-chartdiv" style="width: 100%; height: 362px;"></div>
+            <p>
+              <a class="btn btn-danger" data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Statistics of your Emotions</a>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Photo of Emotions</button>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle Both</button>
+            </p>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                  <div class="card card-body bg-dark">
+                    Statistics of your Emotions
+                    <div id="currentEmotion-chartdiv" style="width: 100%; height: 362px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                  <div class="card card-body bg-dark">
+                    Frame of the Emotion
+                  </div>
+                </div>
+              </div>
+            </div> 
 
           </div>
         </div>
@@ -292,6 +312,8 @@
     </div>
   </div>
 </template>
+
+
 
 
 
