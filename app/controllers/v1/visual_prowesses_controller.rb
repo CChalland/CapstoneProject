@@ -2,13 +2,20 @@ class V1::VisualProwessesController < ApplicationController
 
   def index
     if params[:session_emotions]
+      last_session = Face.last.session.to_i
+      session_index = 0
       emotions = []
-      faces = Face.where({session: params[:session_emotions]})
-      # faces = current_user.faces.where({session: params[:session_emotions]})
-      faces.each do |face|
-        emotions << face.visual_prowess
+      faces = Face.all
+
+      last_session.times do
+        session_emotions = []
+        selected = faces.select {|face| face.session == session_index}
+        selected.each do |face|
+          session_emotions << {emotion: face.visual_prowess, image_name: face.record.image_name}
+        end
+        emotions << session_emotions
+        session_index += 1
       end
-      emotions.select! { |emotion| emotion != nil }
 
     elsif params[:last]
       emotions = VisualProwess.last
