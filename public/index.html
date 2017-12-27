@@ -272,27 +272,12 @@
 <template id="chart-page">
   <div class="container">
     <div id="accordion" role="tablist">
-      <div class="card text-white bg-dark">
-        <div class="card-header" role="tab" id="headingTwo">
-          <h5 class="mb-0">
-            <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Emotions
-            </a>
-          </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-          <div class="card-body text-center">
-            Current Emotion
-            <div id="emotion-chartdiv" style="width: 100%; height: 362px;"></div>
-
-          </div>
-        </div>
-      </div>
-      <div class="card text-white bg-dark">
+      <div class="card text-white bg-dark" v-for="statsEmotion in statsEmotions">
         <div class="card-header" role="tab" id="headingThree">
           <h5 class="mb-0">
-            <a class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Statistics
+            <a v-on:click="currentEmotionsChart(statsEmotion)" class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              <!-- Emotion ID: {{ statsEmotion[0].id}},  -->
+              Time: {{ statsEmotion[0].created_at }}
             </a>
           </h5>
         </div>
