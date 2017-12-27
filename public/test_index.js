@@ -90,7 +90,7 @@ var VisualProwessPage = {
         valueAxes: [
           {
             position: "left",
-            title: "Visitors"
+            title: "Emotion"
           }
         ],
         graphs: [
@@ -135,7 +135,7 @@ var VisualProwessPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,
@@ -534,7 +534,7 @@ var SharinganPage = {
         valueAxes: [
           {
             position: "left",
-            title: "Visitors"
+            title: "Emotion"
           }
         ],
         graphs: [
@@ -579,7 +579,7 @@ var SharinganPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,
@@ -1310,7 +1310,7 @@ var ChartPage = {
         valueAxes: [
           {
             position: "left",
-            title: "Visitors"
+            title: "Emotion"
           }
         ],
         graphs: [
@@ -1355,7 +1355,7 @@ var ChartPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,

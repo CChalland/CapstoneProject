@@ -14,7 +14,20 @@ class V1::VisualProwessesController < ApplicationController
       emotions = VisualProwess.last
 
     elsif params[:admin]
-      emotions = VisualProwess.all.order(id: :desc)
+      last_session = Face.last.session.to_i
+      session_index = 0
+      emotions = []
+      faces = Face.all
+
+      last_session.times do
+        session_emotions = []
+        selected = faces.select {|face| face.session == session_index}
+        selected.each do |face|
+          session_emotions << face.visual_prowess
+        end
+        emotions << session_emotions
+        session_index += 1
+      end
 
     else
       emotions = VisualProwess.all.order(id: :desc)
