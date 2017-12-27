@@ -214,7 +214,6 @@ var VisualProwessPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log(chart);
     }
   },
   created: function() {
@@ -397,7 +396,7 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
+                  // id: vm.statsEmotions.slice(-1)[0].id,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -937,7 +936,7 @@ var SharinganPage = {
             var dataURL = canvas.toDataURL("image/png");
             var makeblob = function(dataURL) {
               var BASE64_MARKER = ";base64,";
-              if (dataURL.indexOf(BASE64_MARKER) == -1) {
+              if (dataURL.indexOf(BASE64_MARKER) === -1) {
                 var parts = dataURL.split(",");
                 var contentType = parts[0].split(":")[1];
                 var raw = decodeURIComponent(parts[1]);
@@ -1238,98 +1237,6 @@ var SharinganPage = {
   computed: {}
 };
 
-var AboutPage = {
-  template: "#about-page",
-  data: function() {
-    return {
-      message: "Welcome to About."
-    };
-  },
-  mounted: function() {},
-  methods: {},
-  computed: {}
-};
-
-var SignupPage = {
-  template: "#signup-page",
-  data: function() {
-    return {
-      userName: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-      fullName: "",
-      birthDate: "",
-      gender: "",
-      errors: []
-    };
-  },
-  methods: {
-    submit: function() {
-      var params = {
-        userName: this.userName,
-        email: this.email,
-        password: this.password,
-        passwordConfirmation: this.passwordConfirmation,
-        fullName: this.fullName,
-        birthDate: this.birthDate,
-        gender: this.gender
-      };
-      axios
-        .post("/v1/users", params)
-        .then(function(response) {
-          router.push("/login");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    }
-  }
-};
-
-var LoginPage = {
-  template: "#login-page",
-  data: function() {
-    return {
-      email: "",
-      password: "",
-      errors: []
-    };
-  },
-  methods: {
-    submit: function() {
-      var params = {
-        auth: { email: this.email, password: this.password }
-      };
-      axios
-        .post("/user_token", params)
-        .then(function(response) {
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.jwt;
-          localStorage.setItem("jwt", response.data.jwt);
-          router.push("/");
-        })
-        .catch(
-          function(error) {
-            this.errors = ["Invalid email or password."];
-            this.email = "";
-            this.password = "";
-          }.bind(this)
-        );
-    }
-  }
-};
-
-var LogoutPage = {
-  created: function() {
-    axios.defaults.headers.common["Authorization"] = undefined;
-    localStorage.removeItem("jwt");
-    router.push("/");
-  }
-};
-
 var ChartPage = {
   template: "#chart-page",
   data: function() {
@@ -1540,6 +1447,98 @@ var ChartPage = {
   },
   methods: {},
   computed: {}
+};
+
+var AboutPage = {
+  template: "#about-page",
+  data: function() {
+    return {
+      message: "Welcome to About."
+    };
+  },
+  mounted: function() {},
+  methods: {},
+  computed: {}
+};
+
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      userName: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      fullName: "",
+      birthDate: "",
+      gender: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        userName: this.userName,
+        email: this.email,
+        password: this.password,
+        passwordConfirmation: this.passwordConfirmation,
+        fullName: this.fullName,
+        birthDate: this.birthDate,
+        gender: this.gender
+      };
+      axios
+        .post("/v1/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LogoutPage = {
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
 };
 
 var router = new VueRouter({
