@@ -708,7 +708,7 @@ var SharinganPage = {
           (ua.indexOf("iPad") > 0 || ua.indexOf("iPhone") > 0) &&
           ua.indexOf("OS 11_") > 0;
 
-        var stats = uchihaExample.stats;
+        // var stats = uchihaExample.stats;
 
         startCamera();
 
@@ -1248,14 +1248,16 @@ var ChartPage = {
   watch: {},
   created: function() {},
   mounted: function() {
-    axios.get("/v1/visual_prowesses?admin=true").then(
+    axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.statsEmotions = response.data;
+        console.log(response.data);
       }.bind(this)
     );
   },
   methods: {
     currentEmotionsChart: function(statsEmotion) {
+      console.log(statsEmotion.emotion);
       var chart = AmCharts.makeChart("currentEmotion-chartdiv", {
         type: "serial",
         theme: "black",

@@ -11,7 +11,21 @@ class V1::VisualProwessesController < ApplicationController
         session_emotions = []
         selected = faces.select {|face| face.session == session_index}
         selected.each do |face|
-          session_emotions << {emotion: face.visual_prowess, image_name: face.record.image_name}
+          session_emotions << {
+            id: face.visual_prowess.id,
+            image_name: face.record.image_name,
+            image: face.record.image.url,
+            anger: (face.visual_prowess.anger * 100).round(4),
+            contempt: (face.visual_prowess.contempt * 100).round(4),
+            disgust: (face.visual_prowess.disgust * 100).round(4),
+            fear: (face.visual_prowess.fear * 100).round(4),
+            happiness: (face.visual_prowess.happiness * 100).round(4),
+            neutral: (face.visual_prowess.neutral * 100).round(4),
+            sadness: (face.visual_prowess.sadness * 100).round(4),
+            surprise: (face.visual_prowess.surprise * 100).round(4),
+            created_at: face.visual_prowess.friendly_created_at,
+            updated_at: face.visual_prowess.friendly_update_at 
+          }
         end
         emotions << session_emotions
         session_index += 1
