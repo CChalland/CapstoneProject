@@ -1,8 +1,8 @@
 class VisualProwess < ApplicationRecord
 
+  # belongs_to :user
   has_many :faces
   has_many :sharingans, through: :faces
-  has_many :users, through: :faces
   has_many :records, through: :faces
 
   def friendly_created_at

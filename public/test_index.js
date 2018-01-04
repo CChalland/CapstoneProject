@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios */
+/* global Vue, VueRouter, AmCharts, axios */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -418,9 +418,9 @@ var VisualProwessPage = {
             }),
             a2 = a1.then(function(result) {
               // .then() returns a new promise
-              return $.post(
-                "/v1/visual_prowesses",
-                {
+
+              axios
+                .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
                   contempt: vm.result[0].scores.contempt,
                   disgust: vm.result[0].scores.disgust,
@@ -435,11 +435,37 @@ var VisualProwessPage = {
                   widthPx: vm.result[0].faceRectangle.width,
                   heightPx: vm.result[0].faceRectangle.height,
                   session: sessionId + 1
-                },
-                function(data, textStatus) {
-                  alert("Response from server: " + data);
-                }
-              );
+                })
+                .then(function(response) {
+                  console.log("response from server", response);
+                })
+                .catch(function(response) {
+                  console.log("error", response);
+                });
+
+              // return $.post(
+              //   "/v1/visual_prowesses",
+              //   {
+              //     anger: vm.result[0].scores.anger,
+              //     contempt: vm.result[0].scores.contempt,
+              //     disgust: vm.result[0].scores.disgust,
+              //     fear: vm.result[0].scores.fear,
+              //     happiness: vm.result[0].scores.happiness,
+              //     neutral: vm.result[0].scores.neutral,
+              //     sadness: vm.result[0].scores.sadness,
+              //     surprise: vm.result[0].scores.surprise,
+              //     image: frame.toDataURL("image/png"),
+              //     leftPx: vm.result[0].faceRectangle.left,
+              //     topPx: vm.result[0].faceRectangle.top,
+              //     widthPx: vm.result[0].faceRectangle.width,
+              //     heightPx: vm.result[0].faceRectangle.height,
+              //     session: sessionId + 1
+              //   },
+              //   function(data, textStatus) {
+              //     alert("Response from server: " + data);
+              //   }
+              // );
+
               // Maybe add chart here to add live time updates
             });
 
@@ -708,7 +734,7 @@ var SharinganPage = {
           (ua.indexOf("iPad") > 0 || ua.indexOf("iPhone") > 0) &&
           ua.indexOf("OS 11_") > 0;
 
-        // var stats = uchihaExample.stats;
+        var stats = uchihaExample.stats;
 
         startCamera();
 
@@ -1354,10 +1380,16 @@ var ChartPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log(chart);
+      console.log();
     }
   },
-  computed: {}
+  computed: {
+    sessionEmotions: function() {
+      this.statsEmotions.forEach(function(emotion) {
+        return emotion.emotions;
+      });
+    }
+  }
 };
 
 var AboutPage = {

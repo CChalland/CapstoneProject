@@ -3,7 +3,7 @@ class V1::VisualProwessesController < ApplicationController
   def index
     if params[:session_emotions]
       last_session = Face.last.session.to_i
-      session_index = 0
+      session_index = 1
       emotions = []
       faces = Face.all
 
@@ -36,7 +36,7 @@ class V1::VisualProwessesController < ApplicationController
 
     elsif params[:admin]
       last_session = Face.last.session.to_i
-      session_index = 0
+      session_index = 1
       emotions = []
       faces = Face.all
 
@@ -68,33 +68,35 @@ class V1::VisualProwessesController < ApplicationController
       sadness: params[:sadness],
       surprise: params[:surprise]
     )
-    @visual_prowess.save
+    # @visual_prowess.save
     # render json: response.body
 
     if @visual_prowess.save
       @record = Record.new(
         image: params[:image]
       )
-      @record.save
-      # render json: response.body
+      if @record.save
+        @face = Face.new(
+          left_px: params[:leftPx],
+          top_px: params[:topPx],
+          width_px: params[:widthPx],
+          height_px: params[:heightPx],
+          visual_prowess_id: @visual_prowess.id,
+          user_id: current_user.id,
+          record_id: @record.id,
+          session: params[:session].to_i
+        )
+        if @face.save
+          render json: @face.as_json
+        else
+          render json: {errors: @face.errors.full_messages}, status: :bad_request
+        end
+      else
+        render json: {errors: @record.errors.full_messages}, status: :bad_request
+      end
+    else
+      render json: {errors: @visual_prowess.errors.full_messages}, status: :bad_request
     end
-
-    if @visual_prowess.save && @record.save
-      @face = Face.new(
-        left_px: params[:leftPx],
-        top_px: params[:topPx],
-        width_px: params[:widthPx],
-        height_px: params[:heightPx],
-        visual_prowess_id: VisualProwess.last.id,
-        # user_id: current_user.id,
-        record_id: Record.last.id,
-        session: params[:session].to_i
-      )
-      @face.save
-      # render json: response.body
-    end
-
-    render json: response.body
   end
 
   def show
