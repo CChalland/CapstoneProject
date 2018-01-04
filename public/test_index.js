@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, AmCharts, axios */
+/* global Vue, VueRouter, axios */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -418,7 +418,6 @@ var VisualProwessPage = {
             }),
             a2 = a1.then(function(result) {
               // .then() returns a new promise
-
               axios
                 .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
@@ -442,30 +441,6 @@ var VisualProwessPage = {
                 .catch(function(response) {
                   console.log("error", response);
                 });
-
-              // return $.post(
-              //   "/v1/visual_prowesses",
-              //   {
-              //     anger: vm.result[0].scores.anger,
-              //     contempt: vm.result[0].scores.contempt,
-              //     disgust: vm.result[0].scores.disgust,
-              //     fear: vm.result[0].scores.fear,
-              //     happiness: vm.result[0].scores.happiness,
-              //     neutral: vm.result[0].scores.neutral,
-              //     sadness: vm.result[0].scores.sadness,
-              //     surprise: vm.result[0].scores.surprise,
-              //     image: frame.toDataURL("image/png"),
-              //     leftPx: vm.result[0].faceRectangle.left,
-              //     topPx: vm.result[0].faceRectangle.top,
-              //     widthPx: vm.result[0].faceRectangle.width,
-              //     heightPx: vm.result[0].faceRectangle.height,
-              //     session: sessionId + 1
-              //   },
-              //   function(data, textStatus) {
-              //     alert("Response from server: " + data);
-              //   }
-              // );
-
               // Maybe add chart here to add live time updates
             });
 
@@ -1024,9 +999,9 @@ var SharinganPage = {
               }),
               a2 = a1.then(function(result) {
                 // .then() returns a new promise
-                return $.post(
-                  "/v1/sharingans",
-                  {
+
+                axios
+                  .post("/v1/visual_prowesses", {
                     right_0: `${faces[0].vertices[0]}, ${faces[0].vertices[1]}`,
                     right_1: `${faces[0].vertices[2]}, ${faces[0].vertices[3]}`,
                     right_2: `${faces[0].vertices[4]}, ${faces[0].vertices[5]}`,
@@ -1236,11 +1211,13 @@ var SharinganPage = {
                     widthPx: vm.result[0].faceRectangle.width,
                     heightPx: vm.result[0].faceRectangle.height,
                     session: sessionId + 1
-                  },
-                  function(data, textStatus) {
-                    alert("Response from server: " + data);
-                  }
-                );
+                  })
+                  .then(function(response) {
+                    console.log("response from server", response);
+                  })
+                  .catch(function(response) {
+                    console.log("error", response);
+                  });
               });
 
             photo.setAttribute("src", dataURL);
@@ -1380,16 +1357,10 @@ var ChartPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log();
+      console.log(chart);
     }
   },
-  computed: {
-    sessionEmotions: function() {
-      this.statsEmotions.forEach(function(emotion) {
-        return emotion.emotions;
-      });
-    }
-  }
+  computed: {}
 };
 
 var AboutPage = {

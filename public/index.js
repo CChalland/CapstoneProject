@@ -418,9 +418,8 @@ var VisualProwessPage = {
             }),
             a2 = a1.then(function(result) {
               // .then() returns a new promise
-              return $.post(
-                "/v1/visual_prowesses",
-                {
+              axios
+                .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
                   contempt: vm.result[0].scores.contempt,
                   disgust: vm.result[0].scores.disgust,
@@ -435,11 +434,13 @@ var VisualProwessPage = {
                   widthPx: vm.result[0].faceRectangle.width,
                   heightPx: vm.result[0].faceRectangle.height,
                   session: sessionId + 1
-                },
-                function(data, textStatus) {
-                  alert("Response from server: " + data);
-                }
-              );
+                })
+                .then(function(response) {
+                  console.log("response from server", response);
+                })
+                .catch(function(response) {
+                  console.log("error", response);
+                });
               // Maybe add chart here to add live time updates
             });
 
@@ -708,7 +709,7 @@ var SharinganPage = {
           (ua.indexOf("iPad") > 0 || ua.indexOf("iPhone") > 0) &&
           ua.indexOf("OS 11_") > 0;
 
-        // var stats = uchihaExample.stats;
+        var stats = uchihaExample.stats;
 
         startCamera();
 
@@ -998,9 +999,9 @@ var SharinganPage = {
               }),
               a2 = a1.then(function(result) {
                 // .then() returns a new promise
-                return $.post(
-                  "/v1/sharingans",
-                  {
+
+                axios
+                  .post("/v1/visual_prowesses", {
                     right_0: `${faces[0].vertices[0]}, ${faces[0].vertices[1]}`,
                     right_1: `${faces[0].vertices[2]}, ${faces[0].vertices[3]}`,
                     right_2: `${faces[0].vertices[4]}, ${faces[0].vertices[5]}`,
@@ -1210,11 +1211,13 @@ var SharinganPage = {
                     widthPx: vm.result[0].faceRectangle.width,
                     heightPx: vm.result[0].faceRectangle.height,
                     session: sessionId + 1
-                  },
-                  function(data, textStatus) {
-                    alert("Response from server: " + data);
-                  }
-                );
+                  })
+                  .then(function(response) {
+                    console.log("response from server", response);
+                  })
+                  .catch(function(response) {
+                    console.log("error", response);
+                  });
               });
 
             photo.setAttribute("src", dataURL);
