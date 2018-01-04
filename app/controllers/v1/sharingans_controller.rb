@@ -118,7 +118,7 @@ class V1::SharingansController < ApplicationController
         height_px: params[:heightPx],
         visual_prowess_id: VisualProwess.last.id,
         sharingan_id: Sharingan.last.id,
-        # user_id: current_user.id,
+        user_id: current_user.id,
         record_id: Record.last.id,
         session: params[:session].to_i
       )
