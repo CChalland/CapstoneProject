@@ -1210,7 +1210,7 @@ var SharinganPage = {
           }
         }
       }
-      window.addEventListener("load", initExample, false);
+      initExample();
     })();
   },
   mounted: function() {
