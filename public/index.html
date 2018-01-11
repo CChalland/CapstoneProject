@@ -24,7 +24,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-  <script src="index.js" defer></script>
+  <script src="test_index.js" defer></script>
 
   <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
   <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -151,8 +151,7 @@
       <figure class="figure text-center">
         <video id="_webcam" style="display: none;" playsinline></video>
         <canvas id="_imageData"></canvas>
-        <canvas id="canvas">
-        </canvas>
+        <canvas id="canvas"></canvas>
         <span id="photo" alt="The screen capture will appear in this box."> 
       </figure>
       <div class="card-body text-center">
@@ -274,13 +273,16 @@
       <div class="card text-white bg-dark" v-for="(statsEmotion, index) in statsEmotions" v-bind:key="statsEmotion.id">
         <div class="card-header" role="tab" id="headingThree">
           <h5 class="mb-0">
-            <a v-on:click="currentEmotionsChart(statsEmotion)" class="collapsed btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseChart' + index" aria-expanded="false" v-bind:aria-controls="'collapseChart' + index">
+            <a v-on:click="currentEmotionsChart(statsEmotion, index)" class="collapsed btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseChart' + index" aria-expanded="false" v-bind:aria-controls="'collapseChart' + index">
               {{ statsEmotion[0].created_at }}
             </a>
           </h5>
         </div>
         <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
           <div class="card-body text-center">
+
+            <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
+
             
             <p>
               <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
@@ -292,7 +294,6 @@
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
                   <div class="card card-body bg-dark">
                     Statistics of your Emotions
-                    <div id="currentEmotion-chartdiv" style="width: 100%; height: 525px;"></div>
                   </div>
                 </div>
               </div>
@@ -312,6 +313,52 @@
     </div>
   </div>
 </template>
+
+
+<!-- <template id="chart-page">
+  <div class="container">
+    <div id="accordion" role="tablist">
+      <div class="card text-white bg-dark" v-for="statsEmotion in statsEmotions" v-bind:key="statsEmotion.id">
+        <div class="card-header" role="tab" id="headingThree">
+          <h5 class="mb-0">
+            <a v-on:click="currentEmotionsChart(statsEmotion)" class="collapsed btn btn-danger" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              {{ statsEmotion[0].created_at }}
+            </a>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body text-center">
+            
+            <p>
+              <a class="btn btn-danger" data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Statistics of your Emotions</a>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Photo of Emotions</button>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle Both</button>
+            </p>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                  <div class="card card-body bg-dark">
+                    Statistics of your Emotions
+                    <div id="currentEmotion-chartdiv" style="width: 100%; height: 525px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                  <img class="card-img-top" v-bind:src="statsEmotion[0].image" alt="Card image cap">
+                  <div class="card card-body bg-dark">
+                    Frame of the Emotion
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template> -->
 
 
 

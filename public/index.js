@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios */
+/* global Vue, VueRouter, axios, AmCharts */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -1259,9 +1259,9 @@ var ChartPage = {
     );
   },
   methods: {
-    currentEmotionsChart: function(statsEmotion) {
-      console.log(statsEmotion.emotion);
-      var chart = AmCharts.makeChart("currentEmotion-chartdiv", {
+    currentEmotionsChart: function(statsEmotion, index) {
+      // console.log(statsEmotion.emotion);
+      var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
         legend: {
@@ -1360,7 +1360,13 @@ var ChartPage = {
       console.log(chart);
     }
   },
-  computed: {}
+  computed: {
+    sessionEmotions: function() {
+      this.statsEmotions.forEach(function(emotion) {
+        return emotion.emotions;
+      });
+    }
+  }
 };
 
 var AboutPage = {
@@ -1460,7 +1466,6 @@ var router = new VueRouter({
     { path: "/", component: HomePage },
     { path: "/visual_prowess", component: VisualProwessPage },
     { path: "/sharingan", component: SharinganPage },
-    { path: "/about", component: AboutPage },
     { path: "/about", component: AboutPage },
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage },
