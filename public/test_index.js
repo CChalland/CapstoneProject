@@ -749,7 +749,7 @@ var SharinganPage = {
               trackFaces();
             }
           }
-
+          // Problem with camera alert
           window.navigator.mediaDevices
             .getUserMedia({ video: { width: 640, height: 480, frameRate: 30 } })
             .then(onStreamFetched)
