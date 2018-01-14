@@ -436,8 +436,6 @@ var VisualProwessPage = {
               });
             // Maybe add chart here to add live time updates
           });
-
-        // photo.setAttribute("src", dataURL);
       } else {
         clearphoto();
       }
@@ -647,6 +645,13 @@ var SharinganPage = {
       });
       console.log(chart);
     }
+  },
+  created: function() {
+    axios.get("/v1/visual_prowesses").then(
+      function(response) {
+        this.statsEmotions = response.data;
+      }.bind(this)
+    );
   },
   mounted: function() {
     var vm = this;
@@ -1204,7 +1209,6 @@ var SharinganPage = {
                     console.log("error", response);
                   });
               });
-            photo.setAttribute("src", dataURL);
           } else {
             clearphoto();
           }
@@ -1213,13 +1217,6 @@ var SharinganPage = {
       // window.addEventListener("load", initExample, false);
       initExample();
     })();
-  },
-  created: function() {
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
   },
   methods: {},
   computed: {}
