@@ -36,7 +36,8 @@ var VisualProwessPage = {
             surprise: 0
           }
         }
-      ]
+      ],
+      intervalId: null
     };
   },
   watch: {
@@ -261,12 +262,12 @@ var VisualProwessPage = {
           EMOTION_API_ID = response.data.id;
           EMOTION_API_KEY1 = response.data.key;
           sessionId = response.data.session_id;
-          setInterval(function() {
+          vm.intervalId = setInterval(function() {
             takepicture();
             ev.preventDefault();
           }, 5000);
         });
-      },
+      }.bind(this),
       false
     );
 
@@ -437,16 +438,9 @@ var VisualProwessPage = {
     // };
   },
   methods: {
-    visualProwess: function(){
-      axios.get("/keys").then(function(response) {
-        EMOTION_API_ID = response.data.id;
-        EMOTION_API_KEY1 = response.data.key;
-        sessionId = response.data.session_id;
-        setInterval(function() {
-          this.takepicture();
-          this.ev.preventDefault();
-        }, 5000);
-      });
+    endVisualProwess: function(){
+      console.log(this.intervalId)
+      clearInterval(this.intervalId);
     }
   },
   computed: {}
@@ -471,7 +465,8 @@ var SharinganPage = {
             surprise: 0
           }
         }
-      ]
+      ],
+      intervalId: null
     };
   },
   watch: {
@@ -786,7 +781,7 @@ var SharinganPage = {
                 EMOTION_API_ID = response.data.id;
                 EMOTION_API_KEY1 = response.data.key;
                 sessionId = response.data.session_id;
-                setInterval(function() {
+                vm.intervalId = setInterval(function() {
                   takepicture();
                   ev.preventDefault();
                 }, 5000);
@@ -1224,7 +1219,12 @@ var SharinganPage = {
       initExample();
     })();
   },
-  methods: {},
+  methods: {
+    endSharingan: function(){
+      console.log(this.intervalId)
+      clearInterval(this.intervalId);
+    }
+  },
   computed: {}
 };
 

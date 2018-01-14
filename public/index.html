@@ -104,6 +104,7 @@
       </figure>
       <div class="card-body text-center">
         <button id="visualProwessButton" type="button" class="btn btn-danger" >Activate Visual Prowess</button>
+        <button class="btn btn-danger" v-on:click="endVisualProwess()">Deactivate Visual Prowess</button>
         <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
       </div>
       <div id="accordion" role="tablist">
@@ -155,6 +156,7 @@
       </figure>
       <div class="card-body text-center">
         <button id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
+        <button type="button" class="btn btn-danger" v-on:click="endSharingan()">Deactivate Sharingan</button>
         <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
       <div id="accordion" role="tablist">
