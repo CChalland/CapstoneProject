@@ -237,8 +237,8 @@ var VisualProwessPage = {
     var context = canvas.getContext("2d");
 
     var tracker = new tracking.ObjectTracker("face");
-    tracker.setInitialScale(4);
-    tracker.setStepSize(2);
+    tracker.setInitialScale(1);
+    tracker.setStepSize(1);
     tracker.setEdgesDensity(0.1);
 
     tracking.track("#video", tracker, { camera: true });
@@ -269,7 +269,6 @@ var VisualProwessPage = {
       },
       false
     );
-    clearphoto();
 
     tracker.on("track", function(event) {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -323,11 +322,6 @@ var VisualProwessPage = {
         );
       });
     });
-
-    var gui = new dat.GUI();
-    gui.add(tracker, "edgesDensity", 0.1, 0.5).step(0.01);
-    gui.add(tracker, "initialScale", 1.0, 10.0).step(0.1);
-    gui.add(tracker, "stepSize", 1, 5).step(0.1);
 
     function clearphoto() {
       var context = frame.getContext("2d");
@@ -442,7 +436,19 @@ var VisualProwessPage = {
     }
     // };
   },
-  methods: {},
+  methods: {
+    visualProwess: function(){
+      axios.get("/keys").then(function(response) {
+        EMOTION_API_ID = response.data.id;
+        EMOTION_API_KEY1 = response.data.key;
+        sessionId = response.data.session_id;
+        setInterval(function() {
+          this.takepicture();
+          this.ev.preventDefault();
+        }, 5000);
+      });
+    }
+  },
   computed: {}
 };
 
