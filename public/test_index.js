@@ -216,7 +216,13 @@ var VisualProwessPage = {
       });
     }
   },
-  created: function() {},
+  created: function() {
+    axios.get("/v1/visual_prowesses").then(
+      function(response) {
+        this.statsEmotions = response.data;
+      }.bind(this)
+    );
+  },
   mounted: function() {
     var vm = this;
     // window.onload = function() {
@@ -437,12 +443,6 @@ var VisualProwessPage = {
       }
     }
     // };
-
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
   },
   methods: {},
   computed: {}
@@ -648,7 +648,7 @@ var SharinganPage = {
       console.log(chart);
     }
   },
-  created: function() {
+  mounted: function() {
     var vm = this;
     (function() {
       // |streaming| indicates whether or not we're currently streaming
@@ -749,7 +749,7 @@ var SharinganPage = {
               trackFaces();
             }
           }
-          // Problem with camera alert
+
           window.navigator.mediaDevices
             .getUserMedia({ video: { width: 640, height: 480, frameRate: 30 } })
             .then(onStreamFetched)
@@ -1210,10 +1210,11 @@ var SharinganPage = {
           }
         }
       }
+      // window.addEventListener("load", initExample, false);
       initExample();
     })();
   },
-  mounted: function() {
+  created: function() {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
