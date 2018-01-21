@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios */
+/* global Vue, VueRouter, axios, AmCharts */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -36,7 +36,8 @@ var VisualProwessPage = {
             surprise: 0
           }
         }
-      ]
+      ],
+      intervalId: null
     };
   },
   watch: {
@@ -90,7 +91,7 @@ var VisualProwessPage = {
         valueAxes: [
           {
             position: "left",
-            title: "Visitors"
+            title: "Emotion"
           }
         ],
         graphs: [
@@ -135,7 +136,7 @@ var VisualProwessPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,
@@ -214,12 +215,20 @@ var VisualProwessPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log(chart);
     }
   },
   created: function() {
+    axios.get("/v1/visual_prowesses").then(
+      function(response) {
+        this.statsEmotions = response.data;
+      }.bind(this)
+    );
+  },
+  mounted: function() {
     var vm = this;
-    window.onload = function() {
+    var myWorker = new Worker("tracking-worker.js");
+
+    var initTracker = function(argument) {
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
@@ -227,12 +236,12 @@ var VisualProwessPage = {
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
       var photo = document.getElementById("photo");
-      var startbutton = document.getElementById("visualProwessButton");
+      var visualProwessButton = document.getElementById("visualProwessButton");
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(4);
-      tracker.setStepSize(2);
+      tracker.setInitialScale(1);
+      tracker.setStepSize(1);
       tracker.setEdgesDensity(0.1);
 
       tracking.track("#video", tracker, { camera: true });
@@ -241,16 +250,6 @@ var VisualProwessPage = {
         function(ev) {
           if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
-
-            // Firefox currently has a bug where the height can't be read from
-            // the video, so we will make assumptions if this happens.
-
-            // if (isNaN(height)) {
-            //   height = width / (4 / 3);
-            // }
-
-            // video.setAttribute("width", width);
-            // video.setAttribute("height", height);
             frame.setAttribute("width", width);
             frame.setAttribute("height", height);
             streaming = true;
@@ -258,24 +257,26 @@ var VisualProwessPage = {
         },
         false
       );
-      startbutton.addEventListener(
+      visualProwessButton.addEventListener(
         "click",
         function(ev) {
           axios.get("/keys").then(function(response) {
             EMOTION_API_ID = response.data.id;
             EMOTION_API_KEY1 = response.data.key;
             sessionId = response.data.session_id;
-            setInterval(function() {
+            vm.intervalId = setInterval(function() {
               takepicture();
               ev.preventDefault();
             }, 5000);
           });
-        },
+        }.bind(this),
         false
       );
-      clearphoto();
 
-      tracker.on("track", function(event) {
+      myWorker.onmessage = function(event) {
+        tracker.emit('track', event);
+      }
+      tracker.on('track', function(event) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
@@ -289,9 +290,7 @@ var VisualProwessPage = {
             rect.y
           );
           context.fillText(
-            "contempt: " +
-              (vm.result[0].scores.contempt * 100).toFixed(3) +
-              "%",
+            "contempt: " + (vm.result[0].scores.contempt * 100).toFixed(3) + "%",
             rect.x + rect.width + 5,
             rect.y + 18
           );
@@ -323,19 +322,20 @@ var VisualProwessPage = {
             rect.y + 108
           );
           context.fillText(
-            "surprise: " +
-              (vm.result[0].scores.surprise * 100).toFixed(3) +
-              "%",
+            "surprise: " + (vm.result[0].scores.surprise * 100).toFixed(3) + "%",
             rect.x + rect.width + 5,
             rect.y + 126
           );
         });
       });
 
-      var gui = new dat.GUI();
-      gui.add(tracker, "edgesDensity", 0.1, 0.5).step(0.01);
-      gui.add(tracker, "initialScale", 1.0, 10.0).step(0.1);
-      gui.add(tracker, "stepSize", 1, 5).step(0.1);
+      document.getElementById("toggletracking").addEventListener("click", function() {
+          window.senddata = !window.senddata;
+
+          if (window.senddata) {
+              context.clearRect(0, 0, canvas.width, canvas.height);
+          }
+      });
 
       function clearphoto() {
         var context = frame.getContext("2d");
@@ -397,7 +397,7 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
+                  // id: vm.statsEmotions.slice(-1)[0].id,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -419,9 +419,8 @@ var VisualProwessPage = {
             }),
             a2 = a1.then(function(result) {
               // .then() returns a new promise
-              return $.post(
-                "/v1/visual_prowesses",
-                {
+              axios
+                .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
                   contempt: vm.result[0].scores.contempt,
                   disgust: vm.result[0].scores.disgust,
@@ -436,29 +435,28 @@ var VisualProwessPage = {
                   widthPx: vm.result[0].faceRectangle.width,
                   heightPx: vm.result[0].faceRectangle.height,
                   session: sessionId + 1
-                },
-                function(data, textStatus) {
-                  alert("Response from server: " + data);
-                }
-              );
+                })
+                .then(function(response) {
+                  console.log("response from server", response);
+                })
+                .catch(function(response) {
+                  console.log("error", response);
+                });
               // Maybe add chart here to add live time updates
             });
-
-          // photo.setAttribute("src", dataURL);
         } else {
           clearphoto();
         }
       }
-    };
+    }
+    initTracker();
   },
-  mounted: function() {
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
+  methods: {
+    endVisualProwess: function(){
+      console.log(this.intervalId)
+      clearInterval(this.intervalId);
+    }
   },
-  methods: {},
   computed: {}
 };
 
@@ -481,7 +479,8 @@ var SharinganPage = {
             surprise: 0
           }
         }
-      ]
+      ],
+      intervalId: null
     };
   },
   watch: {
@@ -535,7 +534,7 @@ var SharinganPage = {
         valueAxes: [
           {
             position: "left",
-            title: "Visitors"
+            title: "Emotion"
           }
         ],
         graphs: [
@@ -580,7 +579,7 @@ var SharinganPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,
@@ -663,6 +662,13 @@ var SharinganPage = {
     }
   },
   created: function() {
+    axios.get("/v1/visual_prowesses").then(
+      function(response) {
+        this.statsEmotions = response.data;
+      }.bind(this)
+    );
+  },
+  mounted: function() {
     var vm = this;
     (function() {
       // |streaming| indicates whether or not we're currently streaming
@@ -789,7 +795,7 @@ var SharinganPage = {
                 EMOTION_API_ID = response.data.id;
                 EMOTION_API_KEY1 = response.data.key;
                 sessionId = response.data.session_id;
-                setInterval(function() {
+                vm.intervalId = setInterval(function() {
                   takepicture();
                   ev.preventDefault();
                 }, 5000);
@@ -937,7 +943,7 @@ var SharinganPage = {
             var dataURL = canvas.toDataURL("image/png");
             var makeblob = function(dataURL) {
               var BASE64_MARKER = ";base64,";
-              if (dataURL.indexOf(BASE64_MARKER) == -1) {
+              if (dataURL.indexOf(BASE64_MARKER) === -1) {
                 var parts = dataURL.split(",");
                 var contentType = parts[0].split(":")[1];
                 var raw = decodeURIComponent(parts[1]);
@@ -999,9 +1005,8 @@ var SharinganPage = {
               }),
               a2 = a1.then(function(result) {
                 // .then() returns a new promise
-                return $.post(
-                  "/v1/sharingans",
-                  {
+                axios
+                  .post("/v1/visual_prowesses", {
                     right_0: `${faces[0].vertices[0]}, ${faces[0].vertices[1]}`,
                     right_1: `${faces[0].vertices[2]}, ${faces[0].vertices[3]}`,
                     right_2: `${faces[0].vertices[4]}, ${faces[0].vertices[5]}`,
@@ -1211,30 +1216,29 @@ var SharinganPage = {
                     widthPx: vm.result[0].faceRectangle.width,
                     heightPx: vm.result[0].faceRectangle.height,
                     session: sessionId + 1
-                  },
-                  function(data, textStatus) {
-                    alert("Response from server: " + data);
-                  }
-                );
+                  })
+                  .then(function(response) {
+                    console.log("response from server", response);
+                  })
+                  .catch(function(response) {
+                    console.log("error", response);
+                  });
               });
-
-            photo.setAttribute("src", dataURL);
           } else {
             clearphoto();
           }
         }
       }
-      window.addEventListener("load", initExample, false);
+      // window.addEventListener("load", initExample, false);
+      initExample();
     })();
   },
-  mounted: function() {
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
+  methods: {
+    endSharingan: function(){
+      console.log(this.intervalId)
+      clearInterval(this.intervalId);
+    }
   },
-  methods: {},
   computed: {}
 };
 
@@ -1243,109 +1247,29 @@ var ChartPage = {
   data: function() {
     return {
       statsEmotions: [],
-      emotions: [],
-      result: [
-        {
-          scores: {
-            anger: 0,
-            contempt: 0,
-            disgust: 0,
-            fear: 0,
-            happiness: 0,
-            neutral: 0,
-            sadness: 0,
-            surprise: 0
-          }
-        }
-      ]
+      emotions: []
     };
   },
-  watch: {
-    emotions: function(emotion) {
-      var chart = AmCharts.makeChart("emotion-chartdiv", {
-        theme: "black",
-        type: "serial",
-        startDuration: 0,
-        dataProvider: [
-          {
-            emotion: "Anger",
-            score: emotion.anger,
-            color: "#FF0F00"
-          },
-          {
-            emotion: "Contempt",
-            score: emotion.contempt,
-            color: "#FF6600"
-          },
-          {
-            emotion: "Disgust",
-            score: emotion.disgust,
-            color: "#FF9E01"
-          },
-          {
-            emotion: "Fear",
-            score: emotion.fear,
-            color: "#FCD202"
-          },
-          {
-            emotion: "Happiness",
-            score: emotion.happiness,
-            color: "#F8FF01"
-          },
-          {
-            emotion: "Neutral",
-            score: emotion.neutral,
-            color: "#B0DE09"
-          },
-          {
-            emotion: "Sadness",
-            score: emotion.sadness,
-            color: "#04D215"
-          },
-          {
-            emotion: "Surprise",
-            score: emotion.surprise,
-            color: "#0D8ECF"
-          }
-        ],
-        valueAxes: [
-          {
-            position: "left",
-            title: "Visitors"
-          }
-        ],
-        graphs: [
-          {
-            balloonText: "[[category]]: <b>[[value]]</b>",
-            fillColorsField: "color",
-            fillAlphas: 1,
-            lineAlpha: 0.1,
-            type: "column",
-            valueField: "score"
-          }
-        ],
-        depth3D: 20,
-        angle: 30,
-        chartCursor: {
-          categoryBalloonEnabled: false,
-          cursorAlpha: 0,
-          zoomable: false
-        },
-        categoryField: "emotion",
-        categoryAxis: {
-          gridPosition: "start",
-          labelRotation: 90
-        }
-      });
-    },
-    statsEmotions: function(statsEmotion) {
-      var chart = AmCharts.makeChart("currentEmotion-chartdiv", {
+  watch: {},
+  created: function() {},
+  mounted: function() {
+    axios.get("/v1/visual_prowesses?session_emotions=true").then(
+      function(response) {
+        this.statsEmotions = response.data;
+        console.log(response.data);
+      }.bind(this)
+    );
+  },
+  methods: {
+    currentEmotionsChart: function(statsEmotion, index) {
+      // console.log(statsEmotion.emotion);
+      var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
         legend: {
           useGraphSettings: true
         },
-        dataProvider: this.statsEmotions,
+        dataProvider: statsEmotion,
         valueAxes: [
           {
             integersOnly: false,
@@ -1356,7 +1280,7 @@ var ChartPage = {
             dashLength: 5,
             gridCount: 10,
             position: "left",
-            title: "Emotion taken"
+            title: "Emotions taken"
           }
         ],
         startDuration: 0,
@@ -1438,16 +1362,105 @@ var ChartPage = {
       console.log(chart);
     }
   },
-  created: function() {},
-  mounted: function() {
-    axios.get("/v1/visual_prowesses").then(
-      function(response) {
-        this.statsEmotions = response.data;
-      }.bind(this)
-    );
+  computed: {
+    sessionEmotions: function() {
+      this.statsEmotions.forEach(function(emotion) {
+        return emotion.emotions;
+      });
+    }
+  }
+};
+
+var AboutPage = {
+  template: "#about-page",
+  data: function() {
+    return {
+      message: "Welcome to About."
+    };
   },
+  mounted: function() {},
   methods: {},
   computed: {}
+};
+
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      userName: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      fullName: "",
+      birthDate: "",
+      gender: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        userName: this.userName,
+        email: this.email,
+        password: this.password,
+        passwordConfirmation: this.passwordConfirmation,
+        fullName: this.fullName,
+        birthDate: this.birthDate,
+        gender: this.gender
+      };
+      axios
+        .post("/v1/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LogoutPage = {
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
 };
 
 var router = new VueRouter({
@@ -1455,6 +1468,10 @@ var router = new VueRouter({
     { path: "/", component: HomePage },
     { path: "/visual_prowess", component: VisualProwessPage },
     { path: "/sharingan", component: SharinganPage },
+    { path: "/about", component: AboutPage },
+    { path: "/signup", component: SignupPage },
+    { path: "/login", component: LoginPage },
+    { path: "/logout", component: LogoutPage },
     { path: "/chart", component: ChartPage }
   ]
 });

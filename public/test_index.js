@@ -226,7 +226,6 @@ var VisualProwessPage = {
   },
   mounted: function() {
     var vm = this;
-    // window.onload = function() {
     var width = 640; // We will scale the photo width to this
     var height = 0;
     var streaming = false;
@@ -394,7 +393,6 @@ var VisualProwessPage = {
                 sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
                 surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
               });
-              // code to show result will be here
             }
           }).fail(function(data) {
             alert(
@@ -405,7 +403,6 @@ var VisualProwessPage = {
             );
           }),
           a2 = a1.then(function(result) {
-            // .then() returns a new promise
             axios
               .post("/v1/visual_prowesses", {
                 anger: vm.result[0].scores.anger,
@@ -429,13 +426,11 @@ var VisualProwessPage = {
               .catch(function(response) {
                 console.log("error", response);
               });
-            // Maybe add chart here to add live time updates
           });
       } else {
         clearphoto();
       }
     }
-    // };
   },
   methods: {
     endVisualProwess: function(){
