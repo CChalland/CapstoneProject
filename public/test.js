@@ -277,6 +277,9 @@ var VisualProwessPage = {
         tracker.emit('track', event);
       }
       tracker.on('track', function(event) {
+        if (window.trackerDisabled) {
+          return;
+        }
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
@@ -330,9 +333,10 @@ var VisualProwessPage = {
       });
 
       document.getElementById("toggletracking").addEventListener("click", function() {
-          window.senddata = !window.senddata;
+          window.trackerDisabled = !window.trackerDisabled;
+          console.log('toggletracking', 'trackerDisabled', window.trackerDisabled);
 
-          if (window.senddata) {
+          if (window.trackerDisabled) {
               context.clearRect(0, 0, canvas.width, canvas.height);
           }
       });
