@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, AmCharts */
+/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -226,216 +226,249 @@ var VisualProwessPage = {
   },
   mounted: function() {
     var vm = this;
-    var width = 640; // We will scale the photo width to this
-    var height = 0;
-    var streaming = false;
-    var video = document.getElementById("video");
-    var canvas = document.getElementById("tracker");
-    var frame = document.getElementById("frame");
-    var photo = document.getElementById("photo");
-    var startbutton = document.getElementById("visualProwessButton");
-    var context = canvas.getContext("2d");
+    var myWorker = new Worker("js/tracking-worker.js");
 
-    var tracker = new tracking.ObjectTracker("face");
-    tracker.setInitialScale(1);
-    tracker.setStepSize(1);
-    tracker.setEdgesDensity(0.1);
+    var initTracker = function(argument) {
+      var width = 640; // We will scale the photo width to this
+      var height = 0;
+      var streaming = false;
+      var video = document.getElementById("video");
+      var canvas = document.getElementById("tracker");
+      var frame = document.getElementById("frame");
+      var photo = document.getElementById("photo");
+      var visualProwessButton = document.getElementById("visualProwessButton");
+      var context = canvas.getContext("2d");
 
-    tracking.track("#video", tracker, { camera: true });
-    video.addEventListener(
-      "canplay",
-      function(ev) {
-        if (!streaming) {
-          height = video.videoHeight / (video.videoWidth / width);
-          frame.setAttribute("width", width);
-          frame.setAttribute("height", height);
-          streaming = true;
-        }
-      },
-      false
-    );
-    startbutton.addEventListener(
-      "click",
-      function(ev) {
-        axios.get("/keys").then(function(response) {
-          EMOTION_API_ID = response.data.id;
-          EMOTION_API_KEY1 = response.data.key;
-          sessionId = response.data.session_id;
-          vm.intervalId = setInterval(function() {
-            takepicture();
-            ev.preventDefault();
-          }, 5000);
-        });
-      }.bind(this),
-      false
-    );
+      var tracker = new tracking.ObjectTracker("face");
+      tracker.setInitialScale(2);
+      tracker.setStepSize(1);
+      tracker.setEdgesDensity(0.1);
 
-    tracker.on("track", function(event) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      event.data.forEach(function(rect) {
-        context.strokeStyle = "#fffa00";
-        context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-        context.font = "18px Helvetica";
-        context.fillStyle = "#fffa00";
-        context.fillText(
-          "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y
-        );
-        context.fillText(
-          "contempt: " + (vm.result[0].scores.contempt * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 18
-        );
-        context.fillText(
-          "disgust: " + (vm.result[0].scores.disgust * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 36
-        );
-        context.fillText(
-          "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 54
-        );
-        context.fillText(
-          "happiness: " +
-            (vm.result[0].scores.happiness * 100).toFixed(3) +
-            "%",
-          rect.x + rect.width + 5,
-          rect.y + 72
-        );
-        context.fillText(
-          "neutral: " + (vm.result[0].scores.neutral * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 90
-        );
-        context.fillText(
-          "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 108
-        );
-        context.fillText(
-          "surprise: " + (vm.result[0].scores.surprise * 100).toFixed(3) + "%",
-          rect.x + rect.width + 5,
-          rect.y + 126
-        );
-      });
-    });
-
-    function clearphoto() {
-      var context = frame.getContext("2d");
-      context.fillStyle = "#AAA";
-      context.fillRect(0, 0, frame.width, frame.height);
-
-      var data = frame.toDataURL("image/png");
-      photo.setAttribute("src", data);
-    }
-
-    function takepicture() {
-      var context = frame.getContext("2d");
-      if (width && height) {
-        frame.width = width;
-        frame.height = height;
-        context.drawImage(video, 0, 0, width, height);
-
-        var dataURL = frame.toDataURL("image/png");
-        var makeblob = function(dataURL) {
-          var BASE64_MARKER = ";base64,";
-          if (dataURL.indexOf(BASE64_MARKER) === -1) {
-            var parts = dataURL.split(",");
-            var contentType = parts[0].split(":")[1];
-            var raw = decodeURIComponent(parts[1]);
-            return new Blob([raw], { type: contentType });
+      tracking.track("#video", tracker, { camera: true });
+      video.addEventListener(
+        "canplay",
+        function(ev) {
+          if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
+            frame.setAttribute("width", width);
+            frame.setAttribute("height", height);
+            streaming = true;
           }
-          var parts = dataURL.split(BASE64_MARKER);
-          var contentType = parts[0].split(":")[1];
-          var raw = window.atob(parts[1]);
-          var rawLength = raw.length;
-
-          var uInt8Array = new Uint8Array(rawLength);
-
-          for (var i = 0; i < rawLength; ++i) {
-            uInt8Array[i] = raw.charCodeAt(i);
+        },
+        false
+      );
+      visualProwessButton.addEventListener(
+        "click",
+        function(ev) {
+          window.statsTrackerEnabled = !window.statsTrackerEnabled;
+          if (window.statsTrackerEnabled) {
+            axios.get("/keys").then(function(response) {
+              EMOTION_API_ID = response.data.id;
+              EMOTION_API_KEY1 = response.data.key;
+              sessionId = response.data.session_id;
+            });
+            vm.intervalId = setInterval(function() {
+              takepicture();
+              ev.preventDefault();
+            }, 5000);
+          } else {
+            clearInterval(vm.intervalId);
+            context.clearRect(0, 0, canvas.width, canvas.height);
           }
+        }.bind(this),
+        false
+      );
 
-          return new Blob([uInt8Array], { type: contentType });
-        };
-
-        var a1 = $.ajax({
-            url: EMOTION_API_ID,
-            beforeSend: function(xhrObj) {
-              // Request headers
-              xhrObj.setRequestHeader(
-                "Content-Type",
-                "application/octet-stream"
-              );
-              xhrObj.setRequestHeader(
-                "Ocp-Apim-Subscription-Key",
-                EMOTION_API_KEY1
-              );
-            },
-            type: "POST",
-            // Request body
-            data: makeblob(dataURL),
-            processData: false,
-            success: function(data) {
-              vm.result = data;
-              vm.emotions = vm.result[0].scores;
-              vm.statsEmotions.push({
-                // id: vm.statsEmotions.slice(-1)[0].id,
-                anger: (vm.result[0].scores.anger * 100).toFixed(4),
-                contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
-                disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
-                fear: (vm.result[0].scores.fear * 100).toFixed(4),
-                happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
-                neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
-                sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
-                surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
-              });
-            }
-          }).fail(function(data) {
-            alert(
-              "Code: " +
-                data.responseJSON.error.code +
-                " Message:" +
-                data.responseJSON.error.message
+      myWorker.onmessage = function(event) {
+        tracker.emit("track", event);
+      };
+      tracker.on("track", function(event) {
+        if (window.statsTrackerEnabled) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          event.data.forEach(function(rect) {
+            context.strokeStyle = "#fffa00";
+            context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+            context.font = "18px Helvetica";
+            context.fillStyle = "#fffa00";
+            context.fillText(
+              "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y
             );
-          }),
-          a2 = a1.then(function(result) {
-            axios
-              .post("/v1/visual_prowesses", {
-                anger: vm.result[0].scores.anger,
-                contempt: vm.result[0].scores.contempt,
-                disgust: vm.result[0].scores.disgust,
-                fear: vm.result[0].scores.fear,
-                happiness: vm.result[0].scores.happiness,
-                neutral: vm.result[0].scores.neutral,
-                sadness: vm.result[0].scores.sadness,
-                surprise: vm.result[0].scores.surprise,
-                image: frame.toDataURL("image/png"),
-                leftPx: vm.result[0].faceRectangle.left,
-                topPx: vm.result[0].faceRectangle.top,
-                widthPx: vm.result[0].faceRectangle.width,
-                heightPx: vm.result[0].faceRectangle.height,
-                session: sessionId + 1
-              })
-              .then(function(response) {
-                console.log("response from server", response);
-              })
-              .catch(function(response) {
-                console.log("error", response);
-              });
+            context.fillText(
+              "contempt: " +
+                (vm.result[0].scores.contempt * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 18
+            );
+            context.fillText(
+              "disgust: " +
+                (vm.result[0].scores.disgust * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 36
+            );
+            context.fillText(
+              "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 54
+            );
+            context.fillText(
+              "happiness: " +
+                (vm.result[0].scores.happiness * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 72
+            );
+            context.fillText(
+              "neutral: " +
+                (vm.result[0].scores.neutral * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 90
+            );
+            context.fillText(
+              "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 108
+            );
+            context.fillText(
+              "surprise: " +
+                (vm.result[0].scores.surprise * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 126
+            );
           });
-      } else {
-        clearphoto();
+        }
+      });
+
+      // Replaces faces with img
+      //
+      // tracker.on("track", function(event) {
+      //   context.clearRect(0, 0, canvas.width, canvas.height);
+      //   event.data.forEach(function(rect) {
+      //     context.drawImage(
+      //       img,
+      //       rect.x,
+      //       rect.y / 4,
+      //       rect.width + 11,
+      //       rect.height * 1.9
+      //     );
+      //   });
+      // });
+
+      function takepicture() {
+        // console.log("This from takepicture", this);
+        var context = frame.getContext("2d");
+        if (width && height) {
+          frame.width = width;
+          frame.height = height;
+          context.drawImage(video, 0, 0, width, height);
+
+          var dataURL = frame.toDataURL("image/png");
+          var makeblob = function(dataURL) {
+            var BASE64_MARKER = ";base64,";
+            if (dataURL.indexOf(BASE64_MARKER) === -1) {
+              var parts = dataURL.split(",");
+              var contentType = parts[0].split(":")[1];
+              var raw = decodeURIComponent(parts[1]);
+              return new Blob([raw], { type: contentType });
+            }
+            var parts = dataURL.split(BASE64_MARKER);
+            var contentType = parts[0].split(":")[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+              uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], { type: contentType });
+          };
+
+          var a1 = $.ajax({
+              url: EMOTION_API_ID,
+              beforeSend: function(xhrObj) {
+                // Request headers
+                xhrObj.setRequestHeader(
+                  "Content-Type",
+                  "application/octet-stream"
+                );
+                xhrObj.setRequestHeader(
+                  "Ocp-Apim-Subscription-Key",
+                  EMOTION_API_KEY1
+                );
+              },
+              type: "POST",
+              // Request body
+              data: makeblob(dataURL),
+              processData: false,
+              success: function(data) {
+                vm.result = data;
+                vm.emotions = vm.result[0].scores;
+                vm.statsEmotions.push({
+                  // id: vm.statsEmotions.slice(-1)[0].id,
+                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
+                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
+                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
+                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
+                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
+                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
+                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
+                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                });
+                // code to show result will be here
+              }
+            }).fail(function(data) {
+              alert(
+                "Code: " +
+                  data.responseJSON.error.code +
+                  " Message:" +
+                  data.responseJSON.error.message
+              );
+            }),
+            a2 = a1.then(function(result) {
+              // .then() returns a new promise
+              axios
+                .post("/v1/visual_prowesses", {
+                  anger: vm.result[0].scores.anger,
+                  contempt: vm.result[0].scores.contempt,
+                  disgust: vm.result[0].scores.disgust,
+                  fear: vm.result[0].scores.fear,
+                  happiness: vm.result[0].scores.happiness,
+                  neutral: vm.result[0].scores.neutral,
+                  sadness: vm.result[0].scores.sadness,
+                  surprise: vm.result[0].scores.surprise,
+                  image: frame.toDataURL("image/png"),
+                  leftPx: vm.result[0].faceRectangle.left,
+                  topPx: vm.result[0].faceRectangle.top,
+                  widthPx: vm.result[0].faceRectangle.width,
+                  heightPx: vm.result[0].faceRectangle.height,
+                  session: sessionId + 1
+                })
+                .then(function(response) {
+                  console.log("response from server", response);
+                })
+                .catch(function(response) {
+                  console.log("error", response);
+                });
+              // Maybe add chart here to add live time updates
+            });
+        }
       }
-    }
+    };
+    initTracker();
   },
   methods: {
-    endVisualProwess: function(){
-      console.log(this.intervalId)
-      clearInterval(this.intervalId);
+    visualProwess: function() {
+      // console.log("This from visualProwess method", this);
+    },
+    visualFilter: function() {
+      // console.log("This from visualFilter method", this);
     }
   },
   computed: {}
@@ -1215,8 +1248,8 @@ var SharinganPage = {
     })();
   },
   methods: {
-    endSharingan: function(){
-      console.log(this.intervalId)
+    endSharingan: function() {
+      console.log(this.intervalId);
       clearInterval(this.intervalId);
     }
   },

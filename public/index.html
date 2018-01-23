@@ -100,17 +100,12 @@
       <figure class="figure text-center">
         <video id="video" width="640" height="480" preload autoplay loop muted></video>
         <canvas id="tracker" width="640" height="480"></canvas>
-        <canvas id="frame">
-        </canvas>
-        <span id="photo" alt="The screen capture will appear in this box."> 
+        <canvas id="frame"></canvas>
       </figure>
       <div class="card-body text-center">
-        
-        <button class="btn btn-danger" id="toggletracking">toggle tracking</button>
-
-        <button id="visualProwessButton" type="button" class="btn btn-danger" >Activate Visual Prowess</button>
-        <button class="btn btn-danger" v-on:click="endVisualProwess()">Deactivate Visual Prowess</button>
+        <button id="visualProwessButton" type="button" class="btn btn-danger" v-on:click="visualProwess()" >Activate Visual Prowess</button>
         <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+        <button class="btn btn-danger" v-on:click="visualFilter()">Filter</button>
       </div>
       <div id="accordion" role="tablist">
         <div class="card text-white bg-dark">

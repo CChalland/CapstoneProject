@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, AmCharts */
+/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -226,7 +226,7 @@ var VisualProwessPage = {
   },
   mounted: function() {
     var vm = this;
-    var myWorker = new Worker("tracking-worker.js");
+    var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
       var width = 640; // We will scale the photo width to this
@@ -240,7 +240,7 @@ var VisualProwessPage = {
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(1);
+      tracker.setInitialScale(2);
       tracker.setStepSize(1);
       tracker.setEdgesDensity(0.1);
 
@@ -260,97 +260,107 @@ var VisualProwessPage = {
       visualProwessButton.addEventListener(
         "click",
         function(ev) {
-          axios.get("/keys").then(function(response) {
-            EMOTION_API_ID = response.data.id;
-            EMOTION_API_KEY1 = response.data.key;
-            sessionId = response.data.session_id;
+          window.statsTrackerEnabled = !window.statsTrackerEnabled;
+          if (window.statsTrackerEnabled) {
+            axios.get("/keys").then(function(response) {
+              EMOTION_API_ID = response.data.id;
+              EMOTION_API_KEY1 = response.data.key;
+              sessionId = response.data.session_id;
+            });
             vm.intervalId = setInterval(function() {
               takepicture();
               ev.preventDefault();
             }, 5000);
-          });
+          } else {
+            clearInterval(vm.intervalId);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+          }
         }.bind(this),
         false
       );
 
       myWorker.onmessage = function(event) {
-        tracker.emit('track', event);
-      }
-      tracker.on('track', function(event) {
-        if (window.trackerDisabled) {
-          return;
+        tracker.emit("track", event);
+      };
+      tracker.on("track", function(event) {
+        if (window.statsTrackerEnabled) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          event.data.forEach(function(rect) {
+            context.strokeStyle = "#fffa00";
+            context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+            context.font = "18px Helvetica";
+            context.fillStyle = "#fffa00";
+            context.fillText(
+              "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y
+            );
+            context.fillText(
+              "contempt: " +
+                (vm.result[0].scores.contempt * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 18
+            );
+            context.fillText(
+              "disgust: " +
+                (vm.result[0].scores.disgust * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 36
+            );
+            context.fillText(
+              "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 54
+            );
+            context.fillText(
+              "happiness: " +
+                (vm.result[0].scores.happiness * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 72
+            );
+            context.fillText(
+              "neutral: " +
+                (vm.result[0].scores.neutral * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 90
+            );
+            context.fillText(
+              "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 108
+            );
+            context.fillText(
+              "surprise: " +
+                (vm.result[0].scores.surprise * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 126
+            );
+          });
         }
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        event.data.forEach(function(rect) {
-          context.strokeStyle = "#fffa00";
-          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-          context.font = "18px Helvetica";
-          context.fillStyle = "#fffa00";
-          context.fillText(
-            "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y
-          );
-          context.fillText(
-            "contempt: " + (vm.result[0].scores.contempt * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 18
-          );
-          context.fillText(
-            "disgust: " + (vm.result[0].scores.disgust * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 36
-          );
-          context.fillText(
-            "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 54
-          );
-          context.fillText(
-            "happiness: " +
-              (vm.result[0].scores.happiness * 100).toFixed(3) +
-              "%",
-            rect.x + rect.width + 5,
-            rect.y + 72
-          );
-          context.fillText(
-            "neutral: " + (vm.result[0].scores.neutral * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 90
-          );
-          context.fillText(
-            "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 108
-          );
-          context.fillText(
-            "surprise: " + (vm.result[0].scores.surprise * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 126
-          );
-        });
       });
 
-      document.getElementById("toggletracking").addEventListener("click", function() {
-          window.trackerDisabled = !window.trackerDisabled;
-          console.log('toggletracking', 'trackerDisabled', window.trackerDisabled);
-
-          if (window.trackerDisabled) {
-              context.clearRect(0, 0, canvas.width, canvas.height);
-          }
-      });
-
-      function clearphoto() {
-        var context = frame.getContext("2d");
-        context.fillStyle = "#AAA";
-        context.fillRect(0, 0, frame.width, frame.height);
-
-        var data = frame.toDataURL("image/png");
-        photo.setAttribute("src", data);
-      }
+      // Replaces faces with img
+      //
+      // tracker.on("track", function(event) {
+      //   context.clearRect(0, 0, canvas.width, canvas.height);
+      //   event.data.forEach(function(rect) {
+      //     context.drawImage(
+      //       img,
+      //       rect.x,
+      //       rect.y / 4,
+      //       rect.width + 11,
+      //       rect.height * 1.9
+      //     );
+      //   });
+      // });
 
       function takepicture() {
+        // console.log("This from takepicture", this);
         var context = frame.getContext("2d");
         if (width && height) {
           frame.width = width;
@@ -448,17 +458,17 @@ var VisualProwessPage = {
                 });
               // Maybe add chart here to add live time updates
             });
-        } else {
-          clearphoto();
         }
       }
-    }
+    };
     initTracker();
   },
   methods: {
-    endVisualProwess: function(){
-      console.log(this.intervalId)
-      clearInterval(this.intervalId);
+    visualProwess: function() {
+      // console.log("This from visual method", this);
+    },
+    visualFilter: function() {
+      // console.log("This from visualFilter method", this);
     }
   },
   computed: {}
@@ -1238,8 +1248,8 @@ var SharinganPage = {
     })();
   },
   methods: {
-    endSharingan: function(){
-      console.log(this.intervalId)
+    endSharingan: function() {
+      console.log(this.intervalId);
       clearInterval(this.intervalId);
     }
   },
