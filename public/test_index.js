@@ -229,6 +229,9 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
+      var img = document.createElement("img");
+      img.src = "nick2.png";
+
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
@@ -237,6 +240,7 @@ var VisualProwessPage = {
       var frame = document.getElementById("frame");
       var photo = document.getElementById("photo");
       var visualProwessButton = document.getElementById("visualProwessButton");
+      var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
@@ -262,6 +266,27 @@ var VisualProwessPage = {
         function(ev) {
           window.statsTrackerEnabled = !window.statsTrackerEnabled;
           if (window.statsTrackerEnabled) {
+            axios.get("/keys").then(function(response) {
+              EMOTION_API_ID = response.data.id;
+              EMOTION_API_KEY1 = response.data.key;
+              sessionId = response.data.session_id;
+            });
+            vm.intervalId = setInterval(function() {
+              takepicture();
+              ev.preventDefault();
+            }, 5000);
+          } else {
+            clearInterval(vm.intervalId);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+          }
+        }.bind(this),
+        false
+      );
+      visualFilterButton.addEventListener(
+        "click",
+        function(ev) {
+          window.filterTrackerEnabled = !window.filterTrackerEnabled;
+          if (window.filterTrackerEnabled) {
             axios.get("/keys").then(function(response) {
               EMOTION_API_ID = response.data.id;
               EMOTION_API_KEY1 = response.data.key;
@@ -341,23 +366,19 @@ var VisualProwessPage = {
               rect.y + 126
             );
           });
+        } else if (window.filterTrackerEnabled) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          event.data.forEach(function(rect) {
+            context.drawImage(
+              img,
+              rect.x,
+              rect.y / 4,
+              rect.width + 11,
+              rect.height * 1.9
+            );
+          });
         }
       });
-
-      // Replaces faces with img
-      //
-      // tracker.on("track", function(event) {
-      //   context.clearRect(0, 0, canvas.width, canvas.height);
-      //   event.data.forEach(function(rect) {
-      //     context.drawImage(
-      //       img,
-      //       rect.x,
-      //       rect.y / 4,
-      //       rect.width + 11,
-      //       rect.height * 1.9
-      //     );
-      //   });
-      // });
 
       function takepicture() {
         // console.log("This from takepicture", this);
@@ -465,7 +486,7 @@ var VisualProwessPage = {
   },
   methods: {
     visualProwess: function() {
-      // console.log("This from visualProwess method", this);
+      // console.log("This from visual method", this);
     },
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
