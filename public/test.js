@@ -37,7 +37,8 @@ var VisualProwessPage = {
           }
         }
       ],
-      filter: "nick2.png",
+      activeFilter: "nick2.png",
+      filters: [],
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -45,6 +46,9 @@ var VisualProwessPage = {
   },
   watch: {
     emotions: function(emotion) {
+      console.log(this.emotions);
+      console.log(Object.entries(this.emotions)[7]);
+
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -367,7 +371,7 @@ var VisualProwessPage = {
             );
           });
         } else if (window.filterTrackerEnabled) {
-          img.src = vm.filter;
+          img.src = vm.activeFilter;
           context.clearRect(0, 0, canvas.width, canvas.height);
           event.data.forEach(function(rect) {
             context.drawImage(
