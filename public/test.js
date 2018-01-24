@@ -232,16 +232,13 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var img = document.createElement("img");
-      img.src = vm.filter;
-
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
-      var photo = document.getElementById("photo");
+      var img = document.createElement("img");
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
@@ -370,6 +367,7 @@ var VisualProwessPage = {
             );
           });
         } else if (window.filterTrackerEnabled) {
+          img.src = vm.filter;
           context.clearRect(0, 0, canvas.width, canvas.height);
           event.data.forEach(function(rect) {
             context.drawImage(
@@ -386,7 +384,6 @@ var VisualProwessPage = {
       });
 
       function takepicture() {
-        // console.log("This from takepicture", this);
         var context = frame.getContext("2d");
         if (width && height) {
           frame.width = width;
