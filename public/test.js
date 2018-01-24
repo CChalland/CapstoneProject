@@ -38,16 +38,16 @@ var VisualProwessPage = {
         }
       ],
       activeFilter: "nick2.png",
-      filters: [
-        { id: "anger", filter: "" },
-        { id: "contempt", filter: "" },
-        { id: "disgust", filter: "" },
-        { id: "fear", filter: "" },
-        { id: "happiness", filter: "" },
-        { id: "neutral", filter: "" },
-        { id: "sadness", filter: "" },
-        { id: "surprise", filter: "" }
-      ],
+      filters: {
+        anger: "",
+        contempt: "",
+        disgust: "",
+        fear: "",
+        happiness: "",
+        neutral: "",
+        sadness: "",
+        surprise: ""
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
