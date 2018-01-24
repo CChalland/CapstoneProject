@@ -37,7 +37,10 @@ var VisualProwessPage = {
           }
         }
       ],
-      intervalId: null
+      filter: "nick2.png",
+      intervalId: null,
+      initScale: 4,
+      stepSize: 2
     };
   },
   watch: {
@@ -230,7 +233,7 @@ var VisualProwessPage = {
 
     var initTracker = function(argument) {
       var img = document.createElement("img");
-      img.src = "nick2.png";
+      img.src = vm.filter;
 
       var width = 640; // We will scale the photo width to this
       var height = 0;
@@ -244,8 +247,8 @@ var VisualProwessPage = {
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(2);
-      tracker.setStepSize(1);
+      tracker.setInitialScale(vm.initScale);
+      tracker.setStepSize(vm.stepSize);
       tracker.setEdgesDensity(0.1);
 
       tracking.track("#video", tracker, { camera: true });
@@ -377,6 +380,8 @@ var VisualProwessPage = {
               rect.height * 1.9
             );
           });
+        } else {
+          return;
         }
       });
 
