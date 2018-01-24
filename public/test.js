@@ -55,9 +55,10 @@ var VisualProwessPage = {
   },
   watch: {
     emotions: function(emotion) {
-      console.log(this.emotions);
-      var highestEmotion = Object.entries(this.emotions)[0];
-      console.log(highestEmotion[0]);
+      var highestEmotion = Object.keys(this.emotions).reduce(
+        (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
+      );
+      console.log(highestEmotion);
 
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
