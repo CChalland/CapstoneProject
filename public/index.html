@@ -103,9 +103,9 @@
         <canvas id="frame"></canvas>
       </figure>
       <div class="card-body text-center">
-        <button id="visualFilterButton" type="button" class="btn btn-danger" v-on:click="visualFilter()">Filter</button>
-        <button id="visualProwessButton" type="button" class="btn btn-danger" v-on:click="visualProwess()">Visual Prowess</button>
-        <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+        <button id="visualFilterButton" role="button" class="btn btn-danger" v-on:click="visualFilter()">Filter</button>
+        <button id="visualProwessButton" role="button" class="btn btn-danger" v-on:click="visualProwess()">Visual Prowess</button>
+        <a id="sharinganButton" role="button" href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
       </div>
       <div id="accordion" role="tablist">
         <div class="card text-white bg-dark">
@@ -156,7 +156,7 @@
       </figure>
       <div class="card-body text-left">
         <button v-on:click="sharinganButton()" id="sharinganButton" type="button" class="btn btn-danger">Sharingan</button>
-        <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
+        <a id="visualProwessButton" href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
       <div id="accordion" role="tablist">
         <div class="card text-white bg-dark">

@@ -37,7 +37,17 @@ var VisualProwessPage = {
           }
         }
       ],
-      filter: "nick2.png",
+      activeFilter: "nick2.png",
+      filters: {
+        anger: "",
+        contempt: "",
+        disgust: "",
+        fear: "",
+        happiness: "",
+        neutral: "",
+        sadness: "",
+        surprise: ""
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -232,16 +242,13 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var img = document.createElement("img");
-      img.src = vm.filter;
-
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
-      var photo = document.getElementById("photo");
+      var img = document.createElement("img");
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
@@ -250,8 +257,8 @@ var VisualProwessPage = {
       tracker.setInitialScale(vm.initScale);
       tracker.setStepSize(vm.stepSize);
       tracker.setEdgesDensity(0.1);
-
       tracking.track("#video", tracker, { camera: true });
+
       video.addEventListener(
         "canplay",
         function(ev) {
@@ -372,6 +379,7 @@ var VisualProwessPage = {
         } else if (window.filterTrackerEnabled) {
           context.clearRect(0, 0, canvas.width, canvas.height);
           event.data.forEach(function(rect) {
+            img.src = vm.activeFilter;
             context.drawImage(
               img,
               rect.x,
@@ -957,16 +965,6 @@ var SharinganPage = {
           imageData.style.transform =
             "matrix(" + s + ", 0, 0, " + s + ", " + ix + ", " + iy + ")";
         }
-        // Fill the photo with an indication that none has been
-        // captured.
-        function clearphoto() {
-          var context = canvas.getContext("2d");
-          context.fillStyle = "#AAA";
-          context.fillRect(0, 0, canvas.width, canvas.height);
-
-          var data = canvas.toDataURL("image/png");
-          photo.setAttribute("src", data);
-        }
         // Capture a photo by fetching the current contents of the video
         // and drawing it into a canvas, then converting that to a PNG
         // format data URL. By drawing it on an offscreen canvas and then
@@ -1263,8 +1261,6 @@ var SharinganPage = {
                     console.log("error", response);
                   });
               });
-          } else {
-            clearphoto();
           }
         }
       }

@@ -38,7 +38,16 @@ var VisualProwessPage = {
         }
       ],
       activeFilter: "nick2.png",
-      filters: [],
+      filters: {
+        anger: "",
+        contempt: "",
+        disgust: "",
+        fear: "",
+        happiness: "",
+        neutral: "",
+        sadness: "",
+        surprise: ""
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -46,9 +55,6 @@ var VisualProwessPage = {
   },
   watch: {
     emotions: function(emotion) {
-      console.log(this.emotions);
-      console.log(Object.entries(this.emotions)[7]);
-
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -251,8 +257,8 @@ var VisualProwessPage = {
       tracker.setInitialScale(vm.initScale);
       tracker.setStepSize(vm.stepSize);
       tracker.setEdgesDensity(0.1);
-
       tracking.track("#video", tracker, { camera: true });
+
       video.addEventListener(
         "canplay",
         function(ev) {
@@ -371,9 +377,9 @@ var VisualProwessPage = {
             );
           });
         } else if (window.filterTrackerEnabled) {
-          img.src = vm.activeFilter;
           context.clearRect(0, 0, canvas.width, canvas.height);
           event.data.forEach(function(rect) {
+            img.src = vm.activeFilter;
             context.drawImage(
               img,
               rect.x,
@@ -388,6 +394,7 @@ var VisualProwessPage = {
       });
 
       function takepicture() {
+        // console.log("This from takepicture", this);
         var context = frame.getContext("2d");
         if (width && height) {
           frame.width = width;
@@ -958,7 +965,11 @@ var SharinganPage = {
           imageData.style.transform =
             "matrix(" + s + ", 0, 0, " + s + ", " + ix + ", " + iy + ")";
         }
-
+        // Capture a photo by fetching the current contents of the video
+        // and drawing it into a canvas, then converting that to a PNG
+        // format data URL. By drawing it on an offscreen canvas and then
+        // drawing that to the screen, we can change its size and/or apply
+        // other changes before drawing it.
         function takepicture() {
           var context = canvas.getContext("2d");
           if (width && height) {
@@ -992,6 +1003,7 @@ var SharinganPage = {
             var a1 = $.ajax({
                 url: EMOTION_API_ID,
                 beforeSend: function(xhrObj) {
+                  // Request headers
                   xhrObj.setRequestHeader(
                     "Content-Type",
                     "application/octet-stream"
@@ -1002,6 +1014,7 @@ var SharinganPage = {
                   );
                 },
                 type: "POST",
+                // Request body
                 data: makeblob(dataURL),
                 processData: false,
                 success: function(data) {
@@ -1251,6 +1264,7 @@ var SharinganPage = {
           }
         }
       }
+      // window.addEventListener("load", initExample, false);
       initExample();
     })();
   },
