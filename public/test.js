@@ -39,16 +39,14 @@ var VisualProwessPage = {
       ],
       activeFilter: "nick2.png",
       filters: [
-        {
-          anger: "",
-          contempt: "",
-          disgust: "",
-          fear: "",
-          happiness: "",
-          neutral: "",
-          sadness: "",
-          surprise: ""
-        }
+        { id: "anger", filter: "" },
+        { id: "contempt", filter: "" },
+        { id: "disgust", filter: "" },
+        { id: "fear", filter: "" },
+        { id: "happiness", filter: "" },
+        { id: "neutral", filter: "" },
+        { id: "sadness", filter: "" },
+        { id: "surprise", filter: "" }
       ],
       intervalId: null,
       initScale: 4,
@@ -58,8 +56,8 @@ var VisualProwessPage = {
   watch: {
     emotions: function(emotion) {
       console.log(this.emotions);
-      var highestEmotion = Object.entries(this.emotions)[7];
-      console.log(highestEmotion);
+      var highestEmotion = Object.entries(this.emotions)[0];
+      console.log(highestEmotion[0]);
 
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
