@@ -419,7 +419,6 @@ var VisualProwessPage = {
           var a1 = $.ajax({
               url: EMOTION_API_ID,
               beforeSend: function(xhrObj) {
-                // Request headers
                 xhrObj.setRequestHeader(
                   "Content-Type",
                   "application/octet-stream"
@@ -430,7 +429,6 @@ var VisualProwessPage = {
                 );
               },
               type: "POST",
-              // Request body
               data: makeblob(dataURL),
               processData: false,
               success: function(data) {
@@ -447,7 +445,6 @@ var VisualProwessPage = {
                   sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
                   surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
                 });
-                // code to show result will be here
               }
             }).fail(function(data) {
               alert(
@@ -458,7 +455,6 @@ var VisualProwessPage = {
               );
             }),
             a2 = a1.then(function(result) {
-              // .then() returns a new promise
               axios
                 .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
@@ -482,7 +478,6 @@ var VisualProwessPage = {
                 .catch(function(response) {
                   console.log("error", response);
                 });
-              // Maybe add chart here to add live time updates
             });
         }
       }
@@ -742,7 +737,7 @@ var SharinganPage = {
         var imageData = document.getElementById("_imageData"); // image data for Uchiha
         var canvas = document.getElementById("canvas");
         var photo = document.getElementById("photo");
-        var startbutton = document.getElementById("sharinganButton");
+        var sharinganButton = document.getElementById("sharinganButton");
         var faces;
         var imageDataCtx = null;
         var width = 320;
@@ -828,22 +823,26 @@ var SharinganPage = {
             false
           );
 
-          startbutton.addEventListener(
+          sharinganButton.addEventListener(
             "click",
             function(ev) {
-              axios.get("/keys").then(function(response) {
-                EMOTION_API_ID = response.data.id;
-                EMOTION_API_KEY1 = response.data.key;
-                sessionId = response.data.session_id;
+              window.statsTrackerEnabled = !window.statsTrackerEnabled;
+              if (window.statsTrackerEnabled) {
+                axios.get("/keys").then(function(response) {
+                  EMOTION_API_ID = response.data.id;
+                  EMOTION_API_KEY1 = response.data.key;
+                  sessionId = response.data.session_id;
+                });
                 vm.intervalId = setInterval(function() {
                   takepicture();
                   ev.preventDefault();
                 }, 5000);
-              });
-            },
+              } else {
+                clearInterval(vm.intervalId);
+              }
+            }.bind(this),
             false
           );
-
           clearphoto();
         }
 
@@ -958,21 +957,7 @@ var SharinganPage = {
           imageData.style.transform =
             "matrix(" + s + ", 0, 0, " + s + ", " + ix + ", " + iy + ")";
         }
-        // Fill the photo with an indication that none has been
-        // captured.
-        function clearphoto() {
-          var context = canvas.getContext("2d");
-          context.fillStyle = "#AAA";
-          context.fillRect(0, 0, canvas.width, canvas.height);
 
-          var data = canvas.toDataURL("image/png");
-          photo.setAttribute("src", data);
-        }
-        // Capture a photo by fetching the current contents of the video
-        // and drawing it into a canvas, then converting that to a PNG
-        // format data URL. By drawing it on an offscreen canvas and then
-        // drawing that to the screen, we can change its size and/or apply
-        // other changes before drawing it.
         function takepicture() {
           var context = canvas.getContext("2d");
           if (width && height) {
@@ -1006,7 +991,6 @@ var SharinganPage = {
             var a1 = $.ajax({
                 url: EMOTION_API_ID,
                 beforeSend: function(xhrObj) {
-                  // Request headers
                   xhrObj.setRequestHeader(
                     "Content-Type",
                     "application/octet-stream"
@@ -1017,7 +1001,6 @@ var SharinganPage = {
                   );
                 },
                 type: "POST",
-                // Request body
                 data: makeblob(dataURL),
                 processData: false,
                 success: function(data) {
@@ -1264,19 +1247,15 @@ var SharinganPage = {
                     console.log("error", response);
                   });
               });
-          } else {
-            clearphoto();
           }
         }
       }
-      // window.addEventListener("load", initExample, false);
       initExample();
     })();
   },
   methods: {
-    endSharingan: function() {
-      console.log(this.intervalId);
-      clearInterval(this.intervalId);
+    sharinganButton: function() {
+      // console.log('This from sharinganButton', this);
     }
   },
   computed: {}
@@ -1302,7 +1281,6 @@ var ChartPage = {
   },
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      // console.log(statsEmotion.emotion);
       var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -1399,7 +1377,6 @@ var ChartPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log(chart);
     }
   },
   computed: {

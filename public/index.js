@@ -37,7 +37,10 @@ var VisualProwessPage = {
           }
         }
       ],
-      intervalId: null
+      filter: "nick2.png",
+      intervalId: null,
+      initScale: 4,
+      stepSize: 2
     };
   },
   watch: {
@@ -229,6 +232,9 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
+      var img = document.createElement("img");
+      img.src = vm.filter;
+
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
@@ -237,11 +243,12 @@ var VisualProwessPage = {
       var frame = document.getElementById("frame");
       var photo = document.getElementById("photo");
       var visualProwessButton = document.getElementById("visualProwessButton");
+      var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(1.5);
-      tracker.setStepSize(1);
+      tracker.setInitialScale(vm.initScale);
+      tracker.setStepSize(vm.stepSize);
       tracker.setEdgesDensity(0.1);
 
       tracking.track("#video", tracker, { camera: true });
@@ -260,15 +267,42 @@ var VisualProwessPage = {
       visualProwessButton.addEventListener(
         "click",
         function(ev) {
-          axios.get("/keys").then(function(response) {
-            EMOTION_API_ID = response.data.id;
-            EMOTION_API_KEY1 = response.data.key;
-            sessionId = response.data.session_id;
+          window.statsTrackerEnabled = !window.statsTrackerEnabled;
+          if (window.statsTrackerEnabled) {
+            axios.get("/keys").then(function(response) {
+              EMOTION_API_ID = response.data.id;
+              EMOTION_API_KEY1 = response.data.key;
+              sessionId = response.data.session_id;
+            });
             vm.intervalId = setInterval(function() {
               takepicture();
               ev.preventDefault();
             }, 5000);
-          });
+          } else {
+            clearInterval(vm.intervalId);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+          }
+        }.bind(this),
+        false
+      );
+      visualFilterButton.addEventListener(
+        "click",
+        function(ev) {
+          window.filterTrackerEnabled = !window.filterTrackerEnabled;
+          if (window.filterTrackerEnabled) {
+            axios.get("/keys").then(function(response) {
+              EMOTION_API_ID = response.data.id;
+              EMOTION_API_KEY1 = response.data.key;
+              sessionId = response.data.session_id;
+            });
+            vm.intervalId = setInterval(function() {
+              takepicture();
+              ev.preventDefault();
+            }, 5000);
+          } else {
+            clearInterval(vm.intervalId);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+          }
         }.bind(this),
         false
       );
@@ -277,89 +311,82 @@ var VisualProwessPage = {
         tracker.emit("track", event);
       };
       tracker.on("track", function(event) {
-        if (!window.trackerDisabled) {
+        if (window.statsTrackerEnabled) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          event.data.forEach(function(rect) {
+            context.strokeStyle = "#fffa00";
+            context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+            context.font = "18px Helvetica";
+            context.fillStyle = "#fffa00";
+            context.fillText(
+              "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y
+            );
+            context.fillText(
+              "contempt: " +
+                (vm.result[0].scores.contempt * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 18
+            );
+            context.fillText(
+              "disgust: " +
+                (vm.result[0].scores.disgust * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 36
+            );
+            context.fillText(
+              "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 54
+            );
+            context.fillText(
+              "happiness: " +
+                (vm.result[0].scores.happiness * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 72
+            );
+            context.fillText(
+              "neutral: " +
+                (vm.result[0].scores.neutral * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 90
+            );
+            context.fillText(
+              "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
+              rect.x + rect.width + 5,
+              rect.y + 108
+            );
+            context.fillText(
+              "surprise: " +
+                (vm.result[0].scores.surprise * 100).toFixed(3) +
+                "%",
+              rect.x + rect.width + 5,
+              rect.y + 126
+            );
+          });
+        } else if (window.filterTrackerEnabled) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          event.data.forEach(function(rect) {
+            context.drawImage(
+              img,
+              rect.x,
+              rect.y / 4,
+              rect.width + 11,
+              rect.height * 1.9
+            );
+          });
+        } else {
           return;
         }
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        event.data.forEach(function(rect) {
-          context.strokeStyle = "#fffa00";
-          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-          context.font = "18px Helvetica";
-          context.fillStyle = "#fffa00";
-          context.fillText(
-            "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y
-          );
-          context.fillText(
-            "contempt: " +
-              (vm.result[0].scores.contempt * 100).toFixed(3) +
-              "%",
-            rect.x + rect.width + 5,
-            rect.y + 18
-          );
-          context.fillText(
-            "disgust: " + (vm.result[0].scores.disgust * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 36
-          );
-          context.fillText(
-            "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 54
-          );
-          context.fillText(
-            "happiness: " +
-              (vm.result[0].scores.happiness * 100).toFixed(3) +
-              "%",
-            rect.x + rect.width + 5,
-            rect.y + 72
-          );
-          context.fillText(
-            "neutral: " + (vm.result[0].scores.neutral * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 90
-          );
-          context.fillText(
-            "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
-            rect.x + rect.width + 5,
-            rect.y + 108
-          );
-          context.fillText(
-            "surprise: " +
-              (vm.result[0].scores.surprise * 100).toFixed(3) +
-              "%",
-            rect.x + rect.width + 5,
-            rect.y + 126
-          );
-        });
       });
 
-      document
-        .getElementById("toggletracking")
-        .addEventListener("click", function() {
-          window.trackerDisabled = !window.trackerDisabled;
-          console.log(
-            "toggletracking",
-            "trackerDisabled",
-            window.trackerDisabled
-          );
-
-          if (!window.trackerDisabled) {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-          }
-        });
-
-      function clearphoto() {
-        var context = frame.getContext("2d");
-        context.fillStyle = "#AAA";
-        context.fillRect(0, 0, frame.width, frame.height);
-
-        var data = frame.toDataURL("image/png");
-        photo.setAttribute("src", data);
-      }
-
       function takepicture() {
+        // console.log("This from takepicture", this);
         var context = frame.getContext("2d");
         if (width && height) {
           frame.width = width;
@@ -392,7 +419,6 @@ var VisualProwessPage = {
           var a1 = $.ajax({
               url: EMOTION_API_ID,
               beforeSend: function(xhrObj) {
-                // Request headers
                 xhrObj.setRequestHeader(
                   "Content-Type",
                   "application/octet-stream"
@@ -403,7 +429,6 @@ var VisualProwessPage = {
                 );
               },
               type: "POST",
-              // Request body
               data: makeblob(dataURL),
               processData: false,
               success: function(data) {
@@ -420,7 +445,6 @@ var VisualProwessPage = {
                   sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
                   surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
                 });
-                // code to show result will be here
               }
             }).fail(function(data) {
               alert(
@@ -431,7 +455,6 @@ var VisualProwessPage = {
               );
             }),
             a2 = a1.then(function(result) {
-              // .then() returns a new promise
               axios
                 .post("/v1/visual_prowesses", {
                   anger: vm.result[0].scores.anger,
@@ -455,19 +478,18 @@ var VisualProwessPage = {
                 .catch(function(response) {
                   console.log("error", response);
                 });
-              // Maybe add chart here to add live time updates
             });
-        } else {
-          clearphoto();
         }
       }
     };
     initTracker();
   },
   methods: {
-    endVisualProwess: function() {
-      console.log(this.intervalId);
-      clearInterval(this.intervalId);
+    visualProwess: function() {
+      // console.log("This from visual method", this);
+    },
+    visualFilter: function() {
+      // console.log("This from visualFilter method", this);
     }
   },
   computed: {}
@@ -715,7 +737,7 @@ var SharinganPage = {
         var imageData = document.getElementById("_imageData"); // image data for Uchiha
         var canvas = document.getElementById("canvas");
         var photo = document.getElementById("photo");
-        var startbutton = document.getElementById("sharinganButton");
+        var sharinganButton = document.getElementById("sharinganButton");
         var faces;
         var imageDataCtx = null;
         var width = 320;
@@ -801,22 +823,26 @@ var SharinganPage = {
             false
           );
 
-          startbutton.addEventListener(
+          sharinganButton.addEventListener(
             "click",
             function(ev) {
-              axios.get("/keys").then(function(response) {
-                EMOTION_API_ID = response.data.id;
-                EMOTION_API_KEY1 = response.data.key;
-                sessionId = response.data.session_id;
+              window.statsTrackerEnabled = !window.statsTrackerEnabled;
+              if (window.statsTrackerEnabled) {
+                axios.get("/keys").then(function(response) {
+                  EMOTION_API_ID = response.data.id;
+                  EMOTION_API_KEY1 = response.data.key;
+                  sessionId = response.data.session_id;
+                });
                 vm.intervalId = setInterval(function() {
                   takepicture();
                   ev.preventDefault();
                 }, 5000);
-              });
-            },
+              } else {
+                clearInterval(vm.intervalId);
+              }
+            }.bind(this),
             false
           );
-
           clearphoto();
         }
 
@@ -1247,9 +1273,8 @@ var SharinganPage = {
     })();
   },
   methods: {
-    endSharingan: function() {
-      console.log(this.intervalId);
-      clearInterval(this.intervalId);
+    sharinganButton: function() {
+      // console.log('This from sharinganButton', this);
     }
   },
   computed: {}
@@ -1275,7 +1300,6 @@ var ChartPage = {
   },
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      // console.log(statsEmotion.emotion);
       var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -1372,7 +1396,6 @@ var ChartPage = {
         gridAlpha: 0,
         position: "top"
       });
-      console.log(chart);
     }
   },
   computed: {

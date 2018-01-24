@@ -154,9 +154,8 @@
         <canvas id="canvas"></canvas>
         <span id="photo" alt="The screen capture will appear in this box."> 
       </figure>
-      <div class="card-body text-center">
-        <button id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
-        <button type="button" class="btn btn-danger" v-on:click="endSharingan()">Deactivate Sharingan</button>
+      <div class="card-body text-left">
+        <button v-on:click="sharinganButton()" id="sharinganButton" type="button" class="btn btn-danger">Activate Sharingan</button>
         <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
       <div id="accordion" role="tablist">
