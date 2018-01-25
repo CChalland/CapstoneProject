@@ -103,8 +103,26 @@
         <canvas id="frame"></canvas>
       </figure>
       <div class="card-body text-center">
-        <button id="visualFilterButton" role="button" class="btn btn-danger" v-on:click="visualFilter()">Filter</button>
-        <button id="visualProwessButton" role="button" class="btn btn-danger" v-on:click="visualProwess()">Visual Prowess</button>
+        <div class="dropdown">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filters
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a v-on:click="firstFilter()" class="dropdown-item">1</a>
+            <a v-on:click="secondFilter()" class="dropdown-item">2</a>
+            <a v-on:click="thirdFilter()" class="dropdown-item">3</a>
+          </div>
+        </div>
+
+
+        <button id="visualFilterButton" v-on:click="visualFilter()" type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off">
+          Filters
+        </button>
+        <button id="visualProwessButton" v-on:click="visualProwess()" type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off">
+          Visual Prowess
+        </button>
+       <!--  <button id="visualFilterButton" role="button" class="btn btn-danger" v-on:click="visualFilter()">Filter</button>
+        <button id="visualProwessButton" role="button" class="btn btn-danger" v-on:click="visualProwess()">Visual Prowess</button> -->
         <a id="sharinganButton" role="button" href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
       </div>
       <div id="accordion" role="tablist">
@@ -279,11 +297,11 @@
             <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
 
             
-            <p>
+           <!--  <p>
               <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
               <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">Photo of Emotions</button>
               <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">Toggle Both</button>
-            </p>
+            </p> -->
             <div class="row">
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">

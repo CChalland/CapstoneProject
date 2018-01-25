@@ -48,6 +48,41 @@ var VisualProwessPage = {
         sadness: "filters/fat-crying.png",
         surprise: "filters/japanese-goblin.png"
       },
+      imgFilters: {
+        alien: "filters/alien.png",
+        angry: "filters/angry.png",
+        anonymous: "filters/anonymous.png",
+        baby: "filters/baby.png",
+        barf: "filters/barf.png",
+        cartoonSanta: "filters/cartoon-santa.png",
+        cartoonSeeNoMonkey: "filters/cartoon-see-no-monkey.png",
+        clown: "filters/clown.png",
+        crying: "filters/crying.png",
+        fatAngry: "filters/fat-angry.png",
+        fatCrying: "filters/fat-crying.png",
+        fatHappy: "filters/fat-happy.png",
+        fire: "filters/fire.png",
+        frenchGhost: "filters/french-ghost.png",
+        goofyGhost: "filters/goofy-ghost.png",
+        greenBeaver: "filters/green-beaver.png",
+        japaneseGoblin: "filters/japanese-goblin.png",
+        koala: "filters/koala.png",
+        moneyBag: "filters/money-bag.png",
+        mufasa: "filters/mufasa.png",
+        nick1: "filters/nick1.png",
+        nick2: "filters/nick2.png",
+        nick3: "filters/nick3.png",
+        panda: "filters/panda.png",
+        pirateSkull: "filters/pirate-skull.png",
+        poop: "filters/poop.png",
+        rocker: "filters/rocker.png",
+        sad: "filters/sad.png",
+        santa: "filters/santa.png",
+        seeNoMonkey: "filters/see-no-monkey.png",
+        shadesGhost: "filters/shades-ghost.png",
+        simba: "filters/simba.png",
+        speakNoMonkey: "filters/speak-no-monkey.png"
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -505,7 +540,10 @@ var VisualProwessPage = {
     },
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
-    }
+    },
+    firstFilter: function() {},
+    secondFilter: function() {},
+    thirdFilter: function() {}
   },
   computed: {}
 };
