@@ -58,11 +58,8 @@ var VisualProwessPage = {
       var highestEmotion = Object.keys(this.emotions).reduce(
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
-      console.log(highestEmotion);
       this.activeFilter = this.filters[`${highestEmotion}`];
-      console.log(this.activeFilter);
 
-      // Current emotion chart
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -451,7 +448,7 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  // id: vm.statsEmotions.slice(-1)[0].id,
+                  id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -1023,7 +1020,7 @@ var SharinganPage = {
                   vm.result = data;
                   vm.emotions = vm.result[0].scores;
                   vm.statsEmotions.push({
-                    // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
+                    id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
                     anger: (vm.result[0].scores.anger * 100).toFixed(4),
                     contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                     disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -1043,7 +1040,6 @@ var SharinganPage = {
                 );
               }),
               a2 = a1.then(function(result) {
-                // .then() returns a new promise
                 axios
                   .post("/v1/visual_prowesses", {
                     right_0: `${faces[0].vertices[0]}, ${faces[0].vertices[1]}`,

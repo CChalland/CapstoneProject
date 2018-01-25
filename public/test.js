@@ -240,6 +240,7 @@ var VisualProwessPage = {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
+        console.log(this.statsEmotions[this.statsEmotions.length - 1]);
       }.bind(this)
     );
   },
@@ -449,7 +450,7 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  // id: vm.statsEmotions.slice(-1)[0].id,
+                  id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),

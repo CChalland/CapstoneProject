@@ -51,7 +51,7 @@ class V1::VisualProwessesController < ApplicationController
       end
 
     else
-      emotions = VisualProwess.all.order(id: :desc)
+      emotions = VisualProwess.all.order(:id)
     end
     render json: emotions.as_json
   end
