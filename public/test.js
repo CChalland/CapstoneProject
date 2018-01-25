@@ -55,6 +55,7 @@ var VisualProwessPage = {
   },
   watch: {
     emotions: function(emotion) {
+      this.emotions.neutral = 0;
       var highestEmotion = Object.keys(this.emotions).reduce(
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
