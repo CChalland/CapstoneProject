@@ -37,17 +37,17 @@ var VisualProwessPage = {
           }
         }
       ],
-      activeFilter: "nick2.png",
-      filters: [
-        { id: "anger", filter: "" },
-        { id: "contempt", filter: "" },
-        { id: "disgust", filter: "" },
-        { id: "fear", filter: "" },
-        { id: "happiness", filter: "" },
-        { id: "neutral", filter: "" },
-        { id: "sadness", filter: "" },
-        { id: "surprise", filter: "" }
-      ],
+      activeFilter: "filters/green-beaver.png",
+      filters: {
+        anger: "filters/fat-angry.png",
+        contempt: "filters/panda.png",
+        disgust: "filters/barf.png",
+        fear: "filters/see-no-monkey.png",
+        happiness: "filters/simba.png",
+        neutral: "filters/koala.png",
+        sadness: "filters/fat-crying.png",
+        surprise: "filters/japanese-goblin.png"
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -59,7 +59,10 @@ var VisualProwessPage = {
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
       console.log(highestEmotion);
+      this.activeFilter = this.filters[`${highestEmotion}`];
+      console.log(this.activeFilter);
 
+      // Current emotion chart
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -308,8 +311,10 @@ var VisualProwessPage = {
               sessionId = response.data.session_id;
             });
             vm.intervalId = setInterval(function() {
+              img.src = vm.activeFilter;
               takepicture();
               ev.preventDefault();
+              img.src = vm.activeFilter;
             }, 5000);
           } else {
             clearInterval(vm.intervalId);
@@ -382,7 +387,6 @@ var VisualProwessPage = {
             );
           });
         } else if (window.filterTrackerEnabled) {
-          img.src = vm.activeFilter;
           context.clearRect(0, 0, canvas.width, canvas.height);
           event.data.forEach(function(rect) {
             context.drawImage(
