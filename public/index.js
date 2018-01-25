@@ -37,7 +37,62 @@ var VisualProwessPage = {
           }
         }
       ],
-      filter: "nick2.png",
+      activeFilter: "filters/beavers/green-beaver.png",
+      filters: {
+        anger: "filters/fat-angry.png",
+        contempt: "filters/panda.png",
+        disgust: "filters/barf.png",
+        fear: "filters/see-no-monkey.png",
+        happiness: "filters/simba.png",
+        neutral: "filters/koala.png",
+        sadness: "filters/fat-crying.png",
+        surprise: "filters/japanese-goblin.png"
+      },
+      imgFilters: {
+        alien: "filters/alien.png",
+        angry: "filters/angry.png",
+        anonymous: "filters/anonymous.png",
+        baby: "filters/baby.png",
+        barf: "filters/barf.png",
+        cartoonSanta: "filters/cartoon-santa.png",
+        cartoonSeeNoMonkey: "filters/cartoon-see-no-monkey.png",
+        clown: "filters/clown.png",
+        crying: "filters/crying.png",
+        fatAngry: "filters/fat-angry.png",
+        fatCrying: "filters/fat-crying.png",
+        fatHappy: "filters/fat-happy.png",
+        fire: "filters/fire.png",
+        frenchGhost: "filters/french-ghost.png",
+        goofyGhost: "filters/goofy-ghost.png",
+        greenBeaver: "filters/beavers/green-beaver.png",
+        japaneseGoblin: "filters/japanese-goblin.png",
+        koala: "filters/koala.png",
+        moneyBag: "filters/money-bag.png",
+        mufasa: "filters/mufasa.png",
+        nick1: "filters/nick1.png",
+        nick2: "filters/nick2.png",
+        nick3: "filters/nick3.png",
+        panda: "filters/panda.png",
+        pirateSkull: "filters/pirate-skull.png",
+        poop: "filters/poop.png",
+        rocker: "filters/rocker.png",
+        sad: "filters/sad.png",
+        santa: "filters/santa.png",
+        seeNoMonkey: "filters/see-no-monkey.png",
+        shadesGhost: "filters/shades-ghost.png",
+        simba: "filters/simba.png",
+        speakNoMonkey: "filters/speak-no-monkey.png",
+        sadBeaver: "filters/beavers/sad-beaver.png",
+        thinkingBeaver: "filters/beavers/thinking-beaver.png",
+        devilBeaver: "filters/beavers/devil-beaver.png",
+        cryingBeaver: "filters/beavers/cryingBeaver",
+        laughingBeaver: "filters/beavers/laughing-beaver.png",
+        ogBeaver: "filters/beavers/og-beaver.png",
+        rainbowBeaver: "filters/beavers/rainbow-beaver.png",
+        thumbsDownBeaver: "filters/beavers/thumbs-down-beaver.png",
+        veryAngerBeaver: "filters/beavers/very-anger-beaver.png",
+        appBeaver: "filters/beavers/app-beaver.png"
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -45,6 +100,12 @@ var VisualProwessPage = {
   },
   watch: {
     emotions: function(emotion) {
+      var highestEmotion = Object.keys(this.emotions).reduce(
+        (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
+      );
+      console.log(highestEmotion);
+      this.activeFilter = this.filters[`${highestEmotion}`];
+      console.log(this.activeFilter);
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -224,6 +285,7 @@ var VisualProwessPage = {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
+        console.log(this.statsEmotions[this.statsEmotions.length - 1]);
       }.bind(this)
     );
   },
@@ -232,16 +294,13 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var img = document.createElement("img");
-      img.src = vm.filter;
-
       var width = 640; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
-      var photo = document.getElementById("photo");
+      var img = document.createElement("img");
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
@@ -250,8 +309,8 @@ var VisualProwessPage = {
       tracker.setInitialScale(vm.initScale);
       tracker.setStepSize(vm.stepSize);
       tracker.setEdgesDensity(0.1);
-
       tracking.track("#video", tracker, { camera: true });
+
       video.addEventListener(
         "canplay",
         function(ev) {
@@ -296,6 +355,7 @@ var VisualProwessPage = {
               sessionId = response.data.session_id;
             });
             vm.intervalId = setInterval(function() {
+              img.src = vm.activeFilter;
               takepicture();
               ev.preventDefault();
             }, 5000);
@@ -386,7 +446,6 @@ var VisualProwessPage = {
       });
 
       function takepicture() {
-        // console.log("This from takepicture", this);
         var context = frame.getContext("2d");
         if (width && height) {
           frame.width = width;
@@ -435,7 +494,7 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  // id: vm.statsEmotions.slice(-1)[0].id,
+                  id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -490,6 +549,56 @@ var VisualProwessPage = {
     },
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
+    },
+    emojiFilter: function() {
+      this.filters.anger = this.imgFilters.fatAngry;
+      this.filters.contempt = this.imgFilters.angry;
+      this.filters.disgust = this.imgFilters.barf;
+      this.filters.fear = this.imgFilters.fatCrying;
+      this.filters.happiness = this.imgFilters.fatHappy;
+      this.filters.neutral = this.imgFilters.panda;
+      this.filters.sadness = this.imgFilters.crying;
+      this.filters.surprise = this.imgFilters.scream;
+    },
+    animalFilter: function() {
+      this.filters.anger = this.imgFilters.cartoonSeeNoMonkey;
+      this.filters.contempt = this.imgFilters.koala;
+      this.filters.disgust = this.imgFilters.alien;
+      this.filters.fear = this.imgFilters.mufasa;
+      this.filters.happiness = this.imgFilters.simba;
+      this.filters.neutral = this.imgFilters.panda;
+      this.filters.sadness = this.imgFilters.sadBeaver;
+      this.filters.surprise = this.imgFilters.speakNoMonkey;
+    },
+    nickFilter: function() {
+      this.filters.anger = this.imgFilters.angry;
+      this.filters.contempt = this.imgFilters.shadesGhost;
+      this.filters.disgust = this.imgFilters.frenchGhost;
+      this.filters.fear = this.imgFilters.anonymous;
+      this.filters.happiness = this.imgFilters.nick1;
+      this.filters.neutral = this.imgFilters.nick2;
+      this.filters.sadness = this.imgFilters.crying;
+      this.filters.surprise = this.imgFilters.nick3;
+    },
+    beaverFilter: function() {
+      this.filters.anger = this.imgFilters.devilBeaver;
+      this.filters.contempt = this.imgFilters.thinkingBeaver;
+      this.filters.disgust = this.imgFilters.thumbsDownBeaver;
+      this.filters.fear = this.imgFilters.veryAngerBeaver;
+      this.filters.happiness = this.imgFilters.laughingBeaver;
+      this.filters.neutral = this.imgFilters.appBeaver;
+      this.filters.sadness = this.imgFilters.sadBeaver;
+      this.filters.surprise = this.imgFilters.rainbowBeaver;
+    },
+    cartoonFilter: function() {
+      this.filters.anger = this.imgFilters.japaneseGoblin;
+      this.filters.contempt = this.imgFilters.anonymous;
+      this.filters.disgust = this.imgFilters.alien;
+      this.filters.fear = this.imgFilters.clown;
+      this.filters.happiness = this.imgFilters.cartoonSanta;
+      this.filters.neutral = this.imgFilters.rocker;
+      this.filters.sadness = this.imgFilters.pirateSkull;
+      this.filters.surprise = this.imgFilters.cartoonSeeNoMonkey;
     }
   },
   computed: {}
@@ -957,21 +1066,7 @@ var SharinganPage = {
           imageData.style.transform =
             "matrix(" + s + ", 0, 0, " + s + ", " + ix + ", " + iy + ")";
         }
-        // Fill the photo with an indication that none has been
-        // captured.
-        function clearphoto() {
-          var context = canvas.getContext("2d");
-          context.fillStyle = "#AAA";
-          context.fillRect(0, 0, canvas.width, canvas.height);
 
-          var data = canvas.toDataURL("image/png");
-          photo.setAttribute("src", data);
-        }
-        // Capture a photo by fetching the current contents of the video
-        // and drawing it into a canvas, then converting that to a PNG
-        // format data URL. By drawing it on an offscreen canvas and then
-        // drawing that to the screen, we can change its size and/or apply
-        // other changes before drawing it.
         function takepicture() {
           var context = canvas.getContext("2d");
           if (width && height) {
@@ -1005,7 +1100,6 @@ var SharinganPage = {
             var a1 = $.ajax({
                 url: EMOTION_API_ID,
                 beforeSend: function(xhrObj) {
-                  // Request headers
                   xhrObj.setRequestHeader(
                     "Content-Type",
                     "application/octet-stream"
@@ -1016,7 +1110,6 @@ var SharinganPage = {
                   );
                 },
                 type: "POST",
-                // Request body
                 data: makeblob(dataURL),
                 processData: false,
                 success: function(data) {
@@ -1263,12 +1356,9 @@ var SharinganPage = {
                     console.log("error", response);
                   });
               });
-          } else {
-            clearphoto();
           }
         }
       }
-      // window.addEventListener("load", initExample, false);
       initExample();
     })();
   },

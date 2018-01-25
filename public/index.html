@@ -25,7 +25,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-  <script src="test_index.js" defer></script>
+  <script src="index.js" defer></script>
 
   <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
   <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -97,6 +97,7 @@
 <template id="visualProwess-page">
   <div class="container">
     <div class="card text-white bg-dark">
+      <br>
       <figure class="figure text-center">
         <video id="video" width="640" height="480" preload autoplay loop muted></video>
         <canvas id="tracker" width="640" height="480"></canvas>
@@ -128,16 +129,39 @@
                     Filters
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a v-on:click="emojiFilter()" class="dropdown-item">Emoji Filter</a>
-                    <a v-on:click="animalFilter()" class="dropdown-item">Animal Filter</a>
-                    <a v-on:click="nickFilter()" class="dropdown-item">Goon Filter</a>
+                    <a v-on:click="emojiFilter()" class="dropdown-item">Emoji</a>
+                    <a v-on:click="animalFilter()" class="dropdown-item">Animal</a>
+                    <a v-on:click="nickFilter()" class="dropdown-item">Goon</a>
+                    <a v-on:click="beaverFilter()" class="dropdown-item">Cheeky Beaver</a>
+                    <a v-on:click="cartoonFilter()" class="dropdown-item">Cartoon</a>
                   </div>
                 </div>
               </div>
               <div class="text-center">
+               
+               <!--  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-danger active">
+                    <input v-on:click="emojiFilter()" type="radio" name="options" id="option1" autocomplete="off" checked> Emoji
+                  </label>
+                  <label class="btn btn-danger">
+                    <input v-on:click="animalFilter()" type="radio" name="options" id="option2" autocomplete="off"> Animal
+                  </label>
+                  <label class="btn btn-danger">
+                    <input v-on:click="nickFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
+                  </label>
+                  <label class="btn btn-danger">
+                    <input v-on:click="beaverFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
+                  </label>
+                  <label class="btn btn-danger">
+                    <input v-on:click="cartoonFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
+                  </label>
+                </div>
+                <br> -->
+
                 Current Emotion
                 <div id="emotion-chartdiv" style="width: 100%; height: 362px;"></div>
               </div>   
+
             </div>
           </div>
         </div>
@@ -164,13 +188,14 @@
 <template id="sharingan-page">
   <div class="container">
     <div class="card text-white bg-dark">
+      <br>
       <figure class="figure text-center">
         <video id="_webcam" width="640" height="480" preload autoplay loop muted></video>
         <canvas id="_imageData"></canvas>
         <canvas id="canvas"></canvas>
       </figure>
       <div class="card-body text-center">
-        <button v-on:click="sharinganButton()" id="sharinganButton" type="button" class="btn btn-danger">Sharingan</button>
+        <button v-on:click="sharinganButton()" id="sharinganButton" type="button" class="btn btn-danger" disabled>Sharingan</button>
         <a id="visualProwessButton" href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
       <div id="accordion" role="tablist">
