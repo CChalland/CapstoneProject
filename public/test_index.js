@@ -48,6 +48,41 @@ var VisualProwessPage = {
         sadness: "filters/fat-crying.png",
         surprise: "filters/japanese-goblin.png"
       },
+      imgFilters: {
+        alien: "filters/alien.png",
+        angry: "filters/angry.png",
+        anonymous: "filters/anonymous.png",
+        baby: "filters/baby.png",
+        barf: "filters/barf.png",
+        cartoonSanta: "filters/cartoon-santa.png",
+        cartoonSeeNoMonkey: "filters/cartoon-see-no-monkey.png",
+        clown: "filters/clown.png",
+        crying: "filters/crying.png",
+        fatAngry: "filters/fat-angry.png",
+        fatCrying: "filters/fat-crying.png",
+        fatHappy: "filters/fat-happy.png",
+        fire: "filters/fire.png",
+        frenchGhost: "filters/french-ghost.png",
+        goofyGhost: "filters/goofy-ghost.png",
+        greenBeaver: "filters/green-beaver.png",
+        japaneseGoblin: "filters/japanese-goblin.png",
+        koala: "filters/koala.png",
+        moneyBag: "filters/money-bag.png",
+        mufasa: "filters/mufasa.png",
+        nick1: "filters/nick1.png",
+        nick2: "filters/nick2.png",
+        nick3: "filters/nick3.png",
+        panda: "filters/panda.png",
+        pirateSkull: "filters/pirate-skull.png",
+        poop: "filters/poop.png",
+        rocker: "filters/rocker.png",
+        sad: "filters/sad.png",
+        santa: "filters/santa.png",
+        seeNoMonkey: "filters/see-no-monkey.png",
+        shadesGhost: "filters/shades-ghost.png",
+        simba: "filters/simba.png",
+        speakNoMonkey: "filters/speak-no-monkey.png"
+      },
       intervalId: null,
       initScale: 4,
       stepSize: 2
@@ -58,8 +93,9 @@ var VisualProwessPage = {
       var highestEmotion = Object.keys(this.emotions).reduce(
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
+      console.log(highestEmotion);
       this.activeFilter = this.filters[`${highestEmotion}`];
-
+      console.log(this.activeFilter);
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -239,6 +275,7 @@ var VisualProwessPage = {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
+        console.log(this.statsEmotions[this.statsEmotions.length - 1]);
       }.bind(this)
     );
   },
@@ -311,7 +348,6 @@ var VisualProwessPage = {
               img.src = vm.activeFilter;
               takepicture();
               ev.preventDefault();
-              img.src = vm.activeFilter;
             }, 5000);
           } else {
             clearInterval(vm.intervalId);
@@ -503,7 +539,19 @@ var VisualProwessPage = {
     },
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
-    }
+    },
+    emojiFilter: function() {
+      this.filters.anger = this.imgFilters.fatAngry;
+      this.filters.contempt = this.imgFilters.angry;
+      this.filters.disgust = this.imgFilters.barf;
+      this.filters.fear = this.imgFilters.clown;
+      this.filters.happiness = this.imgFilters.fatHappy;
+      this.filters.neutral = this.imgFilters.panda;
+      this.filters.sadness = this.imgFilters.fatCrying;
+      this.filters.surprise = this.imgFilters.scream;
+    },
+    animalFilter: function() {},
+    nickFilter: function() {}
   },
   computed: {}
 };
@@ -1020,7 +1068,7 @@ var SharinganPage = {
                   vm.result = data;
                   vm.emotions = vm.result[0].scores;
                   vm.statsEmotions.push({
-                    id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
+                    // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
                     anger: (vm.result[0].scores.anger * 100).toFixed(4),
                     contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                     disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -1040,6 +1088,7 @@ var SharinganPage = {
                 );
               }),
               a2 = a1.then(function(result) {
+                // .then() returns a new promise
                 axios
                   .post("/v1/visual_prowesses", {
                     right_0: `${faces[0].vertices[0]}, ${faces[0].vertices[1]}`,

@@ -348,7 +348,6 @@ var VisualProwessPage = {
               img.src = vm.activeFilter;
               takepicture();
               ev.preventDefault();
-              img.src = vm.activeFilter;
             }, 5000);
           } else {
             clearInterval(vm.intervalId);
@@ -541,9 +540,18 @@ var VisualProwessPage = {
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
     },
-    firstFilter: function() {},
-    secondFilter: function() {},
-    thirdFilter: function() {}
+    emojiFilter: function() {
+      this.filters.anger = this.imgFilters.fatAngry;
+      this.filters.contempt = this.imgFilters.angry;
+      this.filters.disgust = this.imgFilters.barf;
+      this.filters.fear = this.imgFilters.clown;
+      this.filters.happiness = this.imgFilters.fatHappy;
+      this.filters.neutral = this.imgFilters.panda;
+      this.filters.sadness = this.imgFilters.fatCrying;
+      this.filters.surprise = this.imgFilters.scream;
+    },
+    animalFilter: function() {},
+    nickFilter: function() {}
   },
   computed: {}
 };
