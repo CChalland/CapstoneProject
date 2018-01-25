@@ -81,7 +81,8 @@ var VisualProwessPage = {
         seeNoMonkey: "filters/see-no-monkey.png",
         shadesGhost: "filters/shades-ghost.png",
         simba: "filters/simba.png",
-        speakNoMonkey: "filters/speak-no-monkey.png"
+        speakNoMonkey: "filters/speak-no-monkey.png",
+        sadBeaver: "filters/sad-beaver.png"
       },
       intervalId: null,
       initScale: 4,
@@ -550,8 +551,56 @@ var VisualProwessPage = {
       this.filters.sadness = this.imgFilters.fatCrying;
       this.filters.surprise = this.imgFilters.scream;
     },
-    animalFilter: function() {},
-    nickFilter: function() {}
+    animalFilter: function() {
+      this.filters.anger = this.imgFilters.cartoonSeeNoMonkey;
+      this.filters.contempt = this.imgFilters.koala;
+      this.filters.disgust = this.imgFilters.alien;
+      this.filters.fear = this.imgFilters.mufasa;
+      this.filters.happiness = this.imgFilters.simba;
+      this.filters.neutral = this.imgFilters.panda;
+      this.filters.sadness = this.imgFilters.sadBeaver;
+      this.filters.surprise = this.imgFilters.speakNoMonkey;
+    },
+    nickFilter: function() {
+      this.filters.anger = this.imgFilters.angry;
+      this.filters.contempt = this.imgFilters.shadesGhost;
+      this.filters.disgust = this.imgFilters.frenchGhost;
+      this.filters.fear = this.imgFilters.anonymous;
+      this.filters.happiness = this.imgFilters.nick1;
+      this.filters.neutral = this.imgFilters.nick2;
+      this.filters.sadness = this.imgFilters.crying;
+      this.filters.surprise = this.imgFilters.nick3;
+    }
+    beaverFilter: function() {
+      this.filters.anger = this.imgFilters.;
+      this.filters.contempt = this.imgFilters.;
+      this.filters.disgust = this.imgFilters.;
+      this.filters.fear = this.imgFilters.;
+      this.filters.happiness = this.imgFilters.;
+      this.filters.neutral = this.imgFilters.;
+      this.filters.sadness = this.imgFilters.;
+      this.filters.surprise = this.imgFilters.;
+    },
+    cartoonFilter: function() {
+      this.filters.anger = this.imgFilters.;
+      this.filters.contempt = this.imgFilters.;
+      this.filters.disgust = this.imgFilters.;
+      this.filters.fear = this.imgFilters.;
+      this.filters.happiness = this.imgFilters.;
+      this.filters.neutral = this.imgFilters.;
+      this.filters.sadness = this.imgFilters.;
+      this.filters.surprise = this.imgFilters.;
+    },
+    tempFilter: function() {
+      this.filters.anger = this.imgFilters.;
+      this.filters.contempt = this.imgFilters.;
+      this.filters.disgust = this.imgFilters.;
+      this.filters.fear = this.imgFilters.;
+      this.filters.happiness = this.imgFilters.;
+      this.filters.neutral = this.imgFilters.;
+      this.filters.sadness = this.imgFilters.;
+      this.filters.surprise = this.imgFilters.;
+    }
   },
   computed: {}
 };
