@@ -147,12 +147,11 @@
   <div class="container">
     <div class="card text-white bg-dark">
       <figure class="figure text-center">
-        <video id="_webcam" style="display: none;" playsinline></video>
+        <video id="_webcam" width="640" height="480" preload autoplay loop muted></video>
         <canvas id="_imageData"></canvas>
         <canvas id="canvas"></canvas>
-        <span id="photo" alt="The screen capture will appear in this box."> 
       </figure>
-      <div class="card-body text-left">
+      <div class="card-body text-center">
         <button v-on:click="sharinganButton()" id="sharinganButton" type="button" class="btn btn-danger">Sharingan</button>
         <a id="visualProwessButton" href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
       </div>
