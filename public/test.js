@@ -94,9 +94,7 @@ var VisualProwessPage = {
         veryAngerBeaver: "filters/beavers/very-anger-beaver.png",
         appBeaver: "filters/beavers/app-beaver.png"
       },
-      intervalId: null,
-      initScale: 4,
-      stepSize: 2
+      intervalId: null
     };
   },
   watch: {
@@ -104,9 +102,7 @@ var VisualProwessPage = {
       var highestEmotion = Object.keys(this.emotions).reduce(
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
-      console.log(highestEmotion);
       this.activeFilter = this.filters[`${highestEmotion}`];
-      console.log(this.activeFilter);
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -286,7 +282,6 @@ var VisualProwessPage = {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
-        console.log(this.statsEmotions[this.statsEmotions.length - 1]);
       }.bind(this)
     );
   },
@@ -307,8 +302,8 @@ var VisualProwessPage = {
       var context = canvas.getContext("2d");
 
       var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(vm.initScale);
-      tracker.setStepSize(vm.stepSize);
+      tracker.setInitialScale(2);
+      tracker.setStepSize(1);
       tracker.setEdgesDensity(0.1);
       tracking.track("#video", tracker, { camera: true });
 
@@ -436,7 +431,7 @@ var VisualProwessPage = {
             context.drawImage(
               img,
               rect.x,
-              rect.y / 4,
+              rect.y / 1.5,
               rect.width + 11,
               rect.height * 1.9
             );
