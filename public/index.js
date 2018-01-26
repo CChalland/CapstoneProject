@@ -81,6 +81,7 @@ var VisualProwessPage = {
         seeNoMonkey: "filters/see-no-monkey.png",
         shadesGhost: "filters/shades-ghost.png",
         simba: "filters/simba.png",
+        scream: "filters/scream.png",
         speakNoMonkey: "filters/speak-no-monkey.png",
         sadBeaver: "filters/beavers/sad-beaver.png",
         thinkingBeaver: "filters/beavers/thinking-beaver.png",
