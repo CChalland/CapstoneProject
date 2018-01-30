@@ -290,7 +290,7 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var width = 640; // We will scale the photo width to this
+      var width = 720; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
