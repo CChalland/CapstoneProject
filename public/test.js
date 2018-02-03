@@ -103,6 +103,7 @@ var VisualProwessPage = {
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
       this.activeFilter = this.filters[`${highestEmotion}`];
+
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -290,7 +291,7 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var width = 720; // We will scale the photo width to this
+      var width = 1080; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
@@ -300,12 +301,6 @@ var VisualProwessPage = {
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
-
-      var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(4);
-      tracker.setStepSize(2);
-      tracker.setEdgesDensity(0.1);
-      tracking.track("#video", tracker, { camera: true });
 
       video.addEventListener(
         "canplay",
@@ -319,6 +314,13 @@ var VisualProwessPage = {
         },
         false
       );
+
+      var tracker = new tracking.ObjectTracker("face");
+      tracker.setInitialScale(3.25);
+      tracker.setStepSize(1.68);
+      tracker.setEdgesDensity(0.1);
+      tracking.track("#video", tracker, { camera: true });
+
       visualProwessButton.addEventListener(
         "click",
         function(ev) {
@@ -525,7 +527,7 @@ var VisualProwessPage = {
                   topPx: vm.result[0].faceRectangle.top,
                   widthPx: vm.result[0].faceRectangle.width,
                   heightPx: vm.result[0].faceRectangle.height,
-                  session: sessionId + 1
+                  session: sessionId++
                 })
                 .then(function(response) {
                   console.log("response from server", response);
@@ -948,7 +950,6 @@ var SharinganPage = {
             }.bind(this),
             false
           );
-          clearphoto();
         }
 
         function waitForSDK() {
