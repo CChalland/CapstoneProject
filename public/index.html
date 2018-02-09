@@ -322,11 +322,11 @@
             <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
 
             
-           <!--  <p>
+            <p>
               <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
               <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">Photo of Emotions</button>
               <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">Toggle Both</button>
-            </p> -->
+            </p>
             <div class="row">
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
@@ -338,9 +338,7 @@
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
                   <img class="card-img-top" v-bind:src="statsEmotion[0].image" alt="Card image cap">
-                  <div class="card card-body bg-dark">
-                    Frame of the Emotion
-                  </div>
+                  
                 </div>
               </div>
             </div> 

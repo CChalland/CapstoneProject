@@ -1,4 +1,5 @@
 class Record < ApplicationRecord
+  extend Dragonfly::Model
   dragonfly_accessor :image
 
   has_many :faces

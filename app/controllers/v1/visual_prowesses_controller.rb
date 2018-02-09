@@ -13,8 +13,8 @@ class V1::VisualProwessesController < ApplicationController
         selected.each do |face|
           session_emotions << {
             id: face.visual_prowess.id,
-            image_name: face.record.image_name,
-            image: face.record.image.url,
+            image_name: face.record.image.name,
+            image: face.record.image.data,
             anger: (face.visual_prowess.anger * 100).round(4),
             contempt: (face.visual_prowess.contempt * 100).round(4),
             disgust: (face.visual_prowess.disgust * 100).round(4),

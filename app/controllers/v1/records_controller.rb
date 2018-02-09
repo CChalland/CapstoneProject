@@ -10,7 +10,7 @@ class V1::RecordsController < ApplicationController
 
   def create
    record = Record.new(
-      type: params[:type],
+      image_name: params[:image_name],
       image: params[:image]
     )
     if record.save

@@ -522,12 +522,12 @@ var VisualProwessPage = {
                   neutral: vm.result[0].scores.neutral,
                   sadness: vm.result[0].scores.sadness,
                   surprise: vm.result[0].scores.surprise,
-                  image: frame.toDataURL("image/png"),
+                  image: dataURL,
                   leftPx: vm.result[0].faceRectangle.left,
                   topPx: vm.result[0].faceRectangle.top,
                   widthPx: vm.result[0].faceRectangle.width,
                   heightPx: vm.result[0].faceRectangle.height,
-                  session: sessionId++
+                  session: sessionId + 1
                 })
                 .then(function(response) {
                   console.log("response from server", response);
