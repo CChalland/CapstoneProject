@@ -2,14 +2,22 @@ class V1::VisualProwessesController < ApplicationController
 
   def index
     if params[:session_emotions]
-      last_session = Face.last.session.to_i
-      session_index = 1
-      emotions = []
-      faces = Face.all
+      user_faces = current_user.faces
+      sessions_length = 1
+      faces_index = 1
+      user_faces.length.times do
+        if faces_index < user_faces.length && user_faces[faces_index - 1].session < user_faces[faces_index].session
+          sessions_length += 1
+        end
+        faces_index += 1
+      end
 
-      last_session.times do
+      session_index = user_faces[0].session
+      emotions = []
+
+      sessions_length.times do
         session_emotions = []
-        selected = faces.select {|face| face.session == session_index}
+        selected = user_faces.select {|face| face.session == session_index}
         selected.each do |face|
           session_emotions << {
             id: face.visual_prowess.id,
