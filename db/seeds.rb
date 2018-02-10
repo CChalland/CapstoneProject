@@ -10,8 +10,8 @@ User.create!([
 ])
 
 # Record.create!([
-#   {image_uid: "img/symbol/Itachi_Uchiha.gif" , image_name: "Battle with our Eyes"},
-#   {image_uid: "img/symbol/Itachi_Uchiha.gif" , image_name: "Battle with our Eyes"}
+#   {image: File.new('/../public/Itachi_Uchiha.gif') , image_name: "Battle with your Eyes"},
+#   {image: File.new('/../public/Itachi_Uchiha.gif') , image_name: "Battle with our Eyes"}
 # ])
 
 # VisualProwess.create!([
@@ -20,6 +20,6 @@ User.create!([
 # ])
 
 # Face.create!([
-#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 1, user_id: 2, record_id: 0, session: 0},
-#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 2, user_id: 2, record_id: 0, session: 0}
+#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 1, user_id: 2, record_id: 1, session: 0},
+#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 2, user_id: 2, record_id: 2, session: 0}
 # ])
