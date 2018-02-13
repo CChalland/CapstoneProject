@@ -103,6 +103,7 @@ var VisualProwessPage = {
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
       this.activeFilter = this.filters[`${highestEmotion}`];
+
       var chart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
@@ -290,7 +291,7 @@ var VisualProwessPage = {
     var myWorker = new Worker("js/tracking-worker.js");
 
     var initTracker = function(argument) {
-      var width = 640; // We will scale the photo width to this
+      var width = 1080; // We will scale the photo width to this
       var height = 0;
       var streaming = false;
       var video = document.getElementById("video");
@@ -300,12 +301,6 @@ var VisualProwessPage = {
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
-
-      var tracker = new tracking.ObjectTracker("face");
-      tracker.setInitialScale(2);
-      tracker.setStepSize(1);
-      tracker.setEdgesDensity(0.1);
-      tracking.track("#video", tracker, { camera: true });
 
       video.addEventListener(
         "canplay",
@@ -319,6 +314,13 @@ var VisualProwessPage = {
         },
         false
       );
+
+      var tracker = new tracking.ObjectTracker("face");
+      tracker.setInitialScale(3.25);
+      tracker.setStepSize(1.68);
+      tracker.setEdgesDensity(0.1);
+      tracking.track("#video", tracker, { camera: true });
+
       visualProwessButton.addEventListener(
         "click",
         function(ev) {
@@ -487,10 +489,17 @@ var VisualProwessPage = {
               data: makeblob(dataURL),
               processData: false,
               success: function(data) {
+                var statsEmotionsId = 0;
+                if (vm.statsEmotions.length > 0) {
+                  statsEmotionsId =
+                    vm.statsEmotions[vm.statsEmotions.length - 1].id;
+                } else {
+                  statsEmotionsId = 0;
+                }
                 vm.result = data;
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  id: vm.statsEmotions[vm.statsEmotions.length - 1].id + 1,
+                  id: statsEmotionsId + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -520,7 +529,7 @@ var VisualProwessPage = {
                   neutral: vm.result[0].scores.neutral,
                   sadness: vm.result[0].scores.sadness,
                   surprise: vm.result[0].scores.surprise,
-                  image: frame.toDataURL("image/png"),
+                  image: dataURL,
                   leftPx: vm.result[0].faceRectangle.left,
                   topPx: vm.result[0].faceRectangle.top,
                   widthPx: vm.result[0].faceRectangle.width,
@@ -948,7 +957,6 @@ var SharinganPage = {
             }.bind(this),
             false
           );
-          clearphoto();
         }
 
         function waitForSDK() {
