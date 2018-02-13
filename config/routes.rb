@@ -10,6 +10,12 @@ Rails.application.routes.draw do
     patch '/users/:id' => 'users#update'
     delete '/users/:id' => 'users#destroy'
 
+    get '/filters' => 'filters#index'
+    post '/filters' => 'filters#create'
+    get '/filters/:id' => 'filters#show'
+    patch '/filters/:id' => 'filters#update'
+    delete '/filters/:id' => 'filters#destroy' 
+
     get '/records' => 'records#index'
     post '/records' => 'records#create'
     get '/records/:id' => 'records#show'

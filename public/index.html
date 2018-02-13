@@ -94,6 +94,34 @@
   </div>
 </template>
 
+<template id="filters-page">
+  <div class="container">
+    <div class="card text-center text-white bg-dark" style="width: 50rem;">
+      Upload an image file:
+      <input type="file" @change="previewImage" accept="image/*">
+      <div class="image-preview" v-if="imageData.length > 0">
+          <img class="preview" :src="imageData">
+      </div>
+
+      <div>
+      <h2>Create a new filter:</h2>
+      <br>
+      <div>
+        Filter Category: <input type="text" name="filterCategory" v-model="filterCategory">
+      </div>
+      <br>
+      <div>
+        Filter Emotion: <input type="text" name="filterEmotion" v-model="filterEmotion">
+      </div>
+      <br>
+      <div>
+        Filter: <input type="file" v-on:change="uploadFile($event)">
+      </div>
+    </div>
+    </div>
+  </div>
+</template>
+
 <template id="visualProwess-page">
   <div class="container">
     <div class="card text-white bg-dark">
