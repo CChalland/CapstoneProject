@@ -1,7 +1,11 @@
 class KeysController < ApplicationController
 
   def show
-    session_id = Face.last.session
+    if Face.last
+      session_id = Face.last.session
+    else
+      session_id = 0
+    end
 
     render json: { 
       id: ENV['EMOTION_API_ID'],
