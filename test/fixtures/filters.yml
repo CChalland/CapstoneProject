@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filter_uid: 
+  filter_emotion: 
+  filter_category: 
+  user_id: 
+  public: false
+
+two:
+  filter_uid: 
+  filter_emotion: 
+  filter_category: 
+  user_id: 
+  public: false
