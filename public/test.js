@@ -16,6 +16,7 @@ var UserPage = {
     axios.get("/v1/users").then(
       function(response) {
         this.userInfo = response.data;
+        console.log(response.data);
       }.bind(this)
     );
   },
@@ -29,22 +30,92 @@ var FiltersPage = {
   data: function() {
     return {
       message: "Welcome to Uchiha! Please select a route.",
-      filterCategory: "",
-      filterEmotion: "",
       imgFilters: {},
-      imageData: "" // we will store base64 format of image in this string
+      filterName: "",
+      imageAnger: "", // we will store base64 format of image in this string
+      imageContempt: "",
+      imageDisgust: "",
+      imageFear: "",
+      imageHappiness: "",
+      imageNeutral: "",
+      imageSadness: "",
+      imageSurprise: ""
     };
   },
-  created: function() {
-    // axios.get("/v1/filters").then(
-    //   function(response) {
-    //     this.imgFilters = response.data;
-    //   }.bind(this)
-    // );
-  },
+  created: function() {},
   mounted: function() {},
   methods: {
-    previewImage: function(event) {
+    previewAnger: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageAnger = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewContempt: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageContempt = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewDisgust: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageDisgust = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewFear: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageFear = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewHappiness: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageHappiness = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewNeutral: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageNeutral = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewSadness: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageSadness = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewSurprise: function(event) {
       // Reference to the DOM input element
       var input = event.target;
       // Ensure that you have a file before attempting to read it
@@ -55,25 +126,47 @@ var FiltersPage = {
         reader.onload = e => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
-          this.imageData = e.target.result;
+          this.imageSurprise = e.target.result;
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
     },
-    uploadFile: function(event) {
-      if (event.target.files.length > 0) {
-        var formData = new FormData();
-        formData.append("category", this.filterCategory);
-        formData.append("emotion", this.filterEmotion);
-        formData.append("image", event.target.files[0]);
-
-        axios.post("/v1/filters", formData).then(function(response) {
-          console.log(response);
-          this.filterCategory = "";
-          this.filterEmotion = "";
-          event.target.value = "";
-        });
+    uploadFilters: function(event) {
+      if (
+        this.imageAnger.length > 0 &&
+        this.imageContempt.length > 0 &&
+        this.imageDisgust.length > 0 &&
+        this.imageFear.length > 0 &&
+        this.imageHappiness.length > 0 &&
+        this.imageNeutral.length > 0 &&
+        this.imageSadness.length > 0 &&
+        this.imageSurprise.length > 0
+      ) {
+        axios
+          .post("/v1/filters", {
+            anger: this.imageAnger,
+            contempt: this.imageContempt,
+            disgust: this.imageDisgust,
+            fear: this.imageFear,
+            happiness: this.imageHappiness,
+            neutral: this.imageNeutral,
+            sadness: this.imageSadness,
+            surprise: this.imageSurprise,
+            category: this.filterName
+          })
+          .then(function(response) {
+            console.log(response);
+            this.filterName = "";
+            this.Anger = "";
+            this.Contempt = "";
+            this.Disgust = "";
+            this.Fear = "";
+            this.Happiness = "";
+            this.Neutral = "";
+            this.Sadness = "";
+            this.Surprise = "";
+          });
       }
     }
   },

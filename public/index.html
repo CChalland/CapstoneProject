@@ -96,28 +96,132 @@
 
 <template id="filters-page">
   <div class="container">
-    <div class="card text-center text-white bg-dark" style="width: 50rem;">
-      Upload an image file:
-      <input type="file" @change="previewImage" accept="image/*">
-      <div class="image-preview" v-if="imageData.length > 0">
-          <img class="preview" :src="imageData">
-      </div>
-
+    <div class="card text-center text-white bg-dark">
+      <h2>
+        Create new filter
+      </h2>
       <div>
-      <h2>Create a new filter:</h2>
-      <br>
-      <div>
-        Filter Category: <input type="text" name="filterCategory" v-model="filterCategory">
+        Filter Name: <input type="text" name="filterName" v-model="filterName">
       </div>
-      <br>
-      <div>
-        Filter Emotion: <input type="text" name="filterEmotion" v-model="filterEmotion">
+      <div class="row align-self-center">
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Anger</h5>
+            </div>
+            <div v-if="imageAnger.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageAnger.length > 0">
+                <img class="card-img-bottom" :src="imageAnger">
+            </div>
+            <input type="file" @change="previewAnger" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Contempt</h5>
+            </div>
+            <div v-if="imageContempt.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageContempt.length > 0">
+                <img class="card-img-bottom" :src="imageContempt">
+            </div>
+            <input type="file" @change="previewContempt" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Disgust</h5>
+            </div>
+            <div v-if="imageDisgust.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageDisgust.length > 0">
+                <img class="card-img-bottom" :src="imageDisgust">
+            </div>
+            <input type="file" @change="previewDisgust" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Fear</h5>
+            </div>
+            <div v-if="imageFear.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageFear.length > 0">
+                <img class="card-img-bottom" :src="imageFear">
+            </div>
+            <input type="file" @change="previewFear" accept="image/*">
+          </div>
+        </div>
       </div>
-      <br>
-      <div>
-        Filter: <input type="file" v-on:change="uploadFile($event)">
+      <div class="row align-self-center">
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Happiness</h5>
+            </div>
+            <div v-if="imageHappiness.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageHappiness.length > 0">
+                <img class="card-img-bottom" :src="imageHappiness">
+            </div>
+            <input type="file" @change="previewHappiness" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Neutral</h5>
+            </div>
+            <div v-if="imageNeutral.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageNeutral.length > 0">
+                <img class="card-img-bottom" :src="imageNeutral">
+            </div>
+            <input type="file" @change="previewNeutral" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Sadness</h5>
+            </div>
+            <div v-if="imageSadness.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageSadness.length > 0">
+                <img class="card-img-bottom" :src="imageSadness">
+            </div>
+            <input type="file" @change="previewSadness" accept="image/*">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center text-white bg-dark">
+            <div class="card-body">
+              <h5 class="card-title">Surprise</h5>
+            </div>
+            <div v-if="imageSurprise.length == 0">
+              <img class="card-img-bottom" src="Uchiha_Symbol.png">
+            </div>
+            <div v-if="imageSurprise.length > 0">
+                <img class="card-img-bottom" :src="imageSurprise">
+            </div>
+            <input type="file" @change="previewSurprise" accept="image/*">
+          </div>
+        </div>
       </div>
-    </div>
+      <button id="visualFilterButton" v-on:click="uploadFilters()" type="button" class="btn btn-danger">
+        Submit Filters
+      </button>
     </div>
   </div>
 </template>

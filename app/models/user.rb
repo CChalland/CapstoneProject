@@ -19,8 +19,22 @@ class User < ApplicationRecord
     updated_at.strftime("%H:%M, %B %e, %Y")
   end
 
-  # def as_json
-    
-  # end
+  
+
+  def as_json
+    {
+      user_name: user_name,
+      email: email,
+      password_digest: password_digest,
+      full_name: full_name,
+      birth_date: birth_date,
+      gender: gender,
+      membership: membership,
+      admin: admin,
+      filters: filters,
+      created_at: friendly_created_at,
+      updated_at: friendly_update_at
+    }
+  end
 
 end

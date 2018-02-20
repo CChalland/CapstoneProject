@@ -10,8 +10,14 @@ class V1::FiltersController < ApplicationController
 
   def create
    @filter = Filter.new(
-      image: params[:image],
-      emotion: params[:emotion],
+      anger: params[:anger],
+      contempt: params[:contempt],
+      disgust: params[:disgust],
+      fear: params[:fear],
+      happiness: params[:happiness],
+      neutral: params[:neutral],
+      sadness: params[:sadness],
+      surprise: params[:surprise],
       category: params[:category],
       user_id: current_user.id,
       public?: true
