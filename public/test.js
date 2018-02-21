@@ -1688,7 +1688,8 @@ var AboutPage = {
   template: "#about-page",
   data: function() {
     return {
-      message: "Welcome to About."
+      message:
+        "Uchiha is a web-based app that analyzes emotions in human faces. Uchiha uses the computer’s webcam and the TrackingJS library to track human faces and then sends that data to the Microsoft Emotions API to determine which emotion that face is expressing. Uchiha then overlays various icons over the human faces to indicate the emotion each face is expressing."
     };
   },
   mounted: function() {},
