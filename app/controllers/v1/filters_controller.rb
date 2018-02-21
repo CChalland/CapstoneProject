@@ -20,7 +20,7 @@ class V1::FiltersController < ApplicationController
       surprise: params[:surprise],
       name: params[:name],
       user_id: current_user.id,
-      public?: true
+      public?: false
     )
     if @filter.save
       render json: @filter.as_json
