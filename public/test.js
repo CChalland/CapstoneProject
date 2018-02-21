@@ -21,7 +21,7 @@ var UserPage = {
   template: "#user-page",
   data: function() {
     return {
-      message: "Welcome to Uchiha! Please select a route.",
+      message: "Welcome to Uchiha! Please edit your user settings.",
       userInfo: []
     };
   },

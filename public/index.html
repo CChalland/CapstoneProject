@@ -79,16 +79,12 @@
 </body>
 </html>
 
-<template id="home-page">
+<template id="user-page">
   <div class="container">
     <div class="card text-center text-white bg-dark" style="width: 50rem;">
-      <img class="card-img-top" src="img/crest.jpg" alt="Uchiha">
       <div class="card-body">
-        <h4 class="card-title">Uchiha</h4>
+        <h4 class="card-title">User Page</h4>
         <p class="card-text">{{ message }}</p>
-        <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
-        <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
-        <a href="/#/about/" class="btn btn-danger">About</a>
       </div>
     </div>
   </div>
@@ -115,7 +111,6 @@
             <div v-if="imageAnger.length > 0">
                 <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target="#angerModal">
             </div>
-           
             <!-- Modal -->
             <div class="modal fade" id="angerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -147,10 +142,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -162,7 +156,6 @@
             <div v-if="imageContempt.length > 0">
                 <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target="#contemptModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="contemptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -197,10 +190,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -212,7 +204,6 @@
             <div v-if="imageDisgust.length > 0">
                 <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target="#disgustModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="disgustModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -245,10 +236,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -260,7 +250,6 @@
             <div v-if="imageFear.length > 0">
                 <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target="#fearModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="fearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -292,8 +281,6 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
@@ -309,7 +296,6 @@
             <div v-if="imageHappiness.length > 0">
                 <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target="#happinessModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="happinessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -341,10 +327,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -356,7 +341,6 @@
             <div v-if="imageNeutral.length > 0">
                 <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target="#neutralModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="neutralModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -388,10 +372,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -403,7 +386,6 @@
             <div v-if="imageSadness.length > 0">
                 <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target="#sadnessModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="sadnessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -435,10 +417,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div class="col-md-3">
           <div class="card mb-2 text-center text-white bg-dark">
             <div class="card-body">
@@ -450,7 +431,6 @@
             <div v-if="imageSurprise.length > 0">
                 <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target="#surpriseModal">
             </div>
-
             <!-- Modal -->
             <div class="modal fade" id="surpriseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
@@ -482,10 +462,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
+
       </div>
       <button id="visualFilterButton" v-on:click="uploadFilters()" type="button" class="btn btn-danger">
         Submit Filters
@@ -576,6 +555,51 @@
   </div>
 </template>
 
+<template id="chart-page">
+  <div class="container">
+    <div id="accordion" role="tablist">
+      <div class="card text-white bg-dark" v-for="(statsEmotion, index) in statsEmotions" v-bind:key="statsEmotion.id">
+        <div class="card-header" role="tab" id="headingThree">
+          <h5 class="mb-0">
+            <a v-on:click="currentEmotionsChart(statsEmotion, index)" class="collapsed btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseChart' + index" aria-expanded="false" v-bind:aria-controls="'collapseChart' + index">
+              {{ statsEmotion[0].created_at }}
+            </a>
+          </h5>
+        </div>
+        <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body text-center">
+
+            <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
+
+            
+            <p>
+              <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">Photo of Emotions</button>
+              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">Toggle Both</button>
+            </p>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
+                  <div class="card card-body bg-dark">
+                    Statistics of your Emotions
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
+                  <img class="card-img-top" v-bind:src="statsEmotion[0].image" alt="Card image cap">
+                  
+                </div>
+              </div>
+            </div> 
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <template id="sharingan-page">
   <div class="container">
     <div class="card text-white bg-dark">
@@ -620,6 +644,21 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="home-page">
+  <div class="container">
+    <div class="card text-center text-white bg-dark" style="width: 50rem;">
+      <img class="card-img-top" src="img/crest.jpg" alt="Uchiha">
+      <div class="card-body">
+        <h4 class="card-title">Uchiha</h4>
+        <p class="card-text">{{ message }}</p>
+        <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
+        <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+        <a href="/#/about/" class="btn btn-danger">About</a>
       </div>
     </div>
   </div>
@@ -696,47 +735,4 @@
   </div>
 </template>
 
-<template id="chart-page">
-  <div class="container">
-    <div id="accordion" role="tablist">
-      <div class="card text-white bg-dark" v-for="(statsEmotion, index) in statsEmotions" v-bind:key="statsEmotion.id">
-        <div class="card-header" role="tab" id="headingThree">
-          <h5 class="mb-0">
-            <a v-on:click="currentEmotionsChart(statsEmotion, index)" class="collapsed btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseChart' + index" aria-expanded="false" v-bind:aria-controls="'collapseChart' + index">
-              {{ statsEmotion[0].created_at }}
-            </a>
-          </h5>
-        </div>
-        <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-          <div class="card-body text-center">
 
-            <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
-
-            
-            <p>
-              <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">Photo of Emotions</button>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">Toggle Both</button>
-            </p>
-            <div class="row">
-              <div class="col">
-                <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
-                  <div class="card card-body bg-dark">
-                    Statistics of your Emotions
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
-                  <img class="card-img-top" v-bind:src="statsEmotion[0].image" alt="Card image cap">
-                  
-                </div>
-              </div>
-            </div> 
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
