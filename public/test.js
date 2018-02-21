@@ -274,6 +274,9 @@ var VisualProwessPage = {
   template: "#visualProwess-page",
   data: function() {
     return {
+      currentStatsEmotionsId: 0,
+      currentStatsEmotions: [],
+      statsEmotionsId: 0,
       statsEmotions: [],
       emotions: [],
       result: [
@@ -311,8 +314,7 @@ var VisualProwessPage = {
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
       this.activeFilter = this.filters[`${highestEmotion}`];
-
-      var chart = AmCharts.makeChart("emotion-chartdiv", {
+      var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
         startDuration: 0,
@@ -389,7 +391,7 @@ var VisualProwessPage = {
       });
     },
     statsEmotions: function(statsEmotion) {
-      var chart = AmCharts.makeChart("visualProwess-chartdiv", {
+      var statsEmotionChart = AmCharts.makeChart("overall-stats-chartdiv", {
         type: "serial",
         theme: "black",
         legend: {
@@ -485,6 +487,105 @@ var VisualProwessPage = {
         gridAlpha: 0,
         position: "top"
       });
+      var currentStatsEmotionChart = AmCharts.makeChart(
+        "current-stats-chartdiv",
+        {
+          type: "serial",
+          theme: "black",
+          legend: {
+            useGraphSettings: true
+          },
+          dataProvider: this.currentStatsEmotions,
+          valueAxes: [
+            {
+              integersOnly: false,
+              maximum: 100,
+              minimum: 0,
+              reversed: false,
+              axisAlpha: 0,
+              dashLength: 5,
+              gridCount: 10,
+              position: "left",
+              title: "Emotions taken"
+            }
+          ],
+          startDuration: 0,
+          graphs: [
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              hidden: false,
+              title: "Anger",
+              valueField: "anger",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Contempt",
+              valueField: "contempt",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Disgust",
+              valueField: "disgust",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Fear",
+              valueField: "fear",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Happiness",
+              valueField: "happiness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Neutral",
+              valueField: "neutral",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Sadness",
+              valueField: "sadness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Surprise",
+              valueField: "surprise",
+              fillAlphas: 0
+            }
+          ],
+          chartCursor: {
+            cursorAlpha: 0,
+            zoomable: true
+          },
+          categoryField: "id",
+          categoryAxis: {
+            gridPosition: "start",
+            axisAlpha: 0,
+            fillAlpha: 0.05,
+            fillColor: "#000000",
+            gridAlpha: 0,
+            position: "top"
+          },
+          gridAlpha: 0,
+          position: "top"
+        }
+      );
     }
   },
   created: function() {
@@ -702,17 +803,35 @@ var VisualProwessPage = {
               data: makeblob(dataURL),
               processData: false,
               success: function(data) {
-                var statsEmotionsId = 0;
+                if (vm.currentStatsEmotions.length > 0) {
+                  vm.currentStatsEmotionsId =
+                    vm.currentStatsEmotions[
+                      vm.currentStatsEmotions.length - 1
+                    ].id;
+                } else {
+                  vm.currentStatsEmotionsId = 0;
+                }
                 if (vm.statsEmotions.length > 0) {
-                  statsEmotionsId =
+                  vm.statsEmotionsId =
                     vm.statsEmotions[vm.statsEmotions.length - 1].id;
                 } else {
-                  statsEmotionsId = 0;
+                  vm.statsEmotionsId = 0;
                 }
                 vm.result = data;
+                vm.currentStatsEmotions.push({
+                  id: vm.currentStatsEmotionsId + 1,
+                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
+                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
+                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
+                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
+                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
+                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
+                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
+                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                });
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  id: statsEmotionsId + 1,
+                  id: vm.statsEmotionsId + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),

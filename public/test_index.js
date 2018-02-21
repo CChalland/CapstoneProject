@@ -1795,10 +1795,15 @@ var router = new VueRouter({
 var app = new Vue({
   el: "#app",
   router: router,
+  data: function() {
+    return {
+      jwt: ""
+    };
+  },
   created: function() {
-    var jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      axios.defaults.headers.common["Authorization"] = jwt;
+    this.jwt = localStorage.getItem("jwt");
+    if (this.jwt) {
+      axios.defaults.headers.common["Authorization"] = this.jwt;
     }
   }
 });
