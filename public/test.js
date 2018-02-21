@@ -4,6 +4,19 @@ var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
 var sessionId = "";
 
+var HomePage = {
+  template: "#home-page",
+  data: function() {
+    return {
+      message: "Welcome to Uchiha! Please select a route."
+    };
+  },
+  created: function() {},
+  mounted: function() {},
+  methods: {},
+  computed: {}
+};
+
 var UserPage = {
   template: "#user-page",
   data: function() {
@@ -215,19 +228,6 @@ var FiltersPage = {
       }
     }
   },
-  computed: {}
-};
-
-var HomePage = {
-  template: "#home-page",
-  data: function() {
-    return {
-      message: "Welcome to Uchiha! Please select a route."
-    };
-  },
-  created: function() {},
-  mounted: function() {},
-  methods: {},
   computed: {}
 };
 
