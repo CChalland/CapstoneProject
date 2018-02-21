@@ -72,7 +72,6 @@ var FiltersPage = {
         { name: "fire", image: "img/filters/fire.png" },
         { name: "frenchGhost", image: "img/filters/french-ghost.png" },
         { name: "goofyGhost", image: "img/filters/goofy-ghost.png" },
-        { name: "greenBeaver", image: "img/filters/beavers/green-beaver.png" },
         { name: "japaneseGoblin", image: "img/filters/japanese-goblin.png" },
         { name: "koala", image: "img/filters/koala.png" },
         { name: "moneyBag", image: "img/filters/money-bag.png" },
@@ -88,6 +87,7 @@ var FiltersPage = {
         { name: "simba", image: "img/filters/simba.png" },
         { name: "speakNoMonkey", image: "img/filters/speak-no-monkey.png" },
         { name: "scream", image: "img/filters/scream.png" },
+        { name: "greenBeaver", image: "img/filters/beavers/green-beaver.png" },
         { name: "sadBeaver", image: "img/filters/beavers/sad-beaver.png" },
         {
           name: "thinkingBeaver",
