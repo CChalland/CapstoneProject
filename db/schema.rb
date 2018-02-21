@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216061037) do
+ActiveRecord::Schema.define(version: 20180213205333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,9 +30,7 @@ ActiveRecord::Schema.define(version: 20180216061037) do
   end
 
   create_table "filters", force: :cascade do |t|
-    t.integer "user_id"
-    t.boolean "public?"
-    t.string "category"
+    t.string "name"
     t.string "anger_uid"
     t.string "contempt_uid"
     t.string "disgust_uid"
@@ -41,6 +39,8 @@ ActiveRecord::Schema.define(version: 20180216061037) do
     t.string "neutral_uid"
     t.string "sadness_uid"
     t.string "surprise_uid"
+    t.integer "user_id"
+    t.boolean "public?"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

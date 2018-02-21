@@ -18,7 +18,7 @@ class V1::FiltersController < ApplicationController
       neutral: params[:neutral],
       sadness: params[:sadness],
       surprise: params[:surprise],
-      category: params[:category],
+      name: params[:name],
       user_id: current_user.id,
       public?: true
     )

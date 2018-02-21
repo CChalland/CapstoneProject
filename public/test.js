@@ -198,7 +198,7 @@ var FiltersPage = {
             neutral: this.imageNeutral,
             sadness: this.imageSadness,
             surprise: this.imageSurprise,
-            category: this.filterName
+            name: this.filterName
           })
           .then(function(response) {
             console.log(response);
