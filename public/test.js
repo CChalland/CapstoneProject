@@ -301,52 +301,7 @@ var VisualProwessPage = {
         sadness: "img/filters/fat-crying.png",
         surprise: "img/filters/japanese-goblin.png"
       },
-      imgFilters: {
-        alien: "img/filters/alien.png",
-        angry: "img/filters/angry.png",
-        anonymous: "img/filters/anonymous.png",
-        baby: "img/filters/baby.png",
-        barf: "img/filters/barf.png",
-        cartoonSanta: "img/filters/cartoon-santa.png",
-        cartoonSeeNoMonkey: "img/filters/cartoon-see-no-monkey.png",
-        clown: "img/filters/clown.png",
-        crying: "img/filters/crying.png",
-        fatAngry: "img/filters/fat-angry.png",
-        fatCrying: "img/filters/fat-crying.png",
-        fatHappy: "img/filters/fat-happy.png",
-        fire: "img/filters/fire.png",
-        frenchGhost: "img/filters/french-ghost.png",
-        goofyGhost: "img/filters/goofy-ghost.png",
-        greenBeaver: "img/filters/beavers/green-beaver.png",
-        japaneseGoblin: "img/filters/japanese-goblin.png",
-        koala: "img/filters/koala.png",
-        moneyBag: "img/filters/money-bag.png",
-        mufasa: "img/filters/mufasa.png",
-        nick1: "img/filters/nick1.png",
-        nick2: "img/filters/nick2.png",
-        nick3: "img/filters/nick3.png",
-        panda: "img/filters/panda.png",
-        pirateSkull: "img/filters/pirate-skull.png",
-        poop: "img/filters/poop.png",
-        rocker: "img/filters/rocker.png",
-        sad: "img/filters/sad.png",
-        santa: "img/filters/santa.png",
-        seeNoMonkey: "img/filters/see-no-monkey.png",
-        shadesGhost: "img/filters/shades-ghost.png",
-        simba: "img/filters/simba.png",
-        speakNoMonkey: "img/filters/speak-no-monkey.png",
-        scream: "img/filters/scream.png",
-        sadBeaver: "img/filters/beavers/sad-beaver.png",
-        thinkingBeaver: "img/filters/beavers/thinking-beaver.png",
-        devilBeaver: "img/filters/beavers/devil-beaver.png",
-        cryingBeaver: "img/filters/beavers/cryingBeaver.png",
-        laughingBeaver: "img/filters/beavers/laughing-beaver.png",
-        ogBeaver: "img/filters/beavers/og-beaver.png",
-        rainbowBeaver: "img/filters/beavers/rainbow-beaver.png",
-        thumbsDownBeaver: "img/filters/beavers/thumbs-down-beaver.png",
-        veryAngerBeaver: "img/filters/beavers/very-anger-beaver.png",
-        appBeaver: "img/filters/beavers/app-beaver.png"
-      },
+      imgFilters: {},
       intervalId: null
     };
   },
@@ -536,6 +491,11 @@ var VisualProwessPage = {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
+      }.bind(this)
+    );
+    axios.get("/v1/filters?user_filters=true").then(
+      function(response) {
+        this.imgFilters = response.data;
       }.bind(this)
     );
   },
@@ -808,55 +768,25 @@ var VisualProwessPage = {
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
     },
-    emojiFilter: function() {
-      this.filters.anger = this.imgFilters.fatAngry;
-      this.filters.contempt = this.imgFilters.angry;
-      this.filters.disgust = this.imgFilters.barf;
-      this.filters.fear = this.imgFilters.fatCrying;
-      this.filters.happiness = this.imgFilters.fatHappy;
-      this.filters.neutral = this.imgFilters.panda;
-      this.filters.sadness = this.imgFilters.crying;
-      this.filters.surprise = this.imgFilters.scream;
+    showPublicFilter: function(publicFilter) {
+      this.filters.anger = publicFilter.anger;
+      this.filters.contempt = publicFilter.contempt;
+      this.filters.disgust = publicFilter.disgust;
+      this.filters.fear = publicFilter.fear;
+      this.filters.happiness = publicFilter.happiness;
+      this.filters.neutral = publicFilter.neutral;
+      this.filters.sadness = publicFilter.sadness;
+      this.filters.surprise = publicFilter.surprise;
     },
-    animalFilter: function() {
-      this.filters.anger = this.imgFilters.cartoonSeeNoMonkey;
-      this.filters.contempt = this.imgFilters.koala;
-      this.filters.disgust = this.imgFilters.alien;
-      this.filters.fear = this.imgFilters.mufasa;
-      this.filters.happiness = this.imgFilters.simba;
-      this.filters.neutral = this.imgFilters.panda;
-      this.filters.sadness = this.imgFilters.sadBeaver;
-      this.filters.surprise = this.imgFilters.speakNoMonkey;
-    },
-    nickFilter: function() {
-      this.filters.anger = this.imgFilters.angry;
-      this.filters.contempt = this.imgFilters.shadesGhost;
-      this.filters.disgust = this.imgFilters.frenchGhost;
-      this.filters.fear = this.imgFilters.anonymous;
-      this.filters.happiness = this.imgFilters.nick1;
-      this.filters.neutral = this.imgFilters.nick2;
-      this.filters.sadness = this.imgFilters.crying;
-      this.filters.surprise = this.imgFilters.nick3;
-    },
-    beaverFilter: function() {
-      this.filters.anger = this.imgFilters.devilBeaver;
-      this.filters.contempt = this.imgFilters.thinkingBeaver;
-      this.filters.disgust = this.imgFilters.thumbsDownBeaver;
-      this.filters.fear = this.imgFilters.veryAngerBeaver;
-      this.filters.happiness = this.imgFilters.laughingBeaver;
-      this.filters.neutral = this.imgFilters.appBeaver;
-      this.filters.sadness = this.imgFilters.sadBeaver;
-      this.filters.surprise = this.imgFilters.rainbowBeaver;
-    },
-    cartoonFilter: function() {
-      this.filters.anger = this.imgFilters.japaneseGoblin;
-      this.filters.contempt = this.imgFilters.anonymous;
-      this.filters.disgust = this.imgFilters.alien;
-      this.filters.fear = this.imgFilters.clown;
-      this.filters.happiness = this.imgFilters.cartoonSanta;
-      this.filters.neutral = this.imgFilters.rocker;
-      this.filters.sadness = this.imgFilters.pirateSkull;
-      this.filters.surprise = this.imgFilters.cartoonSeeNoMonkey;
+    showUserFilter: function(userFilter) {
+      this.filters.anger = userFilter.anger;
+      this.filters.contempt = userFilter.contempt;
+      this.filters.disgust = userFilter.disgust;
+      this.filters.fear = userFilter.fear;
+      this.filters.happiness = userFilter.happiness;
+      this.filters.neutral = userFilter.neutral;
+      this.filters.sadness = userFilter.sadness;
+      this.filters.surprise = userFilter.surprise;
     }
   },
   computed: {}

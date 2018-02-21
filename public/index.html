@@ -512,6 +512,25 @@
         </button>
         <a id="sharinganButton" role="button" href="/#/sharingan/" class="btn btn-danger">Activate Sharingan</a>
       </div>
+
+
+      <div class="text-center">
+        Default filters:  
+        <div v-for="(publicFilter, index) in imgFilters.publicFilters" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label v-on:click="showPublicFilter(publicFilter)" class="btn btn-danger">
+            <input type="radio" name="options" id="'option' + index" autocomplete="off" checked> {{ publicFilter.name}}
+          </label>
+        </div>
+        <br>
+        User filters: 
+        <div v-for="(userFilter, index) in imgFilters.userFilters" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label v-on:click="showUserFilter(userFilter)" class="btn btn-danger">
+            <input type="radio" name="options" id="'option' + index" autocomplete="off" checked> {{ userFilter.name}}
+          </label>
+        </div>
+      </div>
+
+
       <div id="accordion" role="tablist">
         <div class="card text-white bg-dark">
           <div class="card-header" role="tab" id="headingTwo">
@@ -522,47 +541,7 @@
             </h5>
           </div>
           <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-            <div class="card-body">
-              <div class="text-left">
-                <div class="dropdown">
-                  <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filters
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a v-on:click="emojiFilter()" class="dropdown-item">Emoji</a>
-                    <a v-on:click="animalFilter()" class="dropdown-item">Animal</a>
-                    <a v-on:click="nickFilter()" class="dropdown-item">Goon</a>
-                    <a v-on:click="beaverFilter()" class="dropdown-item">Cheeky Beaver</a>
-                    <a v-on:click="cartoonFilter()" class="dropdown-item">Cartoon</a>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-               
-               <!--  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-danger active">
-                    <input v-on:click="emojiFilter()" type="radio" name="options" id="option1" autocomplete="off" checked> Emoji
-                  </label>
-                  <label class="btn btn-danger">
-                    <input v-on:click="animalFilter()" type="radio" name="options" id="option2" autocomplete="off"> Animal
-                  </label>
-                  <label class="btn btn-danger">
-                    <input v-on:click="nickFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
-                  </label>
-                  <label class="btn btn-danger">
-                    <input v-on:click="beaverFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
-                  </label>
-                  <label class="btn btn-danger">
-                    <input v-on:click="cartoonFilter()" type="radio" name="options" id="option3" autocomplete="off"> Goon
-                  </label>
-                </div>
-                <br> -->
-
-                Current Emotion
-                <div id="emotion-chartdiv" style="width: 100%; height: 362px;"></div>
-              </div>   
-
-            </div>
+            
           </div>
         </div>
         <div class="card text-white bg-dark">
