@@ -110,12 +110,35 @@
               <h5 class="card-title">Anger</h5>
             </div>
             <div v-if="imageAnger.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#angerModal">
             </div>
             <div v-if="imageAnger.length > 0">
-                <img class="card-img-bottom" :src="imageAnger">
+                <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target="#angerModal">
             </div>
-            <input type="file" @change="previewAnger" accept="image/*">
+           
+            <!-- Modal -->
+            <div class="modal fade" id="angerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Anger</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewAnger" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -124,12 +147,35 @@
               <h5 class="card-title">Contempt</h5>
             </div>
             <div v-if="imageContempt.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#contemptModal">
             </div>
             <div v-if="imageContempt.length > 0">
-                <img class="card-img-bottom" :src="imageContempt">
+                <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target="#contemptModal">
             </div>
-            <input type="file" @change="previewContempt" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="contemptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Contempt filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewContempt" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -138,12 +184,35 @@
               <h5 class="card-title">Disgust</h5>
             </div>
             <div v-if="imageDisgust.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#disgustModal">
             </div>
             <div v-if="imageDisgust.length > 0">
-                <img class="card-img-bottom" :src="imageDisgust">
+                <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target="#disgustModal">
             </div>
-            <input type="file" @change="previewDisgust" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="disgustModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewDisgust" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -152,12 +221,35 @@
               <h5 class="card-title">Fear</h5>
             </div>
             <div v-if="imageFear.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#fearModal">
             </div>
             <div v-if="imageFear.length > 0">
-                <img class="card-img-bottom" :src="imageFear">
+                <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target="#fearModal">
             </div>
-            <input type="file" @change="previewFear" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="fearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewFear" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -168,12 +260,35 @@
               <h5 class="card-title">Happiness</h5>
             </div>
             <div v-if="imageHappiness.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#happinessModal">
             </div>
             <div v-if="imageHappiness.length > 0">
-                <img class="card-img-bottom" :src="imageHappiness">
+                <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target="#happinessModal">
             </div>
-            <input type="file" @change="previewHappiness" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="happinessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewHappiness" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -182,12 +297,35 @@
               <h5 class="card-title">Neutral</h5>
             </div>
             <div v-if="imageNeutral.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#neutralModal">
             </div>
             <div v-if="imageNeutral.length > 0">
-                <img class="card-img-bottom" :src="imageNeutral">
+                <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target="#neutralModal">
             </div>
-            <input type="file" @change="previewNeutral" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="neutralModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewNeutral" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -196,12 +334,35 @@
               <h5 class="card-title">Sadness</h5>
             </div>
             <div v-if="imageSadness.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#sadnessModal">
             </div>
             <div v-if="imageSadness.length > 0">
-                <img class="card-img-bottom" :src="imageSadness">
+                <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target="#sadnessModal">
             </div>
-            <input type="file" @change="previewSadness" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="sadnessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewSadness" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="col-md-3">
@@ -210,12 +371,35 @@
               <h5 class="card-title">Surprise</h5>
             </div>
             <div v-if="imageSurprise.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#surpriseModal">
             </div>
             <div v-if="imageSurprise.length > 0">
-                <img class="card-img-bottom" :src="imageSurprise">
+                <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target="#surpriseModal">
             </div>
-            <input type="file" @change="previewSurprise" accept="image/*">
+
+            <!-- Modal -->
+            <div class="modal fade" id="surpriseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Upload filter: 
+                    <input type="file" @change="previewSurprise" accept="image/*">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
