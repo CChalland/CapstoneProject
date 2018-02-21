@@ -305,7 +305,8 @@ var VisualProwessPage = {
         surprise: "img/filters/japanese-goblin.png"
       },
       imgFilters: {},
-      intervalId: null
+      intervalId: null,
+      showCurrentEmotions: true
     };
   },
   watch: {
@@ -881,12 +882,6 @@ var VisualProwessPage = {
     initTracker();
   },
   methods: {
-    visualProwess: function() {
-      // console.log("This from visual method", this);
-    },
-    visualFilter: function() {
-      // console.log("This from visualFilter method", this);
-    },
     showPublicFilter: function(publicFilter) {
       this.filters.anger = publicFilter.anger;
       this.filters.contempt = publicFilter.contempt;
@@ -906,6 +901,20 @@ var VisualProwessPage = {
       this.filters.neutral = userFilter.neutral;
       this.filters.sadness = userFilter.sadness;
       this.filters.surprise = userFilter.surprise;
+    },
+    showOverallEmotion: function() {
+      this.showCurrentEmotions = false;
+      return this.showCurrentEmotions;
+    },
+    showCurrentEmotion: function() {
+      this.showCurrentEmotions = true;
+      return this.showCurrentEmotions;
+    },
+    visualProwess: function() {
+      // console.log("This from visual method", this);
+    },
+    visualFilter: function() {
+      // console.log("This from visualFilter method", this);
     }
   },
   computed: {}
@@ -1702,7 +1711,7 @@ var ChartPage = {
         legend: {
           useGraphSettings: true
         },
-        dataProvider: statsEmotion,
+        dataProvider: this.statsEmotions,
         valueAxes: [
           {
             integersOnly: false,
@@ -1914,15 +1923,10 @@ var router = new VueRouter({
 var app = new Vue({
   el: "#app",
   router: router,
-  data: function() {
-    return {
-      jwt: ""
-    };
-  },
   created: function() {
-    this.jwt = localStorage.getItem("jwt");
-    if (this.jwt) {
-      axios.defaults.headers.common["Authorization"] = this.jwt;
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
     }
   }
 });

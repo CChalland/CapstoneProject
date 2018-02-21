@@ -512,8 +512,6 @@
         </button>
         <a id="sharinganButton" role="button" href="/#/sharingan/" class="btn btn-danger">Activate Sharingan</a>
       </div>
-
-
       <div class="text-center">
         Default filters:  
         <div v-for="(publicFilter, index) in imgFilters.publicFilters" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -529,8 +527,6 @@
           </label>
         </div>
       </div>
-
-
       <div id="accordion" role="tablist">
         <div class="card text-white bg-dark">
           <div class="card-header" role="tab" id="headingTwo">
@@ -541,7 +537,10 @@
             </h5>
           </div>
           <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-            Current Emotion
+            <div class="text-center">
+              <h4>Current Emotion</h4>
+            </div>
+            <br>
             <div id="emotion-chartdiv" style="width: 100%; height: 362px;"></div>
           </div>
         </div>
@@ -555,8 +554,20 @@
           </div>
           <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body text-center">
-              Statistics of your Emotions
-              <div id="visualProwess-chartdiv" style="width: 100%; height: 400px;"></div>
+              <h4>Statistics of your Emotions</h4>
+              <br>
+              <div class="text-center">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label v-on:click="showCurrentEmotion()" class="btn btn-danger active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Current Session
+                  </label>
+                  <label v-on:click="showOverallEmotion()" class="btn btn-danger">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Overall Emotions
+                  </label>
+                </div>
+              </div>
+              <div v-if="showCurrentEmotions" id="current-stats-chartdiv" style="width: 100%; height: 500px;"></div>
+              <div v-if="!showCurrentEmotions" id="overall-stats-chartdiv" style="width: 100%; height: 500px;"></div>
             </div>
           </div>
         </div>
