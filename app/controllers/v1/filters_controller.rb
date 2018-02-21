@@ -55,7 +55,8 @@ class V1::FiltersController < ApplicationController
       end
       filter[:publicFilters] = public_filters
       filter[:userFilters] = user_filters
-    
+    else
+      filter = Filter.all.order(:id)
     end
     render json: filter.as_json
   end
