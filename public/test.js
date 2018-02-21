@@ -4,6 +4,220 @@ var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
 var sessionId = "";
 
+var UserPage = {
+  template: "#user-page",
+  data: function() {
+    return {
+      message: "Welcome to Uchiha! Please select a route.",
+      userInfo: []
+    };
+  },
+  created: function() {
+    axios.get("/v1/users").then(
+      function(response) {
+        this.userInfo = response.data;
+        console.log(response.data);
+      }.bind(this)
+    );
+  },
+  mounted: function() {},
+  methods: {},
+  computed: {}
+};
+
+var FiltersPage = {
+  template: "#filters-page",
+  data: function() {
+    return {
+      message: "Welcome to Uchiha! Please select a route.",
+      filterName: "",
+      imageAnger: "", // we will store base64 format of image in this string
+      imageContempt: "",
+      imageDisgust: "",
+      imageFear: "",
+      imageHappiness: "",
+      imageNeutral: "",
+      imageSadness: "",
+      imageSurprise: "",
+      imgFilters: {
+        alien: "img/filters/alien.png",
+        angry: "img/filters/angry.png",
+        anonymous: "img/filters/anonymous.png",
+        baby: "img/filters/baby.png",
+        barf: "img/filters/barf.png",
+        cartoonSanta: "img/filters/cartoon-santa.png",
+        cartoonSeeNoMonkey: "img/filters/cartoon-see-no-monkey.png",
+        clown: "img/filters/clown.png",
+        crying: "img/filters/crying.png",
+        fatAngry: "img/filters/fat-angry.png",
+        fatCrying: "img/filters/fat-crying.png",
+        fatHappy: "img/filters/fat-happy.png",
+        fire: "img/filters/fire.png",
+        frenchGhost: "img/filters/french-ghost.png",
+        goofyGhost: "img/filters/goofy-ghost.png",
+        greenBeaver: "img/filters/beavers/green-beaver.png",
+        japaneseGoblin: "img/filters/japanese-goblin.png",
+        koala: "img/filters/koala.png",
+        moneyBag: "img/filters/money-bag.png",
+        mufasa: "img/filters/mufasa.png",
+        nick1: "img/filters/celebrity/nick1.png",
+        nick2: "img/filters/celebrity/nick2.png",
+        nick3: "img/filters/celebrity/nick3.png",
+        panda: "img/filters/panda.png",
+        pirateSkull: "img/filters/pirate-skull.png",
+        poop: "img/filters/poop.png",
+        rocker: "img/filters/rocker.png",
+        sad: "img/filters/sad.png",
+        santa: "img/filters/santa.png",
+        seeNoMonkey: "img/filters/see-no-monkey.png",
+        shadesGhost: "img/filters/shades-ghost.png",
+        simba: "img/filters/simba.png",
+        speakNoMonkey: "img/filters/speak-no-monkey.png",
+        scream: "img/filters/scream.png",
+        sadBeaver: "img/filters/beavers/sad-beaver.png",
+        thinkingBeaver: "img/filters/beavers/thinking-beaver.png",
+        devilBeaver: "img/filters/beavers/devil-beaver.png",
+        cryingBeaver: "img/filters/beavers/cryingBeaver",
+        laughingBeaver: "img/filters/beavers/laughing-beaver.png",
+        ogBeaver: "img/filters/beavers/og-beaver.png",
+        rainbowBeaver: "img/filters/beavers/rainbow-beaver.png",
+        thumbsDownBeaver: "img/filters/beavers/thumbs-down-beaver.png",
+        veryAngerBeaver: "img/filters/beavers/very-anger-beaver.png",
+        appBeaver: "img/filters/beavers/app-beaver.png"
+      }
+    };
+  },
+  created: function() {},
+  mounted: function() {},
+  methods: {
+    previewAnger: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageAnger = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewContempt: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageContempt = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewDisgust: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageDisgust = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewFear: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageFear = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewHappiness: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageHappiness = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewNeutral: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageNeutral = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewSadness: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imageSadness = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    previewSurprise: function(event) {
+      // Reference to the DOM input element
+      var input = event.target;
+      // Ensure that you have a file before attempting to read it
+      if (input.files && input.files[0]) {
+        // create a new FileReader to read this image and convert to base64 format
+        var reader = new FileReader();
+        // Define a callback function to run, when FileReader finishes its job
+        reader.onload = e => {
+          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+          // Read image as base64 and set to imageData
+          this.imageSurprise = e.target.result;
+        };
+        // Start the reader job - read file as a data url (base64 format)
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+    uploadFilters: function(event) {
+      if (
+        this.imageAnger.length > 0 &&
+        this.imageContempt.length > 0 &&
+        this.imageDisgust.length > 0 &&
+        this.imageFear.length > 0 &&
+        this.imageHappiness.length > 0 &&
+        this.imageNeutral.length > 0 &&
+        this.imageSadness.length > 0 &&
+        this.imageSurprise.length > 0
+      ) {
+        axios
+          .post("/v1/filters", {
+            anger: this.imageAnger,
+            contempt: this.imageContempt,
+            disgust: this.imageDisgust,
+            fear: this.imageFear,
+            happiness: this.imageHappiness,
+            neutral: this.imageNeutral,
+            sadness: this.imageSadness,
+            surprise: this.imageSurprise,
+            name: this.filterName
+          })
+          .then(function(response) {
+            console.log(response);
+            this.filterName = "";
+            this.Anger = "";
+            this.Contempt = "";
+            this.Disgust = "";
+            this.Fear = "";
+            this.Happiness = "";
+            this.Neutral = "";
+            this.Sadness = "";
+            this.Surprise = "";
+          });
+      }
+    }
+  },
+  computed: {}
+};
+
 var HomePage = {
   template: "#home-page",
   data: function() {
@@ -37,62 +251,62 @@ var VisualProwessPage = {
           }
         }
       ],
-      activeFilter: "filters/beavers/green-beaver.png",
+      activeFilter: "img/filters/beavers/green-beaver.png",
       filters: {
-        anger: "filters/fat-angry.png",
-        contempt: "filters/panda.png",
-        disgust: "filters/barf.png",
-        fear: "filters/see-no-monkey.png",
-        happiness: "filters/simba.png",
-        neutral: "filters/koala.png",
-        sadness: "filters/fat-crying.png",
-        surprise: "filters/japanese-goblin.png"
+        anger: "img/filters/fat-angry.png",
+        contempt: "img/filters/panda.png",
+        disgust: "img/filters/barf.png",
+        fear: "img/filters/see-no-monkey.png",
+        happiness: "img/filters/simba.png",
+        neutral: "img/filters/koala.png",
+        sadness: "img/filters/fat-crying.png",
+        surprise: "img/filters/japanese-goblin.png"
       },
       imgFilters: {
-        alien: "filters/alien.png",
-        angry: "filters/angry.png",
-        anonymous: "filters/anonymous.png",
-        baby: "filters/baby.png",
-        barf: "filters/barf.png",
-        cartoonSanta: "filters/cartoon-santa.png",
-        cartoonSeeNoMonkey: "filters/cartoon-see-no-monkey.png",
-        clown: "filters/clown.png",
-        crying: "filters/crying.png",
-        fatAngry: "filters/fat-angry.png",
-        fatCrying: "filters/fat-crying.png",
-        fatHappy: "filters/fat-happy.png",
-        fire: "filters/fire.png",
-        frenchGhost: "filters/french-ghost.png",
-        goofyGhost: "filters/goofy-ghost.png",
-        greenBeaver: "filters/beavers/green-beaver.png",
-        japaneseGoblin: "filters/japanese-goblin.png",
-        koala: "filters/koala.png",
-        moneyBag: "filters/money-bag.png",
-        mufasa: "filters/mufasa.png",
-        nick1: "filters/nick1.png",
-        nick2: "filters/nick2.png",
-        nick3: "filters/nick3.png",
-        panda: "filters/panda.png",
-        pirateSkull: "filters/pirate-skull.png",
-        poop: "filters/poop.png",
-        rocker: "filters/rocker.png",
-        sad: "filters/sad.png",
-        santa: "filters/santa.png",
-        seeNoMonkey: "filters/see-no-monkey.png",
-        shadesGhost: "filters/shades-ghost.png",
-        simba: "filters/simba.png",
-        speakNoMonkey: "filters/speak-no-monkey.png",
-        scream: "filters/scream.png",
-        sadBeaver: "filters/beavers/sad-beaver.png",
-        thinkingBeaver: "filters/beavers/thinking-beaver.png",
-        devilBeaver: "filters/beavers/devil-beaver.png",
-        cryingBeaver: "filters/beavers/cryingBeaver",
-        laughingBeaver: "filters/beavers/laughing-beaver.png",
-        ogBeaver: "filters/beavers/og-beaver.png",
-        rainbowBeaver: "filters/beavers/rainbow-beaver.png",
-        thumbsDownBeaver: "filters/beavers/thumbs-down-beaver.png",
-        veryAngerBeaver: "filters/beavers/very-anger-beaver.png",
-        appBeaver: "filters/beavers/app-beaver.png"
+        alien: "img/filters/alien.png",
+        angry: "img/filters/angry.png",
+        anonymous: "img/filters/anonymous.png",
+        baby: "img/filters/baby.png",
+        barf: "img/filters/barf.png",
+        cartoonSanta: "img/filters/cartoon-santa.png",
+        cartoonSeeNoMonkey: "img/filters/cartoon-see-no-monkey.png",
+        clown: "img/filters/clown.png",
+        crying: "img/filters/crying.png",
+        fatAngry: "img/filters/fat-angry.png",
+        fatCrying: "img/filters/fat-crying.png",
+        fatHappy: "img/filters/fat-happy.png",
+        fire: "img/filters/fire.png",
+        frenchGhost: "img/filters/french-ghost.png",
+        goofyGhost: "img/filters/goofy-ghost.png",
+        greenBeaver: "img/filters/beavers/green-beaver.png",
+        japaneseGoblin: "img/filters/japanese-goblin.png",
+        koala: "img/filters/koala.png",
+        moneyBag: "img/filters/money-bag.png",
+        mufasa: "img/filters/mufasa.png",
+        nick1: "img/filters/nick1.png",
+        nick2: "img/filters/nick2.png",
+        nick3: "img/filters/nick3.png",
+        panda: "img/filters/panda.png",
+        pirateSkull: "img/filters/pirate-skull.png",
+        poop: "img/filters/poop.png",
+        rocker: "img/filters/rocker.png",
+        sad: "img/filters/sad.png",
+        santa: "img/filters/santa.png",
+        seeNoMonkey: "img/filters/see-no-monkey.png",
+        shadesGhost: "img/filters/shades-ghost.png",
+        simba: "img/filters/simba.png",
+        speakNoMonkey: "img/filters/speak-no-monkey.png",
+        scream: "img/filters/scream.png",
+        sadBeaver: "img/filters/beavers/sad-beaver.png",
+        thinkingBeaver: "img/filters/beavers/thinking-beaver.png",
+        devilBeaver: "img/filters/beavers/devil-beaver.png",
+        cryingBeaver: "img/filters/beavers/cryingBeaver",
+        laughingBeaver: "img/filters/beavers/laughing-beaver.png",
+        ogBeaver: "img/filters/beavers/og-beaver.png",
+        rainbowBeaver: "img/filters/beavers/rainbow-beaver.png",
+        thumbsDownBeaver: "img/filters/beavers/thumbs-down-beaver.png",
+        veryAngerBeaver: "img/filters/beavers/very-anger-beaver.png",
+        appBeaver: "img/filters/beavers/app-beaver.png"
       },
       intervalId: null
     };
@@ -1602,7 +1816,9 @@ var router = new VueRouter({
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
-    { path: "/chart", component: ChartPage }
+    { path: "/chart", component: ChartPage },
+    { path: "/user", component: UserPage },
+    { path: "/filters", component: FiltersPage }
   ]
 });
 

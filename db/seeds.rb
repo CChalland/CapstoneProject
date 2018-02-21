@@ -3,23 +3,16 @@ Record.destroy_all
 Face.destroy_all
 VisualProwess.destroy_all
 Sharingan.destroy_all
+Filter.destroy_all
 
 User.create!([
   {user_name: "admin", email: "admin@uchiha.com", password_digest: "$2a$10$BbaXKYNVwSw/eSjFzkAj4eDkO.vWcUNHE5lJYwrnV3/CupKOy35lG", full_name: "Itachi Uchiha", birth_date: "5/19/1993", gender: "Male", membership: false, admin: true},
   {user_name: "test", email: "test@uchiha.com", password_digest: "$2a$10$BbaXKYNVwSw/eSjFzkAj4eDkO.vWcUNHE5lJYwrnV3/CupKOy35lG", full_name: "Bill Bob", birth_date: "2/1/2018", gender: "Q", membership: false, admin: false}
 ])
-
-# Record.create!([
-#   {image: File.new('/../public/Itachi_Uchiha.gif') , image_name: "Battle with your Eyes"},
-#   {image: File.new('/../public/Itachi_Uchiha.gif') , image_name: "Battle with our Eyes"}
-# ])
-
-# VisualProwess.create!([
-#   {anger: 0.000, contempt: 0.000, disgust: 0.000, fear: 0.000, happiness: 0.000, neutral: 0.000, sadness: 0.000, surprise: 0.000},
-#   {anger: 0.000, contempt: 0.000, disgust: 0.000, fear: 0.000, happiness: 0.000, neutral: 0.000, sadness: 0.000, surprise: 0.000}
-# ])
-
-# Face.create!([
-#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 1, user_id: 2, record_id: 1, session: 0},
-#   {left_px: 0.0, top_px: 0.0, width_px: 0.0, height_px: 0.0, visual_prowess_id: 2, user_id: 2, record_id: 2, session: 0}
-# ])
+Filter.create!([
+  {name: "Animal", anger: File.new('public/img/filters/speak-no-monkey.png'), contempt: File.new('public/img/filters/koala.png'), disgust: File.new('public/img/filters/pirate-skull.png'), fear: File.new('public/img/filters/see-no-monkey.png'), happiness: File.new('public/img/filters/simba.png'), neutral: File.new('public/img/filters/panda.png'), sadness: File.new('public/img/filters/mufasa.png'), surprise: File.new('public/img/filters/cartoon-see-no-monkey.png'), user_id: 1, public?: true},
+  {name: "Beavers", anger: File.new('public/img/filters/beavers/angry-beaver.png'), contempt: File.new('public/img/filters/beavers/surf-beaver.png'), disgust: File.new('public/img/filters/beavers/very-anger-beaver.png'), fear: File.new('public/img/filters/beavers/devil-beaver.png'), happiness: File.new('public/img/filters/beavers/hero-beaver.png'), neutral: File.new('public/img/filters/beavers/lick-beaver.png'), sadness: File.new('public/img/filters/beavers/sad-beaver.png'), surprise: File.new('public/img/filters/beavers/farting-beaver.png'), user_id: 1, public?: true},
+  {name: "Cartoon", anger: File.new('public/img/filters/french-ghost.png'), contempt: File.new('public/img/filters/shades-ghost.png'), disgust: File.new('public/img/filters/poop.png'), fear: File.new('public/img/filters/rocker.png'), happiness: File.new('public/img/filters/cartoon-santa.png'), neutral: File.new('public/img/filters/anonymous.png'), sadness: File.new('public/img/filters/japanese-goblin.png'), surprise: File.new('public/img/filters/cartoon-see-no-monkey.png'), user_id: 1, public?: true},
+  {name: "Celebrity", anger: File.new('public/img/filters/celebrity/trump.png'), contempt: File.new('public/img/filters/celebrity/vin-diesel.png'), disgust: File.new('public/img/filters/celebrity/nick2.png'), fear: File.new('public/img/filters/celebrity/nick1.png'), happiness: File.new('public/img/filters/celebrity/shaq.png'), neutral: File.new('public/img/filters/celebrity/kanye.png'), sadness: File.new('public/img/filters/celebrity/putin.png'), surprise: File.new('public/img/filters/celebrity/superbad-evan.png'), user_id: 1, public?: true},
+  {name: "Emoji", anger: File.new('public/img/filters/angry.png'), contempt: File.new('public/img/filters/alien.png'), disgust: File.new('public/img/filters/barf.png'), fear: File.new('public/img/filters/fat-angry.png'), happiness: File.new('public/img/filters/fat-happy.png'), neutral: File.new('public/img/filters/baby.png'), sadness: File.new('public/img/filters/fat-crying.png'), surprise: File.new('public/img/filters/clown.png'), user_id: 1, public?: true}
+])
