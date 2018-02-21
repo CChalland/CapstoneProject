@@ -110,23 +110,24 @@
               <h5 class="card-title">Anger</h5>
             </div>
             <div v-if="imageAnger.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#angerModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-anger-modal-lg">
             </div>
             <div v-if="imageAnger.length > 0">
-                <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target="#angerModal">
+                <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target=".bd-anger-modal-lg">
             </div>
            
             <!-- Modal -->
-            <div class="modal fade" id="angerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-anger-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Anger</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Anger filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
+
                     Upload filter: 
                     <input type="file" @change="previewAnger" accept="image/*">
                   </div>
@@ -147,15 +148,15 @@
               <h5 class="card-title">Contempt</h5>
             </div>
             <div v-if="imageContempt.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#contemptModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-contempt-modal-lg">
             </div>
             <div v-if="imageContempt.length > 0">
-                <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target="#contemptModal">
+                <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target=".bd-contempt-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="contemptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-contempt-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Contempt filter</h5>
@@ -184,18 +185,18 @@
               <h5 class="card-title">Disgust</h5>
             </div>
             <div v-if="imageDisgust.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#disgustModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-disgust-modal-lg">
             </div>
             <div v-if="imageDisgust.length > 0">
-                <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target="#disgustModal">
+                <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target=".bd-disgust-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="disgustModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+           <div class="modal fade bd-disgust-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Disgust filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -221,18 +222,18 @@
               <h5 class="card-title">Fear</h5>
             </div>
             <div v-if="imageFear.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#fearModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-fear-modal-lg">
             </div>
             <div v-if="imageFear.length > 0">
-                <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target="#fearModal">
+                <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target=".bd-fear-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="fearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-fear-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Fear filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -260,18 +261,18 @@
               <h5 class="card-title">Happiness</h5>
             </div>
             <div v-if="imageHappiness.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#happinessModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-happiness-modal-lg">
             </div>
             <div v-if="imageHappiness.length > 0">
-                <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target="#happinessModal">
+                <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target=".bd-happiness-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="happinessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-happiness-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Happiness filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -297,18 +298,18 @@
               <h5 class="card-title">Neutral</h5>
             </div>
             <div v-if="imageNeutral.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#neutralModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-neutral-modal-lg">
             </div>
             <div v-if="imageNeutral.length > 0">
-                <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target="#neutralModal">
+                <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target=".bd-neutral-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="neutralModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-neutral-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Neutral filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -334,18 +335,18 @@
               <h5 class="card-title">Sadness</h5>
             </div>
             <div v-if="imageSadness.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#sadnessModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-sadness-modal-lg">
             </div>
             <div v-if="imageSadness.length > 0">
-                <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target="#sadnessModal">
+                <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target=".bd-sadness-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="sadnessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-sadness-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sadness filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -371,15 +372,15 @@
               <h5 class="card-title">Surprise</h5>
             </div>
             <div v-if="imageSurprise.length == 0">
-              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#surpriseModal">
+              <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target=".bd-surprise-modal-lg">
             </div>
             <div v-if="imageSurprise.length > 0">
-                <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target="#surpriseModal">
+                <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target=".bd-surprise-modal-lg">
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="surpriseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+            <div class="modal fade bd-surprise-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
