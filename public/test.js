@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample */
+/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample, $ */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -43,6 +43,7 @@ var FiltersPage = {
   data: function() {
     return {
       message: "Welcome to Uchiha! Please select a route.",
+      showModal: false,
       filterName: "",
       imageAnger: "", // we will store base64 format of image in this string
       imageContempt: "",
@@ -53,71 +54,84 @@ var FiltersPage = {
       imageSadness: "",
       imageSurprise: "",
       imgFilters: [
-        { name: "alien", filter: "img/filters/alien.png" },
-        { name: "angry", filter: "img/filters/angry.png" },
-        { name: "anonymous", filter: "img/filters/anonymous.png" },
-        { name: "baby", filter: "img/filters/baby.png" },
-        { name: "barf", filter: "img/filters/barf.png" },
-        { name: "cartoonSanta", filter: "img/filters/cartoon-santa.png" },
+        { name: "alien", image: "img/filters/alien.png" },
+        { name: "angry", image: "img/filters/angry.png" },
+        { name: "anonymous", image: "img/filters/anonymous.png" },
+        { name: "baby", image: "img/filters/baby.png" },
+        { name: "barf", image: "img/filters/barf.png" },
+        { name: "cartoonSanta", image: "img/filters/cartoon-santa.png" },
         {
           name: "cartoonSeeNoMonkey",
-          filter: "img/filters/cartoon-see-no-monkey.png"
+          image: "img/filters/cartoon-see-no-monkey.png"
         },
-        { name: "clown", filter: "img/filters/clown.png" },
-        { name: "crying", filter: "img/filters/crying.png" },
-        { name: "fatAngry", filter: "img/filters/fat-angry.png" },
-        { name: "fatCrying", filter: "img/filters/fat-crying.png" },
-        { name: "fatHappy", filter: "img/filters/fat-happy.png" },
-        { name: "fire", filter: "img/filters/fire.png" },
-        { name: "frenchGhost", filter: "img/filters/french-ghost.png" },
-        { name: "goofyGhost", filter: "img/filters/goofy-ghost.png" },
-        { name: "greenBeaver", filter: "img/filters/beavers/green-beaver.png" },
-        { name: "japaneseGoblin", filter: "img/filters/japanese-goblin.png" },
-        { name: "koala", filter: "img/filters/koala.png" },
-        { name: "moneyBag", filter: "img/filters/money-bag.png" },
-        { name: "mufasa", filter: "img/filters/mufasa.png" },
-        { name: "nick1", filter: "img/filters/celebrity/nick1.png" },
-        { name: "nick2", filter: "img/filters/celebrity/nick2.png" },
-        { name: "nick3", filter: "img/filters/celebrity/nick3.png" },
-        { name: "panda", filter: "img/filters/panda.png" },
-        { name: "pirateSkull", filter: "img/filters/pirate-skull.png" },
-        { name: "poop", filter: "img/filters/poop.png" },
-        { name: "rocker", filter: "img/filters/rocker.png" },
-        { name: "sad", filter: "img/filters/sad.png" },
-        { name: "santa", filter: "img/filters/santa.png" },
-        { name: "seeNoMonkey", filter: "img/filters/see-no-monkey.png" },
-        { name: "shadesGhost", filter: "img/filters/shades-ghost.png" },
-        { name: "simba", filter: "img/filters/simba.png" },
-        { name: "speakNoMonkey", filter: "img/filters/speak-no-monkey.png" },
-        { name: "scream", filter: "img/filters/scream.png" },
-        { name: "sadBeaver", filter: "img/filters/beavers/sad-beaver.png" },
+        { name: "clown", image: "img/filters/clown.png" },
+        { name: "crying", image: "img/filters/crying.png" },
+        { name: "fatAngry", image: "img/filters/fat-angry.png" },
+        { name: "fatCrying", image: "img/filters/fat-crying.png" },
+        { name: "fatHappy", image: "img/filters/fat-happy.png" },
+        { name: "fire", image: "img/filters/fire.png" },
+        { name: "frenchGhost", image: "img/filters/french-ghost.png" },
+        { name: "goofyGhost", image: "img/filters/goofy-ghost.png" },
+        { name: "greenBeaver", image: "img/filters/beavers/green-beaver.png" },
+        { name: "japaneseGoblin", image: "img/filters/japanese-goblin.png" },
+        { name: "koala", image: "img/filters/koala.png" },
+        { name: "moneyBag", image: "img/filters/money-bag.png" },
+        { name: "mufasa", image: "img/filters/mufasa.png" },
+        { name: "panda", image: "img/filters/panda.png" },
+        { name: "pirateSkull", image: "img/filters/pirate-skull.png" },
+        { name: "poop", image: "img/filters/poop.png" },
+        { name: "rocker", image: "img/filters/rocker.png" },
+        { name: "sad", image: "img/filters/sad.png" },
+        { name: "santa", image: "img/filters/santa.png" },
+        { name: "seeNoMonkey", image: "img/filters/see-no-monkey.png" },
+        { name: "shadesGhost", image: "img/filters/shades-ghost.png" },
+        { name: "simba", image: "img/filters/simba.png" },
+        { name: "speakNoMonkey", image: "img/filters/speak-no-monkey.png" },
+        { name: "scream", image: "img/filters/scream.png" },
+        { name: "sadBeaver", image: "img/filters/beavers/sad-beaver.png" },
         {
           name: "thinkingBeaver",
-          filter: "img/filters/beavers/thinking-beaver.png"
+          image: "img/filters/beavers/thinking-beaver.png"
         },
-        { name: "devilBeaver", filter: "img/filters/beavers/devil-beaver.png" },
+        { name: "devilBeaver", image: "img/filters/beavers/devil-beaver.png" },
         {
           name: "cryingBeaver",
-          filter: "img/filters/beavers/cryingBeaver.png"
+          image: "img/filters/beavers/crying-beaver.png"
         },
         {
           name: "laughingBeaver",
-          filter: "img/filters/beavers/laughing-beaver.png"
+          image: "img/filters/beavers/laughing-beaver.png"
         },
-        { name: "ogBeaver", filter: "img/filters/beavers/og-beaver.png" },
+        { name: "ogBeaver", image: "img/filters/beavers/og-beaver.png" },
         {
           name: "rainbowBeaver",
-          filter: "img/filters/beavers/rainbow-beaver.png"
+          image: "img/filters/beavers/rainbow-beaver.png"
         },
         {
           name: "thumbsDownBeaver",
-          filter: "img/filters/beavers/thumbs-down-beaver.png"
+          image: "img/filters/beavers/thumbs-down-beaver.png"
         },
         {
           name: "veryAngerBeaver",
-          filter: "img/filters/beavers/very-anger-beaver.png"
+          image: "img/filters/beavers/very-anger-beaver.png"
         },
-        { name: "appBeaver", filter: "img/filters/beavers/app-beaver.png" }
+        { name: "appBeaver", image: "img/filters/beavers/app-beaver.png" },
+        { name: "nick1", image: "img/filters/celebrity/nick1.png" },
+        { name: "nick2", image: "img/filters/celebrity/nick2.png" },
+        { name: "nick3", image: "img/filters/celebrity/nick3.png" },
+        { name: "kanye", image: "img/filters/celebrity/kanye.png" },
+        { name: "putin", image: "img/filters/celebrity/putin.png" },
+        {
+          name: "ryan gosling",
+          image: "img/filters/celebrity/ryan-gosling.png"
+        },
+        { name: "shaq", image: "img/filters/celebrity/shaq.png" },
+        {
+          name: "superbad evan",
+          image: "img/filters/celebrity/superbad-evan.png"
+        },
+        { name: "trump", image: "img/filters/celebrity/trump.png" },
+        { name: "vin diesel", image: "img/filters/celebrity/vin-diesel.png" }
       ]
     };
   },
@@ -132,6 +146,8 @@ var FiltersPage = {
           this.imageAnger = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+      } else {
+        console.log("hello", this.imageAnger);
       }
     },
     previewContempt: function(event) {
@@ -209,6 +225,8 @@ var FiltersPage = {
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
+        // Toggle modal after filter uploaded
+        $("#surpriseModal").modal("toggle");
       }
     },
     uploadFilters: function(event) {
