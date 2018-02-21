@@ -1711,7 +1711,7 @@ var ChartPage = {
         legend: {
           useGraphSettings: true
         },
-        dataProvider: this.statsEmotions,
+        dataProvider: statsEmotion,
         valueAxes: [
           {
             integersOnly: false,
