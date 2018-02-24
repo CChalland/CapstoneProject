@@ -127,7 +127,9 @@ var UserPage = {
         },
         { name: "trump", image: "img/filters/celebrity/trump.png" },
         { name: "vin diesel", image: "img/filters/celebrity/vin-diesel.png" }
-      ]
+      ],
+      userEmotions: [],
+      userStatsEmotions: []
     };
   },
   created: function() {
@@ -141,9 +143,112 @@ var UserPage = {
         this.userFilters = response.data.userFilters;
       }.bind(this)
     );
+    axios.get("/v1/visual_prowesses?session_emotions=true").then(
+      function(response) {
+        this.userStatsEmotions = response.data;
+      }.bind(this)
+    );
   },
   mounted: function() {},
   methods: {
+    userEmotionsChart: function(statsEmotion, index) {
+      var chart = AmCharts.makeChart("userStatsEmotion-chartdiv" + index, {
+        type: "serial",
+        theme: "black",
+        legend: {
+          useGraphSettings: true
+        },
+        dataProvider: statsEmotion,
+        valueAxes: [
+          {
+            integersOnly: false,
+            maximum: 100,
+            minimum: 0,
+            reversed: false,
+            axisAlpha: 0,
+            dashLength: 5,
+            gridCount: 10,
+            position: "left",
+            title: "Emotions taken"
+          }
+        ],
+        startDuration: 0,
+        graphs: [
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            hidden: false,
+            title: "Anger",
+            valueField: "anger",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Contempt",
+            valueField: "contempt",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Disgust",
+            valueField: "disgust",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Fear",
+            valueField: "fear",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Happiness",
+            valueField: "happiness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Neutral",
+            valueField: "neutral",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Sadness",
+            valueField: "sadness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Surprise",
+            valueField: "surprise",
+            fillAlphas: 0
+          }
+        ],
+        chartCursor: {
+          cursorAlpha: 0,
+          zoomable: true
+        },
+        categoryField: "id",
+        categoryAxis: {
+          gridPosition: "start",
+          axisAlpha: 0,
+          fillAlpha: 0.05,
+          fillColor: "#000000",
+          gridAlpha: 0,
+          position: "top"
+        },
+        gridAlpha: 0,
+        position: "top"
+      });
+    },
     userSettingSubmit: function() {
       var params = {
         user_name: this.userInfo.user_name,
@@ -1793,13 +1898,12 @@ var SessionsPage = {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.statsEmotions = response.data;
-        console.log(response.data);
       }.bind(this)
     );
   },
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
+      var chart = AmCharts.makeChart("sessionStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
         legend: {

@@ -81,456 +81,475 @@
 
 <template id="user-page">
   <div class="container">
-    <div class="card text-center text-white bg-dark" style="width: 50rem;">
+    <div class="card text-center text-white bg-dark">
       <div class="card-body">
         <h4 class="card-title text-left">{{ userInfo.user_name }}'s Settings</h4>
         <p class="card-text">{{ message }}</p>
-        <p>
-          <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
-            {{ userInfo.user_name }}'s Settings
-          </button>
-          <button class="btn btn-danger" role="button" data-toggle="collapse" data-target="#collapseFilters"  aria-expanded="false" aria-controls="collapseFilters">
-            {{ userInfo.user_name }}'s Filters
-          </button>
-          <a class="btn btn-danger" role="button" data-toggle="collapse" data-target="#collapseSessions"  aria-expanded="false" aria-controls="collapseSessions">
-            {{ userInfo.user_name }}'s Sessions
-          </a>
-        </p>
 
-        <div class="collapse" id="collapseSettings">
-          <div class="card card-body text-white bg-dark">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="pills-userSettings-tab" data-toggle="pill" href="#pills-userSettings" role="tab" aria-controls="pills-userSettings" aria-selected="true">
+              {{ userInfo.user_name }}'s Settings
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-userFilters-tab" data-toggle="pill" href="#pills-userFilters" role="tab" aria-controls="pills-userFilters" aria-selected="false">
+              {{ userInfo.user_name }}'s Filters
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-userSessions-tab" data-toggle="pill" href="#pills-userSessions" role="tab" aria-controls="pills-userSessions" aria-selected="false">
+              {{ userInfo.user_name }}'s Sessions
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-userSettings" role="tabpanel" aria-labelledby="pills-userSettings-tab">
             <div class="text-left">
               Edit {{ userInfo.user_name }}'s Settings
             </div>
-            <div class="form-group text-white">
-              <label>User Name:</label> 
-              <input type="text" class="form-control" v-model="userInfo.user_name">
+            <br>
+            <br>
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">User Name:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" v-model="userInfo.user_name">
+              </div> 
             </div>
-            <div class="form-group text-white">
-              <label>Email:</label>
-              <input type="email" class="form-control" v-model="userInfo.email">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Email:</label>
+              <div class="col-sm-7">
+                <input type="email" class="form-control" v-model="userInfo.email">
+              </div>
             </div>
-            <div class="form-group text-white">
-              <label>Password:</label>
-              <input type="password" class="form-control" v-model="password">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Password:</label>
+              <div class="col-sm-7">
+                <input type="password" class="form-control" v-model="password">
+              </div>
             </div>
-            <div class="form-group text-white">
-              <label>Password confirmation:</label>
-              <input type="password" class="form-control" v-model="passwordConfirmation">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Password confirmation:</label>
+              <div class="col-sm-7">
+                <input type="password" class="form-control" v-model="passwordConfirmation">
+              </div>
             </div>
-            <div class="form-group text-white">
-              <label>Full Name:</label> 
-              <input type="text" class="form-control" v-model="userInfo.full_ame">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Full Name:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" v-model="userInfo.full_ame">
+              </div> 
             </div>
-             <div class="form-group text-white">
-              <label>Birth Date:</label> 
-              <input type="text" class="form-control" v-model="userInfo.birth_date">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Birth Date:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" v-model="userInfo.birth_date">
+              </div> 
             </div>
-             <div class="form-group text-white">
-              <label>Gender:</label> 
-              <input type="text" class="form-control" v-model="userInfo.gender">
+            <div class="form-group row text-white">
+              <label class="col-sm-3 col-form-label">Gender:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" v-model="userInfo.gender">
+              </div> 
             </div>
             <button class="btn btn-primary" v-on:click="userSettingSubmit()">Submit</button>
           </div>
-          </div>
-        </div>
-        <div class="collapse" id="collapseFilters">
-          <div class="card card-body text-white bg-dark">
-            <div class="text-left">
-              Edit {{ userInfo.user_name }}'s Filters
-            </div>
-            <p>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseNewFilter" aria-expanded="false" aria-controls="collapseNewFilter">
-                Create New Filter
-              </button>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseUserFilters" aria-expanded="false" aria-controls="collapseUserFilters">
-                Current Filters
-              </button>
-            </p>
-            <div class="collapse" id="collapseNewFilter">
-              <div class="card card-body text-white bg-dark">
-                <h2>
-                  Create new filter
-                </h2>
-                <div>
-                  Filter Name: <input type="text" name="filterName" v-model="filterName">
-                </div>
-                <div class="row align-self-center">
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Anger</h5>
-                      </div>
-                      <div v-if="imageAnger.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#angerModal">
-                      </div>
-                      <div v-if="imageAnger.length > 0">
-                          <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target="#angerModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="angerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Anger filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="previewAnger">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewAnger" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Contempt</h5>
-                      </div>
-                      <div v-if="imageContempt.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#contemptModal">
-                      </div>
-                      <div v-if="imageContempt.length > 0">
-                          <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target="#contemptModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="contemptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Contempt filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                      <!-- <div class="card-body">
-                                        <p class="card-title">{{ imgFilter.name }}</p>
-                                      </div> -->
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewContempt" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Disgust</h5>
-                      </div>
-                      <div v-if="imageDisgust.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#disgustModal">
-                      </div>
-                      <div v-if="imageDisgust.length > 0">
-                          <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target="#disgustModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="disgustModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Disgust filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                      
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewDisgust" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Fear</h5>
-                      </div>
-                      <div v-if="imageFear.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#fearModal">
-                      </div>
-                      <div v-if="imageFear.length > 0">
-                          <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target="#fearModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="fearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Fear filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewFear" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row align-self-center">
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Happiness</h5>
-                      </div>
-                      <div v-if="imageHappiness.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#happinessModal">
-                      </div>
-                      <div v-if="imageHappiness.length > 0">
-                          <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target="#happinessModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="happinessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Happiness filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewHappiness" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Neutral</h5>
-                      </div>
-                      <div v-if="imageNeutral.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#neutralModal">
-                      </div>
-                      <div v-if="imageNeutral.length > 0">
-                          <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target="#neutralModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="neutralModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Neutral filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewNeutral" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Sadness</h5>
-                      </div>
-                      <div v-if="imageSadness.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#sadnessModal">
-                      </div>
-                      <div v-if="imageSadness.length > 0">
-                          <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target="#sadnessModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="sadnessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Sadness filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewSadness" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="card mb-2 text-center text-white bg-dark">
-                      <div class="card-body">
-                        <h5 class="card-title">Surprise</h5>
-                      </div>
-                      <div v-if="imageSurprise.length == 0">
-                        <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#surpriseModal">
-                      </div>
-                      <div v-if="imageSurprise.length > 0">
-                          <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target="#surpriseModal">
-                      </div>
-                      <!-- Modal -->
-                      <div class="modal fade" id="surpriseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Surprise filter</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                    <div class="card mb-2 bg-dark">
-                                      <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              Upload filter: 
-                              <input type="file" @change="previewSurprise" accept="image/*">
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <button v-on:click="uploadFilters()" type="button" class="btn btn-primary">
-                  Submit Filters
-                </button>
+          <div class="tab-pane fade" id="pills-userFilters" role="tabpanel" aria-labelledby="pills-userFilters-tab">
+            <div class="card card-body text-white bg-dark">
+              <div class="text-left">
+                Edit {{ userInfo.user_name }}'s Filters
               </div>
-            </div>
+              <p>
+                <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseNewFilter" aria-expanded="false" aria-controls="collapseNewFilter">
+                  Create New Filter
+                </button>
+                <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseUserFilters" aria-expanded="false" aria-controls="collapseUserFilters">
+                  Current Filters
+                </button>
+              </p>
+              
+              <div class="collapse" id="collapseNewFilter">
+                <div class="card card-body text-white bg-dark">
+                  <h2>
+                    Create new filter
+                  </h2>
+                  <div>
+                    Filter Name: <input type="text" name="filterName" v-model="filterName">
+                  </div>
+                  <div class="row align-self-center">
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Anger</h5>
+                        </div>
+                        <div v-if="imageAnger.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#angerModal">
+                        </div>
+                        <div v-if="imageAnger.length > 0">
+                            <img class="card-img-bottom" :src="imageAnger" data-toggle="modal" data-target="#angerModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="angerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Anger filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="previewAnger">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
+                                Upload filter: 
+                                <input type="file" @change="previewAnger" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-            <div class="collapse" id="collapseUserFilters">
-              <div class="card card-body text-white bg-dark">
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Contempt</h5>
+                        </div>
+                        <div v-if="imageContempt.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#contemptModal">
+                        </div>
+                        <div v-if="imageContempt.length > 0">
+                            <img class="card-img-bottom" :src="imageContempt" data-toggle="modal" data-target="#contemptModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="contemptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Contempt filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <!-- <div class="card-body">
+                                          <p class="card-title">{{ imgFilter.name }}</p>
+                                        </div> -->
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewContempt" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Disgust</h5>
+                        </div>
+                        <div v-if="imageDisgust.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#disgustModal">
+                        </div>
+                        <div v-if="imageDisgust.length > 0">
+                            <img class="card-img-bottom" :src="imageDisgust" data-toggle="modal" data-target="#disgustModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="disgustModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Disgust filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewDisgust" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Fear</h5>
+                        </div>
+                        <div v-if="imageFear.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#fearModal">
+                        </div>
+                        <div v-if="imageFear.length > 0">
+                            <img class="card-img-bottom" :src="imageFear" data-toggle="modal" data-target="#fearModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="fearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Fear filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewFear" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row align-self-center">
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Happiness</h5>
+                        </div>
+                        <div v-if="imageHappiness.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#happinessModal">
+                        </div>
+                        <div v-if="imageHappiness.length > 0">
+                            <img class="card-img-bottom" :src="imageHappiness" data-toggle="modal" data-target="#happinessModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="happinessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Happiness filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewHappiness" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Neutral</h5>
+                        </div>
+                        <div v-if="imageNeutral.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#neutralModal">
+                        </div>
+                        <div v-if="imageNeutral.length > 0">
+                            <img class="card-img-bottom" :src="imageNeutral" data-toggle="modal" data-target="#neutralModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="neutralModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Neutral filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewNeutral" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Sadness</h5>
+                        </div>
+                        <div v-if="imageSadness.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#sadnessModal">
+                        </div>
+                        <div v-if="imageSadness.length > 0">
+                            <img class="card-img-bottom" :src="imageSadness" data-toggle="modal" data-target="#sadnessModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="sadnessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Sadness filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewSadness" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="card mb-2 text-center text-white bg-dark">
+                        <div class="card-body">
+                          <h5 class="card-title">Surprise</h5>
+                        </div>
+                        <div v-if="imageSurprise.length == 0">
+                          <img class="card-img-bottom" src="img/Uchiha_Symbol.png" data-toggle="modal" data-target="#surpriseModal">
+                        </div>
+                        <div v-if="imageSurprise.length > 0">
+                            <img class="card-img-bottom" :src="imageSurprise" data-toggle="modal" data-target="#surpriseModal">
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="surpriseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content bg-dark">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Surprise filter</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
+                                      <div class="card mb-2 bg-dark">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                Upload filter: 
+                                <input type="file" @change="previewSurprise" accept="image/*">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button v-on:click="uploadFilters()" type="button" class="btn btn-primary">
+                    Submit Filters
+                  </button>
+                </div>
+              </div>
+
+              <div class="collapse" id="collapseUserFilters">
                 <div id="accordion" role="tablist">
                   <div class="card text-white bg-dark" v-for="(userFilter, index) in userFilters" v-bind:key="userFilter.id">
                     <div class="card-header text-left" role="tab" id="headingThree">
@@ -926,16 +945,50 @@
                 </div>
               </div>
             </div>
-            
-
           </div>
-        </div>
-        <div class="collapse" id="collapseSessions">
-          <div class="card card-body text-white bg-dark">
+          <div class="tab-pane fade" id="pills-userSessions" role="tabpanel" aria-labelledby="pills-userSessions-tab">
             View {{ userInfo.user_name }}'s Sessions
+            <div id="accordion" role="tablist">
+              <div class="card text-white bg-dark" v-for="(userStatsEmotion, index) in userStatsEmotions" v-bind:key="userStatsEmotion.id">
+                <div class="card-header" role="tab" id="headingThree">
+                  <div class="text-left">
+                    <h5 class="mb-0">
+                      <a v-on:click="userEmotionsChart(userStatsEmotion, index)" class="collapsed btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseUserChart' + index" aria-expanded="false" v-bind:aria-controls="'collapseUserChart' + index">
+                        {{ userStatsEmotion[0].created_at }}
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+                <div v-bind:id="'collapseUserChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                  <div class="card-body text-center">
+                    <div v-bind:id="'userStatsEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
+                    <p>
+                      <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseUserStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseUserStats' + index">Statistics of your Emotions</a>
+                      <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapseUserPhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapseUserPhoto' + index">Photo of Emotions</button>
+                      <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseUserStats' + index + ' collapseUserPhoto' + index">Toggle Both</button>
+                    </p>
+                    <div class="row">
+                      <div class="col">
+                        <div class="collapse multi-collapse" v-bind:id=" 'collapseUserStats' + index ">
+                          <div class="card card-body bg-dark">
+                            Statistics of your Emotions
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="collapse multi-collapse" v-bind:id="'collapseUserPhoto' + index">
+                          <img class="card-img-top" v-bind:src="userStatsEmotion[0].image" alt="Card image cap">
+                          
+
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -1036,12 +1089,9 @@
         </div>
         <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
           <div class="card-body text-center">
-
-            <div v-bind:id="'currentEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
-
-            
+            <div v-bind:id="'sessionStatsEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
             <p>
-              <a class="btn btn-danger" data-toggle="collapse" v-bind:href=" '#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
+              <a class="btn btn-danger" data-toggle="collapse" v-bind:href="'#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">Statistics of your Emotions</a>
               <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">Photo of Emotions</button>
               <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">Toggle Both</button>
             </p>
@@ -1057,10 +1107,11 @@
                 <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
                   <img class="card-img-top" v-bind:src="statsEmotion[0].image" alt="Card image cap">
                   
+
+
                 </div>
               </div>
             </div> 
-
           </div>
         </div>
       </div>
