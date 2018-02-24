@@ -1,13 +1,17 @@
 class V1::UsersController < ApplicationController
 
     def index
-    user = User.all.order(:id)
-    if params[:search_user_name]
-      user = user.where(" user_name ILIKE ?", "%#{params[:search_user_name]}%")
+    users = User.all.order(:id)
+    if params[:current_user]
+      user = current_user
+    elsif params[:search_user_name]
+      user = users.where(" user_name ILIKE ?", "%#{params[:search_user_name]}%")
     elsif params[:search_user_email]
-      user = user.where(" email ILIKE ?", "%#{params[:search_user_email]}%")
+      user = users.where(" email ILIKE ?", "%#{params[:search_user_email]}%")
     elsif params[:search_user_created]
       user = User.all.order(created_at: :desc)
+    else
+      user = users
     end
     render json: user.as_json
   end
@@ -37,7 +41,7 @@ class V1::UsersController < ApplicationController
   end
 
   def update
-    user = User.find_by(id: params[:id].to_i)
+    user = User.find_by(id: current_user.id)
     user.user_name = params[:user_name] || user.user_name
     user.email = params[:email] || user.email
     user.password = params[:password] || user.password

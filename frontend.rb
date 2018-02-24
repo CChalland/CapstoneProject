@@ -14,6 +14,7 @@ class User
     @menu_options = {
       "Show all session emotions" => -> do show_session_emotions end,
       "Show all user's filters" => -> do show_user_filters end,
+      "Show user's info" => -> do show_user_info end,
       "[Admin] Show all session emotions" => -> do show_admin_session_emotions end,
       "Sign up (create a user)" => -> do  end,
       "Log in (create a jwt)" => -> do login end,
@@ -34,6 +35,11 @@ class User
 
   def show_user_filters
     response = Unirest.get("localhost:3000/v1/filters?user_filters=true")
+    pp response.body
+  end
+
+  def show_user_info
+    response = Unirest.get("localhost:3000/v1/users?current_user=true")
     pp response.body
   end
 

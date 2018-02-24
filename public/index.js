@@ -21,28 +21,23 @@ var UserPage = {
   template: "#user-page",
   data: function() {
     return {
-      message: "Welcome to Uchiha! Please select a route.",
-      userInfo: []
-    };
-  },
-  created: function() {
-    axios.get("/v1/users").then(
-      function(response) {
-        this.userInfo = response.data;
-        console.log(response.data);
-      }.bind(this)
-    );
-  },
-  mounted: function() {},
-  methods: {},
-  computed: {}
-};
-
-var FiltersPage = {
-  template: "#filters-page",
-  data: function() {
-    return {
-      message: "Welcome to Uchiha! Please select a route.",
+      message: "Welcome to Uchiha! Please edit your user settings.",
+      errors: [],
+      userInfo: {},
+      filters: {
+        name: "",
+        anger: "",
+        contempt: "",
+        disgust: "",
+        fear: "",
+        happiness: "",
+        neutral: "",
+        sadness: "",
+        surprise: ""
+      },
+      userFilters: [],
+      password: "",
+      passwordConfirmation: "",
       showModal: false,
       filterName: "",
       imageAnger: "", // we will store base64 format of image in this string
@@ -135,9 +130,108 @@ var FiltersPage = {
       ]
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/v1/users?current_user=true").then(
+      function(response) {
+        this.userInfo = response.data;
+      }.bind(this)
+    );
+    axios.get("/v1/filters?user_filters=true").then(
+      function(response) {
+        this.userFilters = response.data.userFilters;
+      }.bind(this)
+    );
+  },
   mounted: function() {},
   methods: {
+    userSettingSubmit: function() {
+      var params = {
+        user_name: this.userInfo.user_name,
+        email: this.userInfo.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation,
+        full_name: this.userInfo.full_name,
+        birth_date: this.userInfo.birth_date,
+        gender: this.userInfo.gender
+      };
+      axios
+        .patch("/v1/users/" + this.userInfo.id, params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    editUserFilters: function(userFilter) {
+      if (this.imageAnger.length > 0) {
+        this.filters.anger = this.imageAnger;
+      } else {
+        this.filters.anger = userFilter.anger;
+      }
+      if (this.imageContempt.length > 0) {
+        this.filters.contempt = this.imageContempt;
+      } else {
+        this.filters.contempt = userFilter.contempt;
+      }
+      if (this.imageDisgust.length > 0) {
+        this.filters.disgust = this.imageDisgust;
+      } else {
+        this.filters.disgust = userFilter.disgust;
+      }
+      if (this.imageFear.length > 0) {
+        this.filters.fear = this.imageFear;
+      } else {
+        this.filters.fear = userFilter.fear;
+      }
+      if (this.imageHappiness.length > 0) {
+        this.filters.happiness = this.imageHappiness;
+      } else {
+        this.filters.happiness = userFilter.happiness;
+      }
+      if (this.imageNeutral.length > 0) {
+        this.filters.neutral = this.imageNeutral;
+      } else {
+        this.filters.neutral = userFilter.neutral;
+      }
+      if (this.imageSadness.length > 0) {
+        this.filters.sadness = this.imageSadness;
+      } else {
+        this.filters.sadness = userFilter.sadness;
+      }
+      if (this.imageSurprise.length > 0) {
+        this.filters = this.imageSurprise;
+      } else {
+        this.filters.surprise = userFilter.surprise;
+      }
+      if (this.filterName) {
+        this.filters.name = this.filterName;
+      } else {
+        this.filters.name = userFilter.name;
+      }
+      axios
+        .patch("/v1/filters/" + userFilter.id, {
+          anger: this.filters.anger,
+          contempt: this.filters.contempt,
+          disgust: this.filters.disgust,
+          fear: this.filters.fear,
+          happiness: this.filters.happiness,
+          neutral: this.filters.neutral,
+          sadness: this.filters.sadness,
+          surprise: this.filters.surprise,
+          name: this.filters.name
+        })
+        .then(function(response) {
+          router.push("/user");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
     previewAnger: function(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -1685,8 +1779,8 @@ var SharinganPage = {
   computed: {}
 };
 
-var ChartPage = {
-  template: "#chart-page",
+var SessionsPage = {
+  template: "#sessions-page",
   data: function() {
     return {
       statsEmotions: [],
@@ -1914,9 +2008,8 @@ var router = new VueRouter({
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
-    { path: "/chart", component: ChartPage },
-    { path: "/user", component: UserPage },
-    { path: "/filters", component: FiltersPage }
+    { path: "/sessions", component: SessionsPage },
+    { path: "/user", component: UserPage }
   ]
 });
 

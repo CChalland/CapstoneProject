@@ -43,14 +43,14 @@ class V1::FiltersController < ApplicationController
         user_filters << {
           id: user_filter.id,
           name: user_filter.name,
-          anger: user_filter.anger.url,
-          contempt: user_filter.contempt.url,
-          disgust: user_filter.disgust.url,
-          fear: user_filter.fear.url,
-          happiness: user_filter.happiness.url,
-          neutral: user_filter.neutral.url,
-          sadness: user_filter.sadness.url,
-          surprise: user_filter.surprise.url
+          anger: user_filter.anger.data,
+          contempt: user_filter.contempt.data,
+          disgust: user_filter.disgust.data,
+          fear: user_filter.fear.data,
+          happiness: user_filter.happiness.data,
+          neutral: user_filter.neutral.data,
+          sadness: user_filter.sadness.data,
+          surprise: user_filter.surprise.data
         }
       end
       filter[:publicFilters] = public_filters
@@ -87,18 +87,23 @@ class V1::FiltersController < ApplicationController
     render json: return_datum.as_json
   end
 
-  # def update
-  #   filter = Filter.find_by(id: params[:id].to_i)
-  #   filter.image = params[:type] || filter.image
-  #   filter.emotion = params[:emotion] || filter.emotion
-  #   filter.category = params[:category] || filter.category
-  #   filter.public? = params[:public?] || filter.public?
-  #   if filter.save
-  #     render json: filter.as_json
-  #   else
-  #     render json: {errors: filter.errors.full_messages}, status: :bad_request
-  #   end
-  # end
+  def update
+    filter = Filter.find_by(id: params[:id].to_i)
+    filter.name = params[:name]
+    filter.anger = params[:anger]
+    filter.contempt = params[:contempt]
+    filter.disgust = params[:disgust]
+    filter.fear = params[:fear]
+    filter.happiness = params[:happiness]
+    filter.neutral = params[:neutral]
+    filter.sadness = params[:sadness]
+    filter.surprise = params[:surprise]
+    if filter.save
+      render json: filter.as_json
+    else
+      render json: {errors: filter.errors.full_messages}, status: :bad_request
+    end
+  end
 
   def destroy
     filter = Filter.find_by(id: params[:id].to_i)
