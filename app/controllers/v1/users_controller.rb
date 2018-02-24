@@ -24,7 +24,7 @@ class V1::UsersController < ApplicationController
       password_confirmation: params[:passwordConfirmation],
       full_name: params[:fullName],
       birth_date: params[:birthDate],
-      gender: params[:gender],
+      gender: params[:gender].join("").gsub(/[^0-9a-z ]/i, ''),
       membership: false,
       admin: false
     )
@@ -48,7 +48,7 @@ class V1::UsersController < ApplicationController
     user.password_confirmation = params[:password_confirmation] || user.password_confirmation
     user.full_name = params[:full_name] || user.full_name
     user.birth_date = params[:birth_date] || user.birth_date
-    user.gender = params[:gender] || user.gender
+    user.gender = params[:gender].join("").gsub(/[^0-9a-z ]/i, '') || user.gender
 
     if user.save
       render json: user.as_json
