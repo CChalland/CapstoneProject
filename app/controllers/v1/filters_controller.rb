@@ -39,22 +39,40 @@ class V1::FiltersController < ApplicationController
           surprise: public_filter.surprise.url
         }
       end
-      current_user.filters.each do |user_filter| 
-        user_filters << {
-          id: user_filter.id,
-          name: user_filter.name,
-          anger: user_filter.anger.data,
-          contempt: user_filter.contempt.data,
-          disgust: user_filter.disgust.data,
-          fear: user_filter.fear.data,
-          happiness: user_filter.happiness.data,
-          neutral: user_filter.neutral.data,
-          sadness: user_filter.sadness.data,
-          surprise: user_filter.surprise.data
-        }
+      if current_user.admin
+        filters.where(public?: false).each do |user_filter| 
+          user_filters << {
+            id: user_filter.id,
+            name: user_filter.name,
+            anger: user_filter.anger.data,
+            contempt: user_filter.contempt.data,
+            disgust: user_filter.disgust.data,
+            fear: user_filter.fear.data,
+            happiness: user_filter.happiness.data,
+            neutral: user_filter.neutral.data,
+            sadness: user_filter.sadness.data,
+            surprise: user_filter.surprise.data
+          }
+        end
+      else
+        current_user.filters.each do |user_filter| 
+          user_filters << {
+            id: user_filter.id,
+            name: user_filter.name,
+            anger: user_filter.anger.data,
+            contempt: user_filter.contempt.data,
+            disgust: user_filter.disgust.data,
+            fear: user_filter.fear.data,
+            happiness: user_filter.happiness.data,
+            neutral: user_filter.neutral.data,
+            sadness: user_filter.sadness.data,
+            surprise: user_filter.surprise.data
+          }
+        end
       end
       filter[:publicFilters] = public_filters
       filter[:userFilters] = user_filters
+      
     else
       filter = Filter.all.order(:id)
     end
