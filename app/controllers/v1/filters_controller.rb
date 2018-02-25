@@ -89,15 +89,15 @@ class V1::FiltersController < ApplicationController
 
   def update
     filter = Filter.find_by(id: params[:id].to_i)
-    filter.name = params[:name]
-    filter.anger = params[:anger]
-    filter.contempt = params[:contempt]
-    filter.disgust = params[:disgust]
-    filter.fear = params[:fear]
-    filter.happiness = params[:happiness]
-    filter.neutral = params[:neutral]
-    filter.sadness = params[:sadness]
-    filter.surprise = params[:surprise]
+    filter.name = params[:name] || filter.name
+    filter.anger = params[:anger] || filter.anger
+    filter.contempt = params[:contempt] || filter.contempt
+    filter.disgust = params[:disgust] || filter.disgust
+    filter.fear = params[:fear] || filter.fear
+    filter.happiness = params[:happiness] || filter.happiness
+    filter.neutral = params[:neutral] || filter.neutral
+    filter.sadness = params[:sadness] || filter.sadness
+    filter.surprise = params[:surprise] || filter.surprise
     if filter.save
       render json: filter.as_json
     else
