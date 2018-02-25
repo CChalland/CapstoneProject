@@ -2,41 +2,72 @@ class V1::VisualProwessesController < ApplicationController
 
   def index
     if params[:session_emotions]
-      user_faces = current_user.faces
-      sessions_length = 1
-      faces_index = 1
-      user_faces.length.times do
-        if faces_index < user_faces.length && user_faces[faces_index - 1].session < user_faces[faces_index].session
-          sessions_length += 1
-        end
-        faces_index += 1
-      end
+      if current_user.admin
+        last_session = Face.last.session.to_i
+        session_index = 1
+        emotions = []
+        faces = Face.all
 
-      session_index = user_faces[0].session
-      emotions = []
-
-      sessions_length.times do
-        session_emotions = []
-        selected = user_faces.select {|face| face.session == session_index}
-        selected.each do |face|
-          session_emotions << {
-            id: face.visual_prowess.id,
-            image_name: face.record.image.name,
-            image: face.record.image.data,
-            anger: (face.visual_prowess.anger * 100).round(4),
-            contempt: (face.visual_prowess.contempt * 100).round(4),
-            disgust: (face.visual_prowess.disgust * 100).round(4),
-            fear: (face.visual_prowess.fear * 100).round(4),
-            happiness: (face.visual_prowess.happiness * 100).round(4),
-            neutral: (face.visual_prowess.neutral * 100).round(4),
-            sadness: (face.visual_prowess.sadness * 100).round(4),
-            surprise: (face.visual_prowess.surprise * 100).round(4),
-            created_at: face.visual_prowess.friendly_created_at,
-            updated_at: face.visual_prowess.friendly_update_at 
-          }
+        last_session.times do
+          session_emotions = []
+          selected = faces.select {|face| face.session == session_index}
+          selected.each do |face|
+            session_emotions << {
+              id: face.visual_prowess.id,
+              image_name: face.record.image.name,
+              image: face.record.image.data,
+              anger: (face.visual_prowess.anger * 100).round(4),
+              contempt: (face.visual_prowess.contempt * 100).round(4),
+              disgust: (face.visual_prowess.disgust * 100).round(4),
+              fear: (face.visual_prowess.fear * 100).round(4),
+              happiness: (face.visual_prowess.happiness * 100).round(4),
+              neutral: (face.visual_prowess.neutral * 100).round(4),
+              sadness: (face.visual_prowess.sadness * 100).round(4),
+              surprise: (face.visual_prowess.surprise * 100).round(4),
+              created_at: face.visual_prowess.friendly_created_at,
+              updated_at: face.visual_prowess.friendly_update_at 
+            }
+          end
+          emotions << session_emotions
+          session_index += 1
         end
-        emotions << session_emotions
-        session_index += 1
+      else
+        user_faces = current_user.faces
+        sessions_length = 1
+        faces_index = 1
+        user_faces.length.times do
+          if faces_index < user_faces.length && user_faces[faces_index - 1].session < user_faces[faces_index].session
+            sessions_length += 1
+          end
+          faces_index += 1
+        end
+
+        session_index = user_faces[0].session
+        emotions = []
+
+        sessions_length.times do
+          session_emotions = []
+          selected = user_faces.select {|face| face.session == session_index}
+          selected.each do |face|
+            session_emotions << {
+              id: face.visual_prowess.id,
+              image_name: face.record.image.name,
+              image: face.record.image.data,
+              anger: (face.visual_prowess.anger * 100).round(4),
+              contempt: (face.visual_prowess.contempt * 100).round(4),
+              disgust: (face.visual_prowess.disgust * 100).round(4),
+              fear: (face.visual_prowess.fear * 100).round(4),
+              happiness: (face.visual_prowess.happiness * 100).round(4),
+              neutral: (face.visual_prowess.neutral * 100).round(4),
+              sadness: (face.visual_prowess.sadness * 100).round(4),
+              surprise: (face.visual_prowess.surprise * 100).round(4),
+              created_at: face.visual_prowess.friendly_created_at,
+              updated_at: face.visual_prowess.friendly_update_at 
+            }
+          end
+          emotions << session_emotions
+          session_index += 1
+        end
       end
 
     elsif params[:admin_session_emotions]
