@@ -1,13 +1,17 @@
 class V1::UsersController < ApplicationController
 
     def index
-    user = User.all.order(:id)
-    if params[:search_user_name]
-      user = user.where(" user_name ILIKE ?", "%#{params[:search_user_name]}%")
+    users = User.all.order(:id)
+    if params[:current_user]
+      user = current_user
+    elsif params[:search_user_name]
+      user = users.where(" user_name ILIKE ?", "%#{params[:search_user_name]}%")
     elsif params[:search_user_email]
-      user = user.where(" email ILIKE ?", "%#{params[:search_user_email]}%")
+      user = users.where(" email ILIKE ?", "%#{params[:search_user_email]}%")
     elsif params[:search_user_created]
       user = User.all.order(created_at: :desc)
+    else
+      user = users
     end
     render json: user.as_json
   end
@@ -20,7 +24,7 @@ class V1::UsersController < ApplicationController
       password_confirmation: params[:passwordConfirmation],
       full_name: params[:fullName],
       birth_date: params[:birthDate],
-      gender: params[:gender],
+      gender: params[:gender].join("").gsub(/[^0-9a-z ]/i, ''),
       membership: false,
       admin: false
     )
@@ -37,14 +41,14 @@ class V1::UsersController < ApplicationController
   end
 
   def update
-    user = User.find_by(id: params[:id].to_i)
+    user = User.find_by(id: current_user.id)
     user.user_name = params[:user_name] || user.user_name
     user.email = params[:email] || user.email
     user.password = params[:password] || user.password
     user.password_confirmation = params[:password_confirmation] || user.password_confirmation
     user.full_name = params[:full_name] || user.full_name
     user.birth_date = params[:birth_date] || user.birth_date
-    user.gender = params[:gender] || user.gender
+    user.gender = params[:gender].join("").gsub(/[^0-9a-z ]/i, '') || user.gender
 
     if user.save
       render json: user.as_json

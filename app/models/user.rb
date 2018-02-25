@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   def as_json
     {
+      id: id,
       user_name: user_name,
       email: email,
       password_digest: password_digest,
@@ -31,7 +32,6 @@ class User < ApplicationRecord
       gender: gender,
       membership: membership,
       admin: admin,
-      filters: filters,
       created_at: friendly_created_at,
       updated_at: friendly_update_at
     }

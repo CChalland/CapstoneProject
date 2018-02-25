@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample */
+/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample, $ */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -21,28 +21,24 @@ var UserPage = {
   template: "#user-page",
   data: function() {
     return {
-      message: "Welcome to Uchiha! Please select a route.",
-      userInfo: []
-    };
-  },
-  created: function() {
-    axios.get("/v1/users").then(
-      function(response) {
-        this.userInfo = response.data;
-        console.log(response.data);
-      }.bind(this)
-    );
-  },
-  mounted: function() {},
-  methods: {},
-  computed: {}
-};
-
-var FiltersPage = {
-  template: "#filters-page",
-  data: function() {
-    return {
-      message: "Welcome to Uchiha! Please select a route.",
+      message: "Welcome to Uchiha! Please edit your user settings.",
+      errors: [],
+      userInfo: {},
+      filters: {
+        name: "",
+        anger: "",
+        contempt: "",
+        disgust: "",
+        fear: "",
+        happiness: "",
+        neutral: "",
+        sadness: "",
+        surprise: ""
+      },
+      userFilters: [],
+      password: "",
+      passwordConfirmation: "",
+      showModal: false,
       filterName: "",
       imageAnger: "", // we will store base64 format of image in this string
       imageContempt: "",
@@ -52,57 +48,295 @@ var FiltersPage = {
       imageNeutral: "",
       imageSadness: "",
       imageSurprise: "",
-      imgFilters: {
-        alien: "img/filters/alien.png",
-        angry: "img/filters/angry.png",
-        anonymous: "img/filters/anonymous.png",
-        baby: "img/filters/baby.png",
-        barf: "img/filters/barf.png",
-        cartoonSanta: "img/filters/cartoon-santa.png",
-        cartoonSeeNoMonkey: "img/filters/cartoon-see-no-monkey.png",
-        clown: "img/filters/clown.png",
-        crying: "img/filters/crying.png",
-        fatAngry: "img/filters/fat-angry.png",
-        fatCrying: "img/filters/fat-crying.png",
-        fatHappy: "img/filters/fat-happy.png",
-        fire: "img/filters/fire.png",
-        frenchGhost: "img/filters/french-ghost.png",
-        goofyGhost: "img/filters/goofy-ghost.png",
-        greenBeaver: "img/filters/beavers/green-beaver.png",
-        japaneseGoblin: "img/filters/japanese-goblin.png",
-        koala: "img/filters/koala.png",
-        moneyBag: "img/filters/money-bag.png",
-        mufasa: "img/filters/mufasa.png",
-        nick1: "img/filters/celebrity/nick1.png",
-        nick2: "img/filters/celebrity/nick2.png",
-        nick3: "img/filters/celebrity/nick3.png",
-        panda: "img/filters/panda.png",
-        pirateSkull: "img/filters/pirate-skull.png",
-        poop: "img/filters/poop.png",
-        rocker: "img/filters/rocker.png",
-        sad: "img/filters/sad.png",
-        santa: "img/filters/santa.png",
-        seeNoMonkey: "img/filters/see-no-monkey.png",
-        shadesGhost: "img/filters/shades-ghost.png",
-        simba: "img/filters/simba.png",
-        speakNoMonkey: "img/filters/speak-no-monkey.png",
-        scream: "img/filters/scream.png",
-        sadBeaver: "img/filters/beavers/sad-beaver.png",
-        thinkingBeaver: "img/filters/beavers/thinking-beaver.png",
-        devilBeaver: "img/filters/beavers/devil-beaver.png",
-        cryingBeaver: "img/filters/beavers/cryingBeaver",
-        laughingBeaver: "img/filters/beavers/laughing-beaver.png",
-        ogBeaver: "img/filters/beavers/og-beaver.png",
-        rainbowBeaver: "img/filters/beavers/rainbow-beaver.png",
-        thumbsDownBeaver: "img/filters/beavers/thumbs-down-beaver.png",
-        veryAngerBeaver: "img/filters/beavers/very-anger-beaver.png",
-        appBeaver: "img/filters/beavers/app-beaver.png"
-      }
+      imgFilters: [
+        { name: "alien", image: "img/filters/alien.png" },
+        { name: "angry", image: "img/filters/angry.png" },
+        { name: "anonymous", image: "img/filters/anonymous.png" },
+        { name: "baby", image: "img/filters/baby.png" },
+        { name: "barf", image: "img/filters/barf.png" },
+        { name: "cartoonSanta", image: "img/filters/cartoon-santa.png" },
+        {
+          name: "cartoonSeeNoMonkey",
+          image: "img/filters/cartoon-see-no-monkey.png"
+        },
+        { name: "clown", image: "img/filters/clown.png" },
+        { name: "crying", image: "img/filters/crying.png" },
+        { name: "fatAngry", image: "img/filters/fat-angry.png" },
+        { name: "fatCrying", image: "img/filters/fat-crying.png" },
+        { name: "fatHappy", image: "img/filters/fat-happy.png" },
+        { name: "fire", image: "img/filters/fire.png" },
+        { name: "frenchGhost", image: "img/filters/french-ghost.png" },
+        { name: "goofyGhost", image: "img/filters/goofy-ghost.png" },
+        { name: "japaneseGoblin", image: "img/filters/japanese-goblin.png" },
+        { name: "koala", image: "img/filters/koala.png" },
+        { name: "moneyBag", image: "img/filters/money-bag.png" },
+        { name: "mufasa", image: "img/filters/mufasa.png" },
+        { name: "panda", image: "img/filters/panda.png" },
+        { name: "pirateSkull", image: "img/filters/pirate-skull.png" },
+        { name: "poop", image: "img/filters/poop.png" },
+        { name: "rocker", image: "img/filters/rocker.png" },
+        { name: "sad", image: "img/filters/sad.png" },
+        { name: "santa", image: "img/filters/santa.png" },
+        { name: "seeNoMonkey", image: "img/filters/see-no-monkey.png" },
+        { name: "shadesGhost", image: "img/filters/shades-ghost.png" },
+        { name: "simba", image: "img/filters/simba.png" },
+        { name: "speakNoMonkey", image: "img/filters/speak-no-monkey.png" },
+        { name: "scream", image: "img/filters/scream.png" },
+        { name: "greenBeaver", image: "img/filters/beavers/green-beaver.png" },
+        { name: "sadBeaver", image: "img/filters/beavers/sad-beaver.png" },
+        {
+          name: "thinkingBeaver",
+          image: "img/filters/beavers/thinking-beaver.png"
+        },
+        { name: "devilBeaver", image: "img/filters/beavers/devil-beaver.png" },
+        {
+          name: "cryingBeaver",
+          image: "img/filters/beavers/crying-beaver.png"
+        },
+        {
+          name: "laughingBeaver",
+          image: "img/filters/beavers/laughing-beaver.png"
+        },
+        { name: "ogBeaver", image: "img/filters/beavers/og-beaver.png" },
+        {
+          name: "rainbowBeaver",
+          image: "img/filters/beavers/rainbow-beaver.png"
+        },
+        {
+          name: "thumbsDownBeaver",
+          image: "img/filters/beavers/thumbs-down-beaver.png"
+        },
+        {
+          name: "veryAngerBeaver",
+          image: "img/filters/beavers/very-anger-beaver.png"
+        },
+        { name: "appBeaver", image: "img/filters/beavers/app-beaver.png" },
+        { name: "nick1", image: "img/filters/celebrity/nick1.png" },
+        { name: "nick2", image: "img/filters/celebrity/nick2.png" },
+        { name: "nick3", image: "img/filters/celebrity/nick3.png" },
+        { name: "kanye", image: "img/filters/celebrity/kanye.png" },
+        { name: "putin", image: "img/filters/celebrity/putin.png" },
+        {
+          name: "ryan gosling",
+          image: "img/filters/celebrity/ryan-gosling.png"
+        },
+        { name: "shaq", image: "img/filters/celebrity/shaq.png" },
+        {
+          name: "superbad evan",
+          image: "img/filters/celebrity/superbad-evan.png"
+        },
+        { name: "trump", image: "img/filters/celebrity/trump.png" },
+        { name: "vin diesel", image: "img/filters/celebrity/vin-diesel.png" }
+      ],
+      userEmotions: [],
+      userStatsEmotions: []
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/v1/users?current_user=true").then(
+      function(response) {
+        this.userInfo = response.data;
+      }.bind(this)
+    );
+    axios.get("/v1/filters?user_filters=true").then(
+      function(response) {
+        this.userFilters = response.data.userFilters;
+      }.bind(this)
+    );
+    axios.get("/v1/visual_prowesses?session_emotions=true").then(
+      function(response) {
+        this.userStatsEmotions = response.data;
+      }.bind(this)
+    );
+  },
   mounted: function() {},
   methods: {
+    userEmotionsChart: function(statsEmotion, index) {
+      var chart = AmCharts.makeChart("userStatsEmotion-chartdiv" + index, {
+        type: "serial",
+        theme: "black",
+        legend: {
+          useGraphSettings: true
+        },
+        dataProvider: statsEmotion,
+        valueAxes: [
+          {
+            integersOnly: false,
+            maximum: 100,
+            minimum: 0,
+            reversed: false,
+            axisAlpha: 0,
+            dashLength: 5,
+            gridCount: 10,
+            position: "left",
+            title: "Emotions taken"
+          }
+        ],
+        startDuration: 0,
+        graphs: [
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            hidden: false,
+            title: "Anger",
+            valueField: "anger",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Contempt",
+            valueField: "contempt",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Disgust",
+            valueField: "disgust",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Fear",
+            valueField: "fear",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Happiness",
+            valueField: "happiness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Neutral",
+            valueField: "neutral",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Sadness",
+            valueField: "sadness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Surprise",
+            valueField: "surprise",
+            fillAlphas: 0
+          }
+        ],
+        chartCursor: {
+          cursorAlpha: 0,
+          zoomable: true
+        },
+        categoryField: "id",
+        categoryAxis: {
+          gridPosition: "start",
+          axisAlpha: 0,
+          fillAlpha: 0.05,
+          fillColor: "#000000",
+          gridAlpha: 0,
+          position: "top"
+        },
+        gridAlpha: 0,
+        position: "top"
+      });
+    },
+    userSettingSubmit: function() {
+      var params = {
+        user_name: this.userInfo.user_name,
+        email: this.userInfo.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation,
+        full_name: this.userInfo.full_name,
+        birth_date: this.userInfo.birth_date,
+        gender: this.userInfo.gender
+      };
+      axios
+        .patch("/v1/users/" + this.userInfo.id, params)
+        .then(function(response) {
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    editUserFilters: function(userFilter) {
+      if (this.imageAnger.length > 0) {
+        this.filters.anger = this.imageAnger;
+      } else {
+        this.filters.anger = userFilter.anger;
+      }
+      if (this.imageContempt.length > 0) {
+        this.filters.contempt = this.imageContempt;
+      } else {
+        this.filters.contempt = userFilter.contempt;
+      }
+      if (this.imageDisgust.length > 0) {
+        this.filters.disgust = this.imageDisgust;
+      } else {
+        this.filters.disgust = userFilter.disgust;
+      }
+      if (this.imageFear.length > 0) {
+        this.filters.fear = this.imageFear;
+      } else {
+        this.filters.fear = userFilter.fear;
+      }
+      if (this.imageHappiness.length > 0) {
+        this.filters.happiness = this.imageHappiness;
+      } else {
+        this.filters.happiness = userFilter.happiness;
+      }
+      if (this.imageNeutral.length > 0) {
+        this.filters.neutral = this.imageNeutral;
+      } else {
+        this.filters.neutral = userFilter.neutral;
+      }
+      if (this.imageSadness.length > 0) {
+        this.filters.sadness = this.imageSadness;
+      } else {
+        this.filters.sadness = userFilter.sadness;
+      }
+      if (this.imageSurprise.length > 0) {
+        this.filters = this.imageSurprise;
+      } else {
+        this.filters.surprise = userFilter.surprise;
+      }
+      if (this.filterName) {
+        this.filters.name = this.filterName;
+      } else {
+        this.filters.name = userFilter.name;
+      }
+      axios
+        .patch("/v1/filters/" + userFilter.id, {
+          anger: this.filters.anger,
+          contempt: this.filters.contempt,
+          disgust: this.filters.disgust,
+          fear: this.filters.fear,
+          happiness: this.filters.happiness,
+          neutral: this.filters.neutral,
+          sadness: this.filters.sadness,
+          surprise: this.filters.surprise,
+          name: this.filters.name
+        })
+        .then(function(response) {
+          router.push("/user");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
     previewAnger: function(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -111,6 +345,8 @@ var FiltersPage = {
           this.imageAnger = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+      } else {
+        console.log("hello", this.imageAnger);
       }
     },
     previewContempt: function(event) {
@@ -188,6 +424,8 @@ var FiltersPage = {
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
+        // Toggle modal after filter uploaded
+        $("#surpriseModal").modal("toggle");
       }
     },
     uploadFilters: function(event) {
@@ -235,6 +473,9 @@ var VisualProwessPage = {
   template: "#visualProwess-page",
   data: function() {
     return {
+      currentStatsEmotionsId: 0,
+      currentStatsEmotions: [],
+      statsEmotionsId: 0,
       statsEmotions: [],
       emotions: [],
       result: [
@@ -262,53 +503,9 @@ var VisualProwessPage = {
         sadness: "img/filters/fat-crying.png",
         surprise: "img/filters/japanese-goblin.png"
       },
-      imgFilters: {
-        alien: "img/filters/alien.png",
-        angry: "img/filters/angry.png",
-        anonymous: "img/filters/anonymous.png",
-        baby: "img/filters/baby.png",
-        barf: "img/filters/barf.png",
-        cartoonSanta: "img/filters/cartoon-santa.png",
-        cartoonSeeNoMonkey: "img/filters/cartoon-see-no-monkey.png",
-        clown: "img/filters/clown.png",
-        crying: "img/filters/crying.png",
-        fatAngry: "img/filters/fat-angry.png",
-        fatCrying: "img/filters/fat-crying.png",
-        fatHappy: "img/filters/fat-happy.png",
-        fire: "img/filters/fire.png",
-        frenchGhost: "img/filters/french-ghost.png",
-        goofyGhost: "img/filters/goofy-ghost.png",
-        greenBeaver: "img/filters/beavers/green-beaver.png",
-        japaneseGoblin: "img/filters/japanese-goblin.png",
-        koala: "img/filters/koala.png",
-        moneyBag: "img/filters/money-bag.png",
-        mufasa: "img/filters/mufasa.png",
-        nick1: "img/filters/nick1.png",
-        nick2: "img/filters/nick2.png",
-        nick3: "img/filters/nick3.png",
-        panda: "img/filters/panda.png",
-        pirateSkull: "img/filters/pirate-skull.png",
-        poop: "img/filters/poop.png",
-        rocker: "img/filters/rocker.png",
-        sad: "img/filters/sad.png",
-        santa: "img/filters/santa.png",
-        seeNoMonkey: "img/filters/see-no-monkey.png",
-        shadesGhost: "img/filters/shades-ghost.png",
-        simba: "img/filters/simba.png",
-        speakNoMonkey: "img/filters/speak-no-monkey.png",
-        scream: "img/filters/scream.png",
-        sadBeaver: "img/filters/beavers/sad-beaver.png",
-        thinkingBeaver: "img/filters/beavers/thinking-beaver.png",
-        devilBeaver: "img/filters/beavers/devil-beaver.png",
-        cryingBeaver: "img/filters/beavers/cryingBeaver",
-        laughingBeaver: "img/filters/beavers/laughing-beaver.png",
-        ogBeaver: "img/filters/beavers/og-beaver.png",
-        rainbowBeaver: "img/filters/beavers/rainbow-beaver.png",
-        thumbsDownBeaver: "img/filters/beavers/thumbs-down-beaver.png",
-        veryAngerBeaver: "img/filters/beavers/very-anger-beaver.png",
-        appBeaver: "img/filters/beavers/app-beaver.png"
-      },
-      intervalId: null
+      imgFilters: {},
+      intervalId: null,
+      showCurrentEmotions: true
     };
   },
   watch: {
@@ -317,8 +514,7 @@ var VisualProwessPage = {
         (a, b) => (this.emotions[a] > this.emotions[b] ? a : b)
       );
       this.activeFilter = this.filters[`${highestEmotion}`];
-
-      var chart = AmCharts.makeChart("emotion-chartdiv", {
+      var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
         theme: "black",
         type: "serial",
         startDuration: 0,
@@ -395,7 +591,7 @@ var VisualProwessPage = {
       });
     },
     statsEmotions: function(statsEmotion) {
-      var chart = AmCharts.makeChart("visualProwess-chartdiv", {
+      var statsEmotionChart = AmCharts.makeChart("overall-stats-chartdiv", {
         type: "serial",
         theme: "black",
         legend: {
@@ -491,12 +687,116 @@ var VisualProwessPage = {
         gridAlpha: 0,
         position: "top"
       });
+      var currentStatsEmotionChart = AmCharts.makeChart(
+        "current-stats-chartdiv",
+        {
+          type: "serial",
+          theme: "black",
+          legend: {
+            useGraphSettings: true
+          },
+          dataProvider: this.currentStatsEmotions,
+          valueAxes: [
+            {
+              integersOnly: false,
+              maximum: 100,
+              minimum: 0,
+              reversed: false,
+              axisAlpha: 0,
+              dashLength: 5,
+              gridCount: 10,
+              position: "left",
+              title: "Emotions taken"
+            }
+          ],
+          startDuration: 0,
+          graphs: [
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              hidden: false,
+              title: "Anger",
+              valueField: "anger",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Contempt",
+              valueField: "contempt",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Disgust",
+              valueField: "disgust",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Fear",
+              valueField: "fear",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Happiness",
+              valueField: "happiness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Neutral",
+              valueField: "neutral",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Sadness",
+              valueField: "sadness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Surprise",
+              valueField: "surprise",
+              fillAlphas: 0
+            }
+          ],
+          chartCursor: {
+            cursorAlpha: 0,
+            zoomable: true
+          },
+          categoryField: "id",
+          categoryAxis: {
+            gridPosition: "start",
+            axisAlpha: 0,
+            fillAlpha: 0.05,
+            fillColor: "#000000",
+            gridAlpha: 0,
+            position: "top"
+          },
+          gridAlpha: 0,
+          position: "top"
+        }
+      );
     }
   },
   created: function() {
     axios.get("/v1/visual_prowesses").then(
       function(response) {
         this.statsEmotions = response.data;
+      }.bind(this)
+    );
+    axios.get("/v1/filters?user_filters=true").then(
+      function(response) {
+        this.imgFilters = response.data;
       }.bind(this)
     );
   },
@@ -703,17 +1003,35 @@ var VisualProwessPage = {
               data: makeblob(dataURL),
               processData: false,
               success: function(data) {
-                var statsEmotionsId = 0;
+                if (vm.currentStatsEmotions.length > 0) {
+                  vm.currentStatsEmotionsId =
+                    vm.currentStatsEmotions[
+                      vm.currentStatsEmotions.length - 1
+                    ].id;
+                } else {
+                  vm.currentStatsEmotionsId = 0;
+                }
                 if (vm.statsEmotions.length > 0) {
-                  statsEmotionsId =
+                  vm.statsEmotionsId =
                     vm.statsEmotions[vm.statsEmotions.length - 1].id;
                 } else {
-                  statsEmotionsId = 0;
+                  vm.statsEmotionsId = 0;
                 }
                 vm.result = data;
+                vm.currentStatsEmotions.push({
+                  id: vm.currentStatsEmotionsId + 1,
+                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
+                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
+                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
+                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
+                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
+                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
+                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
+                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                });
                 vm.emotions = vm.result[0].scores;
                 vm.statsEmotions.push({
-                  id: statsEmotionsId + 1,
+                  id: vm.statsEmotionsId + 1,
                   anger: (vm.result[0].scores.anger * 100).toFixed(4),
                   contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
                   disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
@@ -763,61 +1081,39 @@ var VisualProwessPage = {
     initTracker();
   },
   methods: {
+    showPublicFilter: function(publicFilter) {
+      this.filters.anger = publicFilter.anger;
+      this.filters.contempt = publicFilter.contempt;
+      this.filters.disgust = publicFilter.disgust;
+      this.filters.fear = publicFilter.fear;
+      this.filters.happiness = publicFilter.happiness;
+      this.filters.neutral = publicFilter.neutral;
+      this.filters.sadness = publicFilter.sadness;
+      this.filters.surprise = publicFilter.surprise;
+    },
+    showUserFilter: function(userFilter) {
+      this.filters.anger = userFilter.anger;
+      this.filters.contempt = userFilter.contempt;
+      this.filters.disgust = userFilter.disgust;
+      this.filters.fear = userFilter.fear;
+      this.filters.happiness = userFilter.happiness;
+      this.filters.neutral = userFilter.neutral;
+      this.filters.sadness = userFilter.sadness;
+      this.filters.surprise = userFilter.surprise;
+    },
+    showOverallEmotion: function() {
+      this.showCurrentEmotions = false;
+      return this.showCurrentEmotions;
+    },
+    showCurrentEmotion: function() {
+      this.showCurrentEmotions = true;
+      return this.showCurrentEmotions;
+    },
     visualProwess: function() {
       // console.log("This from visual method", this);
     },
     visualFilter: function() {
       // console.log("This from visualFilter method", this);
-    },
-    emojiFilter: function() {
-      this.filters.anger = this.imgFilters.fatAngry;
-      this.filters.contempt = this.imgFilters.angry;
-      this.filters.disgust = this.imgFilters.barf;
-      this.filters.fear = this.imgFilters.fatCrying;
-      this.filters.happiness = this.imgFilters.fatHappy;
-      this.filters.neutral = this.imgFilters.panda;
-      this.filters.sadness = this.imgFilters.crying;
-      this.filters.surprise = this.imgFilters.scream;
-    },
-    animalFilter: function() {
-      this.filters.anger = this.imgFilters.cartoonSeeNoMonkey;
-      this.filters.contempt = this.imgFilters.koala;
-      this.filters.disgust = this.imgFilters.alien;
-      this.filters.fear = this.imgFilters.mufasa;
-      this.filters.happiness = this.imgFilters.simba;
-      this.filters.neutral = this.imgFilters.panda;
-      this.filters.sadness = this.imgFilters.sadBeaver;
-      this.filters.surprise = this.imgFilters.speakNoMonkey;
-    },
-    nickFilter: function() {
-      this.filters.anger = this.imgFilters.angry;
-      this.filters.contempt = this.imgFilters.shadesGhost;
-      this.filters.disgust = this.imgFilters.frenchGhost;
-      this.filters.fear = this.imgFilters.anonymous;
-      this.filters.happiness = this.imgFilters.nick1;
-      this.filters.neutral = this.imgFilters.nick2;
-      this.filters.sadness = this.imgFilters.crying;
-      this.filters.surprise = this.imgFilters.nick3;
-    },
-    beaverFilter: function() {
-      this.filters.anger = this.imgFilters.devilBeaver;
-      this.filters.contempt = this.imgFilters.thinkingBeaver;
-      this.filters.disgust = this.imgFilters.thumbsDownBeaver;
-      this.filters.fear = this.imgFilters.veryAngerBeaver;
-      this.filters.happiness = this.imgFilters.laughingBeaver;
-      this.filters.neutral = this.imgFilters.appBeaver;
-      this.filters.sadness = this.imgFilters.sadBeaver;
-      this.filters.surprise = this.imgFilters.rainbowBeaver;
-    },
-    cartoonFilter: function() {
-      this.filters.anger = this.imgFilters.japaneseGoblin;
-      this.filters.contempt = this.imgFilters.anonymous;
-      this.filters.disgust = this.imgFilters.alien;
-      this.filters.fear = this.imgFilters.clown;
-      this.filters.happiness = this.imgFilters.cartoonSanta;
-      this.filters.neutral = this.imgFilters.rocker;
-      this.filters.sadness = this.imgFilters.pirateSkull;
-      this.filters.surprise = this.imgFilters.cartoonSeeNoMonkey;
     }
   },
   computed: {}
@@ -1588,8 +1884,8 @@ var SharinganPage = {
   computed: {}
 };
 
-var ChartPage = {
-  template: "#chart-page",
+var SessionsPage = {
+  template: "#sessions-page",
   data: function() {
     return {
       statsEmotions: [],
@@ -1602,13 +1898,12 @@ var ChartPage = {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.statsEmotions = response.data;
-        console.log(response.data);
       }.bind(this)
     );
   },
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      var chart = AmCharts.makeChart("currentEmotion-chartdiv" + index, {
+      var chart = AmCharts.makeChart("sessionStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
         legend: {
@@ -1719,7 +2014,8 @@ var AboutPage = {
   template: "#about-page",
   data: function() {
     return {
-      message: "Welcome to About."
+      message:
+        "Uchiha is a web-based app that analyzes emotions in human faces. Uchiha uses the computer’s webcam and the TrackingJS library to track human faces and then sends that data to the Microsoft Emotions API to determine which emotion that face is expressing. Uchiha then overlays various icons over the human faces to indicate the emotion each face is expressing."
     };
   },
   mounted: function() {},
@@ -1816,9 +2112,8 @@ var router = new VueRouter({
     { path: "/signup", component: SignupPage },
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
-    { path: "/chart", component: ChartPage },
-    { path: "/user", component: UserPage },
-    { path: "/filters", component: FiltersPage }
+    { path: "/sessions", component: SessionsPage },
+    { path: "/user", component: UserPage }
   ]
 });
 
