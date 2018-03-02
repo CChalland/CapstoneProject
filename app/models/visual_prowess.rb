@@ -10,7 +10,7 @@ class VisualProwess < ApplicationRecord
   end
 
   def friendly_update_at
-    updated_at.strftime("%H:%M, %B %e, %Y")
+    updated_at.strftime("%l:%M:%S %p")
   end
 
   def as_json

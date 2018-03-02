@@ -25,7 +25,7 @@ class V1::VisualProwessesController < ApplicationController
               sadness: (face.visual_prowess.sadness * 100).round(4),
               surprise: (face.visual_prowess.surprise * 100).round(4),
               created_at: face.visual_prowess.friendly_created_at,
-              updated_at: face.visual_prowess.friendly_update_at 
+              time: face.visual_prowess.friendly_update_at 
             }
           end
           emotions << session_emotions
@@ -62,7 +62,7 @@ class V1::VisualProwessesController < ApplicationController
               sadness: (face.visual_prowess.sadness * 100).round(4),
               surprise: (face.visual_prowess.surprise * 100).round(4),
               created_at: face.visual_prowess.friendly_created_at,
-              updated_at: face.visual_prowess.friendly_update_at 
+              time: face.visual_prowess.friendly_update_at 
             }
           end
           emotions << session_emotions
@@ -93,7 +93,7 @@ class V1::VisualProwessesController < ApplicationController
             sadness: (face.visual_prowess.sadness * 100).round(4),
             surprise: (face.visual_prowess.surprise * 100).round(4),
             created_at: face.visual_prowess.friendly_created_at,
-            updated_at: face.visual_prowess.friendly_update_at 
+            time: face.visual_prowess.friendly_update_at 
           }
         end
         emotions << session_emotions

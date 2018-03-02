@@ -980,16 +980,17 @@
                     <div class="row">
                       <div class="col">
                         <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
-                          Photo when emotions were taken
-                          <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
-
+                          <div class="card card-body bg-dark">
+                            Photo when emotions were taken
+                            <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
+                          </div>
                         </div>
                       </div>
                       <div class="col">
                         <div class="collapse multi-collapse" v-bind:id=" 'collapseUserStats' + index ">
                           <div class="card card-body bg-dark">
                             Statistics of your Emotions
-                            <div id="emotion-chartdiv" style="width: 100%; height: 425px;"></div>
+                            <div id="emotion-chartdiv" style="width: 100%; height: 475px;"></div>
                           </div>
                         </div>
                       </div>
@@ -1127,7 +1128,7 @@
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
                   <div class="card card-body bg-dark">
                     Statistics of your Emotions
-                    <div id="emotion-chartdiv" style="width: 100%; height: 425px;"></div>
+                    <div id="emotion-chartdiv" style="width: 100%; height: 475px;"></div>
                   </div>
                 </div>
               </div>

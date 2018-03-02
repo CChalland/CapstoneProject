@@ -236,7 +236,7 @@ var UserPage = {
           cursorAlpha: 0,
           zoomable: true
         },
-        categoryField: "id",
+        categoryField: "time",
         categoryAxis: {
           gridPosition: "start",
           axisAlpha: 0,
@@ -314,7 +314,7 @@ var UserPage = {
               }
             ],
             depth3D: 20,
-            angle: 30,
+            angle: 15,
             chartCursor: {
               categoryBalloonEnabled: false,
               cursorAlpha: 0,
@@ -2072,7 +2072,7 @@ var SessionsPage = {
           zoomable: true,
           cursorPosition: "mouse"
         },
-        categoryField: "id",
+        categoryField: "time",
         categoryAxis: {
           gridPosition: "start",
           axisAlpha: 0,
@@ -2151,7 +2151,7 @@ var SessionsPage = {
               }
             ],
             depth3D: 20,
-            angle: 30,
+            angle: 15,
             chartCursor: {
               categoryBalloonEnabled: false,
               cursorAlpha: 0,
