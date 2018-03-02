@@ -6,7 +6,7 @@ class VisualProwess < ApplicationRecord
   has_many :records, through: :faces
 
   def friendly_created_at
-    created_at.strftime("%H:%M, %B %e, %Y")
+    created_at.strftime("%l:%M %p, %B %e, %Y")
   end
 
   def friendly_update_at
