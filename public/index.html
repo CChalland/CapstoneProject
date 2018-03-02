@@ -980,13 +980,8 @@
                     <div class="row">
                       <div class="col">
                         <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
-                          <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
-                              <div v-for="(emotion, index) in statsEmotion" class="carousel-item active">
-                                <img class="d-block w-100" v-bind:src="emotion.image" alt="index + 'slide'">
-                              </div>
-                            </div>
-                          </div>
+                          Photo when emotions were taken
+                          <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
 
                         </div>
                       </div>
@@ -994,6 +989,7 @@
                         <div class="collapse multi-collapse" v-bind:id=" 'collapseUserStats' + index ">
                           <div class="card card-body bg-dark">
                             Statistics of your Emotions
+                            <div id="emotion-chartdiv" style="width: 100%; height: 425px;"></div>
                           </div>
                         </div>
                       </div>
@@ -1105,6 +1101,7 @@
         <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
           <div class="card-body text-center">
             <div v-bind:id="'sessionStatsEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
+            
             <p>
               <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">
                 Photo of Emotions
@@ -1119,20 +1116,18 @@
             <div class="row">
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
-                  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div v-for="(emotion, index) in statsEmotion" class="carousel-item active">
-                        <img class="d-block w-100" v-bind:src="emotion.image" alt="index + 'slide'">
-                      </div>
-                    </div>
-                  </div>
+                  <div class="card card-body bg-dark">
+                    Photo when emotions were taken
+                    <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
 
+                  </div>
                 </div>
               </div>
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
                   <div class="card card-body bg-dark">
                     Statistics of your Emotions
+                    <div id="emotion-chartdiv" style="width: 100%; height: 425px;"></div>
                   </div>
                 </div>
               </div>

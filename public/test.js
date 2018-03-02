@@ -1,4 +1,4 @@
-/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample, $ */
+/* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample, $, Carousel3d, Siema */
 
 var EMOTION_API_ID = "";
 var EMOTION_API_KEY1 = "";
@@ -16,7 +16,7 @@ var HomePage = {
   methods: {},
   computed: {}
 };
-
+  
 var UserPage = {
   template: "#user-page",
   data: function() {
@@ -247,6 +247,86 @@ var UserPage = {
         },
         gridAlpha: 0,
         position: "top"
+      });
+      chart.addListener("changed", function (event) {
+        if (event.index) {
+          sessionCurrentImage.src = statsEmotion[event.index].image
+          var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
+            theme: "black",
+            type: "serial",
+            startDuration: 0,
+            dataProvider: [
+              {
+                emotion: "Anger",
+                score: statsEmotion[event.index].anger,
+                color: "#FF0F00"
+              },
+              {
+                emotion: "Contempt",
+                score: statsEmotion[event.index].contempt,
+                color: "#FF6600"
+              },
+              {
+                emotion: "Disgust",
+                score: statsEmotion[event.index].disgust,
+                color: "#FF9E01"
+              },
+              {
+                emotion: "Fear",
+                score: statsEmotion[event.index].fear,
+                color: "#FCD202"
+              },
+              {
+                emotion: "Happiness",
+                score: statsEmotion[event.index].happiness,
+                color: "#F8FF01"
+              },
+              {
+                emotion: "Neutral",
+                score: statsEmotion[event.index].neutral,
+                color: "#B0DE09"
+              },
+              {
+                emotion: "Sadness",
+                score: statsEmotion[event.index].sadness,
+                color: "#04D215"
+              },
+              {
+                emotion: "Surprise",
+                score: statsEmotion[event.index].surprise,
+                color: "#0D8ECF"
+              }
+            ],
+            valueAxes: [
+              {
+                position: "left",
+                title: "Emotion"
+              }
+            ],
+            graphs: [
+              {
+                balloonText: "[[category]]: <b>[[value]]</b>",
+                fillColorsField: "color",
+                fillAlphas: 1,
+                lineAlpha: 0.1,
+                type: "column",
+                valueField: "score"
+              }
+            ],
+            depth3D: 20,
+            angle: 30,
+            chartCursor: {
+              categoryBalloonEnabled: false,
+              cursorAlpha: 0,
+              zoomable: false
+            },
+            categoryField: "emotion",
+            categoryAxis: {
+              gridPosition: "start",
+              labelRotation: 90
+            }
+          });
+        }
       });
     },
     userSettingSubmit: function() {
@@ -815,6 +895,8 @@ var VisualProwessPage = {
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
+
+
 
       video.addEventListener(
         "canplay",
@@ -1889,20 +1971,22 @@ var SessionsPage = {
   data: function() {
     return {
       statsEmotions: [],
-      emotions: []
+      emotions: [],
+      currentImage: ""
     };
   },
   watch: {},
-  created: function() {},
-  mounted: function() {
+  created: function() {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.statsEmotions = response.data;
       }.bind(this)
     );
   },
+  mounted: function() {},
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
+      var sessionCurrentImage = document.getElementById("sessionCurrentImage");
       var chart = AmCharts.makeChart("sessionStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -1985,7 +2069,8 @@ var SessionsPage = {
         ],
         chartCursor: {
           cursorAlpha: 0,
-          zoomable: true
+          zoomable: true,
+          cursorPosition: "mouse"
         },
         categoryField: "id",
         categoryAxis: {
@@ -1999,16 +2084,94 @@ var SessionsPage = {
         gridAlpha: 0,
         position: "top"
       });
+
+      chart.addListener("changed", function (event) {
+        if (event.index) {
+          sessionCurrentImage.src = statsEmotion[event.index].image
+          var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
+            theme: "black",
+            type: "serial",
+            startDuration: 0,
+            dataProvider: [
+              {
+                emotion: "Anger",
+                score: statsEmotion[event.index].anger,
+                color: "#FF0F00"
+              },
+              {
+                emotion: "Contempt",
+                score: statsEmotion[event.index].contempt,
+                color: "#FF6600"
+              },
+              {
+                emotion: "Disgust",
+                score: statsEmotion[event.index].disgust,
+                color: "#FF9E01"
+              },
+              {
+                emotion: "Fear",
+                score: statsEmotion[event.index].fear,
+                color: "#FCD202"
+              },
+              {
+                emotion: "Happiness",
+                score: statsEmotion[event.index].happiness,
+                color: "#F8FF01"
+              },
+              {
+                emotion: "Neutral",
+                score: statsEmotion[event.index].neutral,
+                color: "#B0DE09"
+              },
+              {
+                emotion: "Sadness",
+                score: statsEmotion[event.index].sadness,
+                color: "#04D215"
+              },
+              {
+                emotion: "Surprise",
+                score: statsEmotion[event.index].surprise,
+                color: "#0D8ECF"
+              }
+            ],
+            valueAxes: [
+              {
+                position: "left",
+                title: "Emotion"
+              }
+            ],
+            graphs: [
+              {
+                balloonText: "[[category]]: <b>[[value]]</b>",
+                fillColorsField: "color",
+                fillAlphas: 1,
+                lineAlpha: 0.1,
+                type: "column",
+                valueField: "score"
+              }
+            ],
+            depth3D: 20,
+            angle: 30,
+            chartCursor: {
+              categoryBalloonEnabled: false,
+              cursorAlpha: 0,
+              zoomable: false
+            },
+            categoryField: "emotion",
+            categoryAxis: {
+              gridPosition: "start",
+              labelRotation: 90
+            }
+          });
+        }
+      });
+
     }
   },
-  computed: {
-    sessionEmotions: function() {
-      this.statsEmotions.forEach(function(emotion) {
-        return emotion.emotions;
-      });
-    }
-  }
+  computed: {},
+  components: {}
 };
+
 
 var AboutPage = {
   template: "#about-page",
