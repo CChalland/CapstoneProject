@@ -609,7 +609,8 @@ var VisualProwessPage = {
       },
       imgFilters: {},
       intervalId: null,
-      showCurrentEmotions: true
+      showCurrentEmotions: false,
+      showFilters: false
     };
   },
   watch: {
@@ -965,6 +966,7 @@ var VisualProwessPage = {
       visualFilterButton.addEventListener(
         "click",
         function(ev) {
+          vm.showFilters = !vm.showFilters;
           window.filterTrackerEnabled = !window.filterTrackerEnabled;
           if (window.filterTrackerEnabled) {
             axios.get("/keys").then(function(response) {
@@ -1209,11 +1211,204 @@ var VisualProwessPage = {
     },
     showOverallEmotion: function() {
       this.showCurrentEmotions = false;
-      return this.showCurrentEmotions;
+      var statsEmotionChart = AmCharts.makeChart("overall-stats-chartdiv", {
+        type: "serial",
+        theme: "black",
+        legend: {
+          useGraphSettings: true
+        },
+        dataProvider: this.statsEmotions,
+        valueAxes: [
+          {
+            integersOnly: false,
+            maximum: 100,
+            minimum: 0,
+            reversed: false,
+            axisAlpha: 0,
+            dashLength: 5,
+            gridCount: 10,
+            position: "left",
+            title: "Emotions taken"
+          }
+        ],
+        startDuration: 0,
+        graphs: [
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            hidden: false,
+            title: "Anger",
+            valueField: "anger",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Contempt",
+            valueField: "contempt",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Disgust",
+            valueField: "disgust",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Fear",
+            valueField: "fear",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Happiness",
+            valueField: "happiness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Neutral",
+            valueField: "neutral",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Sadness",
+            valueField: "sadness",
+            fillAlphas: 0
+          },
+          {
+            balloonText: "[[title]]: [[value]]",
+            bullet: "round",
+            title: "Surprise",
+            valueField: "surprise",
+            fillAlphas: 0
+          }
+        ],
+        chartCursor: {
+          cursorAlpha: 0,
+          zoomable: true
+        },
+        categoryField: "id",
+        categoryAxis: {
+          gridPosition: "start",
+          axisAlpha: 0,
+          fillAlpha: 0.05,
+          fillColor: "#000000",
+          gridAlpha: 0,
+          position: "top"
+        },
+        gridAlpha: 0,
+        position: "top"
+      });
     },
     showCurrentEmotion: function() {
       this.showCurrentEmotions = true;
-      return this.showCurrentEmotions;
+      var currentStatsEmotionChart = AmCharts.makeChart(
+        "current-stats-chartdiv",
+        {
+          type: "serial",
+          theme: "black",
+          legend: {
+            useGraphSettings: true
+          },
+          dataProvider: this.currentStatsEmotions,
+          valueAxes: [
+            {
+              integersOnly: false,
+              maximum: 100,
+              minimum: 0,
+              reversed: false,
+              axisAlpha: 0,
+              dashLength: 5,
+              gridCount: 10,
+              position: "left",
+              title: "Emotions taken"
+            }
+          ],
+          startDuration: 0,
+          graphs: [
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              hidden: false,
+              title: "Anger",
+              valueField: "anger",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Contempt",
+              valueField: "contempt",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Disgust",
+              valueField: "disgust",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Fear",
+              valueField: "fear",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Happiness",
+              valueField: "happiness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Neutral",
+              valueField: "neutral",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Sadness",
+              valueField: "sadness",
+              fillAlphas: 0
+            },
+            {
+              balloonText: "[[title]]: [[value]]",
+              bullet: "round",
+              title: "Surprise",
+              valueField: "surprise",
+              fillAlphas: 0
+            }
+          ],
+          chartCursor: {
+            cursorAlpha: 0,
+            zoomable: true
+          },
+          categoryField: "id",
+          categoryAxis: {
+            gridPosition: "start",
+            axisAlpha: 0,
+            fillAlpha: 0.05,
+            fillColor: "#000000",
+            gridAlpha: 0,
+            position: "top"
+          },
+          gridAlpha: 0,
+          position: "top"
+        }
+      );
     },
     visualProwess: function() {
       // console.log("This from visual method", this);
@@ -2270,6 +2465,7 @@ var LoginPage = {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           router.push("/");
+          window.location.reload(true);
         })
         .catch(
           function(error) {
@@ -2287,6 +2483,7 @@ var LogoutPage = {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
     router.push("/");
+    window.location.reload(true);
   }
 };
 
@@ -2307,10 +2504,16 @@ var router = new VueRouter({
 var app = new Vue({
   el: "#app",
   router: router,
+  data: function() {
+    return {
+      signedIn: false
+    }
+  },
   created: function() {
     var jwt = localStorage.getItem("jwt");
     if (jwt) {
       axios.defaults.headers.common["Authorization"] = jwt;
+      this.signedIn = true;
     }
   }
 });
