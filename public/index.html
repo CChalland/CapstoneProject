@@ -210,7 +210,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="previewAnger">
+                                        <img id="imgFilter" class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewAnger(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -255,7 +255,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewContempt(imgFilter)" data-dismiss="modal">
                                         <!-- <div class="card-body">
                                           <p class="card-title">{{ imgFilter.name }}</p>
                                         </div> -->
@@ -303,7 +303,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewDisgust(imgFilter)" data-dismiss="modal">
                                         
                                       </div>
                                     </div>
@@ -349,7 +349,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewFear(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -395,7 +395,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewHappiness(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -440,7 +440,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewNeutral(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -485,7 +485,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSadness(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -530,7 +530,7 @@
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                       <div class="card mb-2 bg-dark">
-                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                        <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSurprise(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
@@ -602,7 +602,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="previewAnger">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewAnger(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -647,10 +647,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
-                                              <!-- <div class="card-body">
-                                                <p class="card-title">{{ imgFilter.name }}</p>
-                                              </div> -->
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewContempt(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -695,7 +692,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewDisgust(imgFilter)" data-dismiss="modal">
                                               
                                             </div>
                                           </div>
@@ -741,7 +738,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewFear(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -787,7 +784,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewHappiness(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -832,7 +829,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewNeutral(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -877,7 +874,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSadness(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -922,7 +919,7 @@
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
                                             <div class="card mb-2 bg-dark">
-                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image">
+                                              <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSurprise(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
@@ -981,10 +978,10 @@
                     </p>
                     <div class="row">
                       <div class="col">
-                        <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
+                        <div class="collapse multi-collapse" v-bind:id="'collapseUserPhoto' + index">
                           <div class="card card-body bg-dark">
                             Photo when emotions were taken
-                            <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
+                            <img v-bind:id="'userSessionCurrentImage' + index" class="d-block w-100" src="" alt-src="'Slide' + index">
                           </div>
                         </div>
                       </div>
@@ -992,7 +989,7 @@
                         <div class="collapse multi-collapse" v-bind:id=" 'collapseUserStats' + index ">
                           <div class="card card-body bg-dark">
                             Statistics of your Emotions
-                            <div id="emotion-chartdiv" style="width: 100%; height: 475px;"></div>
+                            <div v-bind:id="'emotion-chartdiv' + index" style="width: 100%; height: 475px;"></div>
                           </div>
                         </div>
                       </div>
@@ -1121,7 +1118,7 @@
                 <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
                   <div class="card card-body bg-dark">
                     Photo when emotions were taken
-                    <img id="sessionCurrentImage" class="d-block w-100" src="" alt-src="'Slide' + index">
+                    <img v-bind:id="'sessionCurrentImage' + index" class="d-block w-100" src="" alt-src="'Slide' + index">
 
                   </div>
                 </div>
@@ -1130,7 +1127,7 @@
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
                   <div class="card card-body bg-dark">
                     Statistics of your Emotions
-                    <div id="emotion-chartdiv" style="width: 100%; height: 475px;"></div>
+                    <div v-bind:id="'emotion-chartdiv' + index" style="width: 100%; height: 475px;"></div>
                   </div>
                 </div>
               </div>

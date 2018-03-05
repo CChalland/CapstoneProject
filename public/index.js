@@ -152,6 +152,7 @@ var UserPage = {
   mounted: function() {},
   methods: {
     userEmotionsChart: function(statsEmotion, index) {
+      var userSessionCurrentImage = document.getElementById("userSessionCurrentImage" + index);
       var chart = AmCharts.makeChart("userStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -250,8 +251,8 @@ var UserPage = {
       });
       chart.addListener("changed", function (event) {
         if (event.index) {
-          sessionCurrentImage.src = statsEmotion[event.index].image
-          var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
+          userSessionCurrentImage.src = statsEmotion[event.index].image
+          var emotionChart = AmCharts.makeChart("emotion-chartdiv" + index, {
             theme: "black",
             type: "serial",
             startDuration: 0,
@@ -425,9 +426,11 @@ var UserPage = {
           this.imageAnger = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
-      } else {
-        console.log("hello", this.imageAnger);
+        console.log(this.imageAnger);
       }
+    },
+    imgPreviewAnger: function(filterImg) {
+      this.imageAnger = filterImg.image;
     },
     previewContempt: function(event) {
       var input = event.target;
@@ -439,6 +442,9 @@ var UserPage = {
         reader.readAsDataURL(input.files[0]);
       }
     },
+    imgPreviewContempt: function(filterImg) {
+      this.imageContempt = filterImg.image;
+    },
     previewDisgust: function(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -448,6 +454,9 @@ var UserPage = {
         };
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    imgPreviewDisgust: function(filterImg) {
+      this.imageDisgust = filterImg.image;
     },
     previewFear: function(event) {
       var input = event.target;
@@ -459,6 +468,9 @@ var UserPage = {
         reader.readAsDataURL(input.files[0]);
       }
     },
+    imgPreviewFear: function(filterImg) {
+      this.imageFear = filterImg.image;
+    },
     previewHappiness: function(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -468,6 +480,9 @@ var UserPage = {
         };
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    imgPreviewHappiness: function(filterImg) {
+      this.imageHappiness = filterImg.image;
     },
     previewNeutral: function(event) {
       var input = event.target;
@@ -479,6 +494,9 @@ var UserPage = {
         reader.readAsDataURL(input.files[0]);
       }
     },
+    imgPreviewNeutral: function(filterImg) {
+      this.imageNeutral = filterImg.image;
+    },
     previewSadness: function(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -488,6 +506,9 @@ var UserPage = {
         };
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    imgPreviewSadness: function(filterImg) {
+      this.imageSadness = filterImg.image;
     },
     previewSurprise: function(event) {
       // Reference to the DOM input element
@@ -507,6 +528,9 @@ var UserPage = {
         // Toggle modal after filter uploaded
         $("#surpriseModal").modal("toggle");
       }
+    },
+    imgPreviewSurprise: function(filterImg) {
+      this.imageSurprise = filterImg.image;
     },
     uploadFilters: function(event) {
       if (
@@ -1986,7 +2010,7 @@ var SessionsPage = {
   mounted: function() {},
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      var sessionCurrentImage = document.getElementById("sessionCurrentImage");
+      var sessionCurrentImage = document.getElementById("sessionCurrentImage" + index);
       var chart = AmCharts.makeChart("sessionStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -2088,7 +2112,7 @@ var SessionsPage = {
       chart.addListener("changed", function (event) {
         if (event.index) {
           sessionCurrentImage.src = statsEmotion[event.index].image
-          var emotionChart = AmCharts.makeChart("emotion-chartdiv", {
+          var emotionChart = AmCharts.makeChart("emotion-chartdiv" + index, {
             theme: "black",
             type: "serial",
             startDuration: 0,
