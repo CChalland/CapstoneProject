@@ -950,6 +950,7 @@
             </div>
           </div>
           <div class="tab-pane fade" id="pills-userSessions" role="tabpanel" aria-labelledby="pills-userSessions-tab">
+            <div v-if="loading" class="loader"></div>
             View {{ userInfo.user_name }}'s Sessions
             <div id="accordion" role="tablist">
               <div class="card text-white bg-dark" v-for="(userStatsEmotion, index) in userStatsEmotions" v-bind:key="userStatsEmotion.id">

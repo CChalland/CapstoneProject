@@ -24,7 +24,7 @@ canvas#_imageData {
 .loader {
     position: absolute;
     left: 49%;
-    top: 20%;
+    top: 30%;
     z-index: 1;
     border: 16px solid #343a40; /* bg-dark color hex */
     border-top: 16px solid #c9302c; /* btn-danger color hex */
@@ -36,4 +36,12 @@ canvas#_imageData {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #c9302c;
+}
+
+a:hover {
+  color: #c9302c;
 }

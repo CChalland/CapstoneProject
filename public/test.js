@@ -129,7 +129,8 @@ var UserPage = {
         { name: "vin diesel", image: "img/filters/celebrity/vin-diesel.png" }
       ],
       userEmotions: [],
-      userStatsEmotions: []
+      userStatsEmotions: [],
+      loading: true
     };
   },
   created: function() {
@@ -146,6 +147,7 @@ var UserPage = {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.userStatsEmotions = response.data;
+        this.loading = false;
       }.bind(this)
     );
   },
@@ -2514,5 +2516,11 @@ var app = new Vue({
       axios.defaults.headers.common["Authorization"] = jwt;
       this.signedIn = true;
     }
+    $(document).ready(function(){
+      $('a').click(function(){
+          $('a').removeClass("active");
+          $(this).addClass("active");
+      });
+    });
   }
 });
