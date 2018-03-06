@@ -43,3 +43,22 @@ canvas#_imageData {
 a:hover {
   color: #c9302c;
 }
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+  color: #c9302c;
+}
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: #c9302c;
+}
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+  color: #c9302c;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
+}
+.navbar-light .navbar-brand {
+  color: #c9302c;
+}
+.img-thumbnail {
+  background-color: #8f4c4c;
+  border: 1px solid #060606
+}

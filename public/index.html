@@ -31,51 +31,48 @@
   <script src="https://www.amcharts.com/lib/3/serial.js"></script>
   <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
   <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all">
 
 </head>
 <body>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <img src="img/Uchiha_Symbol.png" width="24" height="32" class="d-inline-block align-top space-navbar-img navbar-brand" alt=""/>
-        <a class="navbar-brand text-white" href="/#/">Uchiha</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
+        <img src="img/Uchiha_Symbol.png" width="24" height="32" class="d-inline-block align-top space-navbar-img navbar-brand">
+        <a class="navbar-brand bg-dark" href="/#/">Uchiha</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="navbarNavDropdown" class="navbar-collapse collapse">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link text-white" href="/#/visual_prowess/">Visual Prowess<span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="nav-link bg-dark" href="/#/visual_prowess">Visual Prowess<span class="sr-only">(current)</span></a>
               </li>
               <li v-if="signedIn" class="nav-item">
-                <a class="nav-link text-white" href="/#/sessions/">Sessions</a>
+                <a class="nav-link bg-dark" href="/#/sessions">Sessions</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="/#/about/">About</a>
+                <a class="nav-link bg-dark" href="/#/about">About</a>
               </li>
             </ul>
             <ul v-if="signedIn" class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link text-white" href="/#/user/">User</a>
+                <a class="nav-link bg-dark" href="/#/user">User</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white bg-dark" href="/#/logout">Logout</a>
+                <a class="nav-link bg-dark" href="/#/logout">Logout</a>
               </li>
             </ul>
-
             <ul v-else class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link text-white" href="/#/signup">Register</a>
+              <li class="nav-item bg-dark">
+                <a class="nav-link" href="/#/signup">Register</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white bg-dark" href="/#/login/">Login</a>
+                <a class="nav-link bg-dark" href="/#/login">Login</a>
               </li>
             </ul>
-
         </div>
     </nav>
     <br>
-
     <router-view></router-view>
   </div>
 </body>
@@ -86,8 +83,7 @@
     <div class="card text-center text-white bg-dark">
       <div class="card-body">
         <h4 class="card-title text-left">{{ userInfo.user_name }}'s Settings</h4>
-        <p class="card-text">{{ message }}</p>
-
+        <br>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="pills-userSettings-tab" data-toggle="pill" href="#pills-userSettings" role="tab" aria-controls="pills-userSettings" aria-selected="true">
@@ -108,7 +104,7 @@
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-userSettings" role="tabpanel" aria-labelledby="pills-userSettings-tab">
             <div class="text-center">
-              Edit {{ userInfo.user_name }}'s Settings
+              <p class="card-text">{{ message }}</p>
             </div>
             <br>
             <br>
@@ -165,6 +161,8 @@
               <div class="text-center">
                 Edit {{ userInfo.user_name }}'s Filters
               </div>
+              <br>
+              <br>
               <p class="text-left">
                 <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseNewFilter" aria-expanded="false" aria-controls="collapseNewFilter">
                   Create New Filter
@@ -173,7 +171,6 @@
                   Current Filters
                 </button>
               </p>
-              
               <div class="collapse" id="collapseNewFilter">
                 <div class="card card-body text-white bg-dark">
                   <h2>
@@ -184,7 +181,7 @@
                   </div>
                   <div class="row align-self-center">
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Anger</h5>
                         </div>
@@ -205,17 +202,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-                                
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img id="imgFilter" class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewAnger(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewAnger" accept="image/*">
                               </div>
@@ -227,9 +222,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Contempt</h5>
                         </div>
@@ -250,20 +244,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewContempt(imgFilter)" data-dismiss="modal">
-                                        <!-- <div class="card-body">
-                                          <p class="card-title">{{ imgFilter.name }}</p>
-                                        </div> -->
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewContempt" accept="image/*">
                               </div>
@@ -275,9 +264,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Disgust</h5>
                         </div>
@@ -298,18 +286,16 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewDisgust(imgFilter)" data-dismiss="modal">
                                         
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewDisgust" accept="image/*">
                               </div>
@@ -321,9 +307,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Fear</h5>
                         </div>
@@ -344,17 +329,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewFear(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewFear" accept="image/*">
                               </div>
@@ -369,7 +352,7 @@
                   </div>
                   <div class="row align-self-center">
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Happiness</h5>
                         </div>
@@ -390,17 +373,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewHappiness(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewHappiness" accept="image/*">
                               </div>
@@ -412,9 +393,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Neutral</h5>
                         </div>
@@ -435,17 +415,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewNeutral(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewNeutral" accept="image/*">
                               </div>
@@ -457,9 +435,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Sadness</h5>
                         </div>
@@ -480,17 +457,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSadness(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewSadness" accept="image/*">
                               </div>
@@ -502,9 +477,8 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-3">
-                      <div class="card mb-2 text-center text-white bg-dark">
+                      <div class="mb-2 text-center text-white bg-dark">
                         <div class="card-body">
                           <h5 class="card-title">Surprise</h5>
                         </div>
@@ -525,17 +499,15 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
                                 <div class="container">
                                   <div class="row">
                                     <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                      <div class="card mb-2 bg-dark">
+                                      <div class="mb-2 bg-dark">
                                         <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSurprise(imgFilter)" data-dismiss="modal">
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-
                                 Upload filter: 
                                 <input type="file" @change="previewSurprise" accept="image/*">
                               </div>
@@ -548,13 +520,11 @@
                       </div>
                     </div>
                   </div>
-
                   <button v-on:click="uploadFilters()" type="button" class="btn btn-primary">
                     Submit Filters
                   </button>
                 </div>
               </div>
-
               <div class="collapse" id="collapseUserFilters">
                 <div id="accordion" role="tablist">
                   <div class="card text-white bg-dark" v-for="(userFilter, index) in userFilters" v-bind:key="userFilter.id">
@@ -566,7 +536,6 @@
                       </h5>
                     </div>
                     <div v-bind:id="'collapseEditFilter' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-
                       <div class="card card-body text-center text-white bg-dark">
                         <h2>
                           Edit {{ userFilter.name }} Filter
@@ -576,7 +545,7 @@
                         </div>
                         <div class="row align-self-center">
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Anger</h5>
                               </div>
@@ -597,17 +566,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewAnger(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewAnger" accept="image/*">
                                     </div>
@@ -619,9 +586,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Contempt</h5>
                               </div>
@@ -642,17 +608,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewContempt(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewContempt" accept="image/*">
                                     </div>
@@ -664,9 +628,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Disgust</h5>
                               </div>
@@ -687,18 +650,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewDisgust(imgFilter)" data-dismiss="modal">
-                                              
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewDisgust" accept="image/*">
                                     </div>
@@ -710,9 +670,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Fear</h5>
                               </div>
@@ -733,17 +692,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewFear(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewFear" accept="image/*">
                                     </div>
@@ -758,7 +715,7 @@
                         </div>
                         <div class="row align-self-center">
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Happiness</h5>
                               </div>
@@ -779,17 +736,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewHappiness(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewHappiness" accept="image/*">
                                     </div>
@@ -801,9 +756,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Neutral</h5>
                               </div>
@@ -824,17 +778,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewNeutral(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewNeutral" accept="image/*">
                                     </div>
@@ -846,9 +798,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Sadness</h5>
                               </div>
@@ -869,17 +820,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSadness(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewSadness" accept="image/*">
                                     </div>
@@ -891,9 +840,8 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="col-md-3">
-                            <div class="card mb-2 text-center text-white bg-dark">
+                            <div class="mb-2 text-center text-white bg-dark">
                               <div class="card-body">
                                 <h5 class="card-title">Surprise</h5>
                               </div>
@@ -914,17 +862,15 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-
                                       <div class="container">
                                         <div class="row">
                                           <div class="col-md-2" v-for="imgFilter in imgFilters" v-bind:key="imgFilter.image">
-                                            <div class="card mb-2 bg-dark">
+                                            <div class="mb-2 bg-dark">
                                               <img class="card-img-top" v-bind:src="imgFilter.image" alt="Invaild image" @click="imgPreviewSurprise(imgFilter)" data-dismiss="modal">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
                                       Upload filter: 
                                       <input type="file" @change="previewSurprise" accept="image/*">
                                     </div>
@@ -936,13 +882,11 @@
                               </div>
                             </div>
                           </div>
-
                         </div>
                         <button v-on:click="editUserFilters(userFilter)" type="button" class="btn btn-primary">
                           Edit Filters
                         </button>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -952,6 +896,8 @@
           <div class="tab-pane fade" id="pills-userSessions" role="tabpanel" aria-labelledby="pills-userSessions-tab">
             <div v-if="loading" class="loader"></div>
             View {{ userInfo.user_name }}'s Sessions
+            <br>
+            <br>
             <div id="accordion" role="tablist">
               <div class="card text-white bg-dark" v-for="(userStatsEmotion, index) in userStatsEmotions" v-bind:key="userStatsEmotion.id">
                 <div class="card-header" role="tab" id="headingThree">
@@ -980,15 +926,15 @@
                     <div class="row">
                       <div class="col">
                         <div class="collapse multi-collapse" v-bind:id="'collapseUserPhoto' + index">
-                          <div class="card card-body bg-dark">
+                          <div class="card-body bg-dark">
                             Photo when emotions were taken
-                            <img v-bind:id="'userSessionCurrentImage' + index" class="d-block w-100" src="" alt-src="'Slide' + index">
+                            <img v-bind:id="'userSessionCurrentImage' + index" class="d-block w-100 img-thumbnail" src="" alt-src="'Slide' + index">
                           </div>
                         </div>
                       </div>
                       <div class="col">
                         <div class="collapse multi-collapse" v-bind:id=" 'collapseUserStats' + index ">
-                          <div class="card card-body bg-dark">
+                          <div class="card-body bg-dark">
                             Statistics of your Emotions
                             <div v-bind:id="'emotion-chartdiv' + index" style="width: 100%; height: 475px;"></div>
                           </div>
@@ -1011,7 +957,7 @@
     <div class="card text-white bg-dark">
       <br>
       <figure class="figure text-center">
-        <video id="video" width="1080" height="810" preload autoplay loop muted></video>
+        <video class="img-thumbnail" id="video" width="1080" height="810" preload autoplay loop muted></video>
         <canvas id="tracker" width="1080" height="810"></canvas>
         <canvas id="frame"></canvas>
       </figure>
@@ -1105,32 +1051,27 @@
         <div v-bind:id="'collapseChart' + index" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
           <div class="card-body text-center">
             <div v-bind:id="'sessionStatsEmotion-chartdiv' + index" style="width: 100%; height: 525px;"></div>
-            
             <p>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapsePhoto' + index" aria-expanded="false" v-bind:aria-controls="'collapsePhoto' + index">
-                Photo of Emotions
-              </button>
-              <button class="btn btn-danger" type="button" data-toggle="collapse" v-bind:data-target="'#collapseStats' + index " aria-expanded="false" v-bind:aria-controls="'collapseStats' + index">
-                Statistics of your Emotions
-              </button>
               <button class="btn btn-danger" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" v-bind:aria-controls="'collapseStats' + index + ' collapsePhoto' + index">
-                Toggle Both
+                More Info
               </button>
             </p>
             <div class="row">
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id="'collapsePhoto' + index">
-                  <div class="card card-body bg-dark">
+                  <div class="card-body bg-dark">
                     Photo when emotions were taken
-                    <img v-bind:id="'sessionCurrentImage' + index" class="d-block w-100" src="" alt-src="'Slide' + index">
-
+                    <br>
+                    <br>
+                    <img v-bind:id="'sessionCurrentImage' + index" class="d-block w-100 img-thumbnail" src="" alt-src="'Slide' + index">
                   </div>
                 </div>
               </div>
               <div class="col">
                 <div class="collapse multi-collapse" v-bind:id=" 'collapseStats' + index ">
-                  <div class="card card-body bg-dark">
+                  <div class="card-body bg-dark">
                     Statistics of your Emotions
+                    <br>
                     <div v-bind:id="'emotion-chartdiv' + index" style="width: 100%; height: 475px;"></div>
                   </div>
                 </div>
@@ -1149,7 +1090,7 @@
       <br>
       <figure class="figure text-center">
         <video id="_webcam" width="640" height="480" preload autoplay loop muted></video>
-        <canvas id="_imageData"></canvas>
+        <canvas class="img-thumbnail" id="_imageData"></canvas>
         <canvas id="canvas"></canvas>
       </figure>
       <div class="card-body text-center">
@@ -1194,14 +1135,14 @@
 
 <template id="home-page">
   <div class="container">
-    <div class="card text-center text-white bg-dark" style="width: 50rem;">
-      <img class="card-img-top" src="img/crest.jpg" alt="Uchiha">
+    <div class="card text-center text-white bg-dark">
+      <img class="card-img-top img-thumbnail" src="img/crest.jpg" alt="Uchiha">
       <div class="card-body">
         <h4 class="card-title">Uchiha</h4>
         <p class="card-text">{{ message }}</p>
-        <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
-        <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
-        <a href="/#/about/" class="btn btn-danger">About</a>
+        <a href="/#/visual_prowess" class="btn btn-danger">Visual Prowess</a>
+        <a href="/#/sharingan" class="btn btn-danger">Sharingan</a>
+        <a href="/#/about" class="btn btn-danger">About</a>
       </div>
     </div>
   </div>
@@ -1215,11 +1156,11 @@
           <h1 class="card-title">Uchiha</h1>
           <p class="card-text">{{ message }}</p>
           <a href="/#/" class="btn btn-danger">Home</a>
-          <a href="/#/visual_prowess/" class="btn btn-danger">Visual Prowess</a>
-          <a href="/#/sharingan/" class="btn btn-danger">Sharingan</a>
+          <a href="/#/visual_prowess" class="btn btn-danger">Visual Prowess</a>
+          <a href="/#/sharingan" class="btn btn-danger">Sharingan</a>
           <br>
           <br>
-          <img class="card-img-bottom" src="img/Itachi_Uchiha.gif" alt="Uchiha">
+          <img class="card-img-bottom img-thumbnail" src="img/Itachi_Uchiha.gif" alt="Uchiha">
         </div>
       </div>
     </div>

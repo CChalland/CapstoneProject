@@ -21,7 +21,7 @@ var UserPage = {
   template: "#user-page",
   data: function() {
     return {
-      message: "Welcome to Uchiha! Please edit your user settings.",
+      message: "Welcome to Uchiha! You can edit your user settings here.",
       errors: [],
       userInfo: {},
       filters: {
@@ -129,7 +129,8 @@ var UserPage = {
         { name: "vin diesel", image: "img/filters/celebrity/vin-diesel.png" }
       ],
       userEmotions: [],
-      userStatsEmotions: []
+      userStatsEmotions: [],
+      loading: true
     };
   },
   created: function() {
@@ -146,6 +147,7 @@ var UserPage = {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.userStatsEmotions = response.data;
+        this.loading = false;
       }.bind(this)
     );
   },
@@ -2514,5 +2516,11 @@ var app = new Vue({
       axios.defaults.headers.common["Authorization"] = jwt;
       this.signedIn = true;
     }
+    $(document).ready(function(){
+      $('a').click(function(){
+          $('a').removeClass("active");
+          $(this).addClass("active");
+      });
+    });
   }
 });
