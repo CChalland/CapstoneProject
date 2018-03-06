@@ -2457,7 +2457,7 @@ var LoginPage = {
   methods: {
     submit: function() {
       var params = {
-        auth: { email: this.email, password: this.password }
+        auth: { email: this.email.toLowerCase(), password: this.password }
       };
       axios
         .post("/user_token", params)

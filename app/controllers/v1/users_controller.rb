@@ -19,7 +19,7 @@ class V1::UsersController < ApplicationController
   def create
     user = User.new(
       user_name: params[:userName],
-      email: params[:email],
+      email: params[:email].downcase!,
       password: params[:password],
       password_confirmation: params[:passwordConfirmation],
       full_name: params[:fullName],
@@ -43,7 +43,7 @@ class V1::UsersController < ApplicationController
   def update
     user = User.find_by(id: current_user.id)
     user.user_name = params[:user_name] || user.user_name
-    user.email = params[:email] || user.email
+    user.email = params[:email].downcase! || user.email
     user.password = params[:password] || user.password
     user.password_confirmation = params[:password_confirmation] || user.password_confirmation
     user.full_name = params[:full_name] || user.full_name
