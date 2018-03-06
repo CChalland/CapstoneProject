@@ -2,7 +2,6 @@ body {
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
   background-image: url("img/dark.png");
 }
-
 video,
 canvas#tracker,
 canvas#_imageData {
@@ -10,7 +9,6 @@ canvas#_imageData {
   margin-top: 0px;
   position: absolute;
 }
-
 .navbar-brand {
   padding: 0px;
 }
@@ -20,7 +18,47 @@ canvas#_imageData {
   padding: 15px;
   width: auto;
 }
-
 .amcharts-chart-div a {
   display: none !important;
+}
+.loader {
+    position: absolute;
+    left: 49%;
+    top: 25%;
+    z-index: 1;
+    border: 16px solid #343a40; /* bg-dark color hex */
+    border-top: 16px solid #c9302c; /* btn-danger color hex */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #c9302c;
+}
+a:hover {
+  color: #c9302c;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+  color: #c9302c;
+}
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: #c9302c;
+}
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+  color: #c9302c;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
+}
+.navbar-light .navbar-brand {
+  color: #c9302c;
+}
+.img-thumbnail {
+  background-color: #8f4c4c;
+  border: 1px solid #060606
 }
