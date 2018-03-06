@@ -2191,7 +2191,8 @@ var SessionsPage = {
     return {
       statsEmotions: [],
       emotions: [],
-      currentImage: ""
+      currentImage: "",
+      loading: true
     };
   },
   watch: {},
@@ -2199,6 +2200,7 @@ var SessionsPage = {
     axios.get("/v1/visual_prowesses?session_emotions=true").then(
       function(response) {
         this.statsEmotions = response.data;
+        this.loading = false;
       }.bind(this)
     );
   },
@@ -2303,7 +2305,6 @@ var SessionsPage = {
         gridAlpha: 0,
         position: "top"
       });
-
       chart.addListener("changed", function (event) {
         if (event.index) {
           sessionCurrentImage.src = statsEmotion[event.index].image
@@ -2384,13 +2385,11 @@ var SessionsPage = {
           });
         }
       });
-
     }
   },
   computed: {},
   components: {}
 };
-
 
 var AboutPage = {
   template: "#about-page",
