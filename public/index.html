@@ -1091,6 +1091,7 @@
 
 <template id="sessions-page">
   <div class="container">
+     <div v-if="loading" class="loader"></div> 
     <div id="accordion" role="tablist">
       <div class="card text-white bg-dark" v-for="(statsEmotion, index) in statsEmotions" v-bind:key="statsEmotion.id">
         <div class="card-header" role="tab" id="headingThree">
@@ -1283,5 +1284,3 @@
     <button class="btn btn-danger" v-on:click="submit()">Submit</button>
   </div>
 </template>
-
-
