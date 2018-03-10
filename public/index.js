@@ -612,7 +612,8 @@ var VisualProwessPage = {
       imgFilters: {},
       intervalId: null,
       showCurrentEmotions: false,
-      showFilters: false
+      showFilters: false,
+      streaming: null
     };
   },
   watch: {
@@ -914,7 +915,6 @@ var VisualProwessPage = {
     var initTracker = function(argument) {
       var width = 1080; // We will scale the photo width to this
       var height = 0;
-      var streaming = false;
       var video = document.getElementById("video");
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
@@ -922,17 +922,16 @@ var VisualProwessPage = {
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
-
-
+      vm.streaming = false;
 
       video.addEventListener(
         "canplay",
         function(ev) {
-          if (!streaming) {
+          if (!vm.streaming) {
             height = video.videoHeight / (video.videoWidth / width);
             frame.setAttribute("width", width);
             frame.setAttribute("height", height);
-            streaming = true;
+            vm.streaming = true;
           }
         },
         false
@@ -1442,7 +1441,8 @@ var SharinganPage = {
           }
         }
       ],
-      intervalId: null
+      intervalId: null,
+      streaming: null
     };
   },
   watch: {
@@ -1635,7 +1635,7 @@ var SharinganPage = {
     (function() {
       // |streaming| indicates whether or not we're currently streaming
       // video from the camera. Obviously, we start at false.
-      var streaming = false;
+      vm.streaming = false;
 
       // detect WebAssembly support and load either WASM or ASM version of Uchiha
       var support = typeof WebAssembly === "object";
@@ -1742,9 +1742,9 @@ var SharinganPage = {
           webcam.addEventListener(
             "canplay",
             function(ev) {
-              if (!streaming) {
+              if (!vm.streaming) {
                 height = webcam.videoHeight / (webcam.videoWidth / width);
-                streaming = true;
+                vm.streaming = true;
               }
             },
             false

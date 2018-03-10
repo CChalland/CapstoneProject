@@ -25,7 +25,7 @@
   <script src="https://unpkg.com/vue-router/dist/vue-router.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-  <script src="test.js" defer></script>
+  <script src="index.js" defer></script>
 
   <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
   <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -957,7 +957,7 @@
     <div class="card text-white bg-dark">
       <br>
       <figure class="figure text-center">
-        <video class="img-thumbnail" id="video" width="1080" height="810" preload autoplay loop muted></video>
+        <video v-show="streaming" class="img-thumbnail" id="video" width="1080" height="810" preload autoplay loop muted></video>
         <canvas id="tracker" width="1080" height="810"></canvas>
         <canvas id="frame"></canvas>
       </figure>
@@ -1089,8 +1089,8 @@
     <div class="card text-white bg-dark">
       <br>
       <figure class="figure text-center">
-        <video id="_webcam" width="640" height="480" preload autoplay loop muted></video>
-        <canvas class="img-thumbnail" id="_imageData"></canvas>
+        <video v-show="!streaming" id="_webcam" width="640" height="480" preload autoplay loop muted></video>
+        <canvas v-show="streaming" class="img-thumbnail" id="_imageData"></canvas>
         <canvas id="canvas"></canvas>
       </figure>
       <div class="card-body text-center">
