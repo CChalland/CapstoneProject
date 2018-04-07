@@ -595,15 +595,17 @@ var VisualProwessPage = {
       emotions: [],
       result: [
         {
-          scores: {
-            anger: 0,
-            contempt: 0,
-            disgust: 0,
-            fear: 0,
-            happiness: 0,
-            neutral: 0,
-            sadness: 0,
-            surprise: 0
+          faceAttributes: {
+            emotion: {
+              anger: 0,
+              contempt: 0,
+              disgust: 0,
+              fear: 0,
+              happiness: 0,
+              neutral: 0,
+              sadness: 0,
+              surprise: 0
+            }
           }
         }
       ],
@@ -923,7 +925,7 @@ var VisualProwessPage = {
 
     var initTracker = function(argument) {
       var width = 1080; // We will scale the photo width to this
-      var height = 0;
+      var height = 810;
       var video = document.getElementById("video");
       var canvas = document.getElementById("tracker");
       var frame = document.getElementById("frame");
@@ -931,20 +933,20 @@ var VisualProwessPage = {
       var visualProwessButton = document.getElementById("visualProwessButton");
       var visualFilterButton = document.getElementById("visualFilterButton");
       var context = canvas.getContext("2d");
-      vm.streaming = false;
+      vm.streaming = true;
 
-      video.addEventListener(
-        "canplay",
-        function(ev) {
-          if (!vm.streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
-            frame.setAttribute("width", width);
-            frame.setAttribute("height", height);
-            vm.streaming = true;
-          }
-        },
-        false
-      );
+      // video.addEventListener(
+      //   "canplay",
+      //   function(ev) {
+      //     if (!vm.streaming) {
+      //       height = video.videoHeight / (video.videoWidth / width);
+      //       frame.setAttribute("width", width);
+      //       frame.setAttribute("height", height);
+      //       vm.streaming = true;
+      //     }
+      //   },
+      //   false
+      // );
 
       var tracker = new tracking.ObjectTracker("face");
       tracker.setInitialScale(3.25);
@@ -1009,51 +1011,63 @@ var VisualProwessPage = {
             context.font = "18px Helvetica";
             context.fillStyle = "#fffa00";
             context.fillText(
-              "anger: " + (vm.result[0].scores.anger * 100).toFixed(3) + "%",
+              "anger: " +
+                (vm.result[0].faceAttributes.emotion.anger * 100).toFixed(3) +
+                "%",
               rect.x + rect.width + 5,
               rect.y
             );
             context.fillText(
               "contempt: " +
-                (vm.result[0].scores.contempt * 100).toFixed(3) +
+                (vm.result[0].faceAttributes.emotion.contempt * 100).toFixed(
+                  3
+                ) +
                 "%",
               rect.x + rect.width + 5,
               rect.y + 18
             );
             context.fillText(
               "disgust: " +
-                (vm.result[0].scores.disgust * 100).toFixed(3) +
+                (vm.result[0].faceAttributes.emotion.disgust * 100).toFixed(3) +
                 "%",
               rect.x + rect.width + 5,
               rect.y + 36
             );
             context.fillText(
-              "fear: " + (vm.result[0].scores.fear * 100).toFixed(3) + "%",
+              "fear: " +
+                (vm.result[0].faceAttributes.emotion.fear * 100).toFixed(3) +
+                "%",
               rect.x + rect.width + 5,
               rect.y + 54
             );
             context.fillText(
               "happiness: " +
-                (vm.result[0].scores.happiness * 100).toFixed(3) +
+                (vm.result[0].faceAttributes.emotion.happiness * 100).toFixed(
+                  3
+                ) +
                 "%",
               rect.x + rect.width + 5,
               rect.y + 72
             );
             context.fillText(
               "neutral: " +
-                (vm.result[0].scores.neutral * 100).toFixed(3) +
+                (vm.result[0].faceAttributes.emotion.neutral * 100).toFixed(3) +
                 "%",
               rect.x + rect.width + 5,
               rect.y + 90
             );
             context.fillText(
-              "sadness " + (vm.result[0].scores.sadness * 100).toFixed(3) + "%",
+              "sadness " +
+                (vm.result[0].faceAttributes.emotion.sadness * 100).toFixed(3) +
+                "%",
               rect.x + rect.width + 5,
               rect.y + 108
             );
             context.fillText(
               "surprise: " +
-                (vm.result[0].scores.surprise * 100).toFixed(3) +
+                (vm.result[0].faceAttributes.emotion.surprise * 100).toFixed(
+                  3
+                ) +
                 "%",
               rect.x + rect.width + 5,
               rect.y + 126
@@ -1193,7 +1207,6 @@ var VisualProwessPage = {
                 });
               }
             }).fail(function(jqXHR, textStatus, errorThrown) {
-              // Display error message.
               var errorString =
                 errorThrown === ""
                   ? "Error. "
@@ -1476,15 +1489,17 @@ var SharinganPage = {
       emotions: [],
       result: [
         {
-          scores: {
-            anger: 0,
-            contempt: 0,
-            disgust: 0,
-            fear: 0,
-            happiness: 0,
-            neutral: 0,
-            sadness: 0,
-            surprise: 0
+          faceAttributes: {
+            emotion: {
+              anger: 0,
+              contempt: 0,
+              disgust: 0,
+              fear: 0,
+              happiness: 0,
+              neutral: 0,
+              sadness: 0,
+              surprise: 0
+            }
           }
         }
       ],
