@@ -16,8 +16,8 @@ class Filter < ApplicationRecord
   dragonfly_accessor :surprise
 
 
-# # needs to be optional only when seeding the database
-# belongs_to :user, optional: true
+# needs to be optional only when seeding the database
+  # belongs_to :user, optional: true
   belongs_to :user    
 
 

@@ -8,8 +8,8 @@ class KeysController < ApplicationController
     end
 
     render json: { 
-      id: ENV['EMOTION_API_ID'],
-      key: ENV['EMOTION_API_KEY1'],
+      id: ENV['FACE_API_ID'],
+      key: ENV['FACE_API_KEY1'],
       session_id: session_id
     }
   end
