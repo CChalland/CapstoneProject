@@ -1,8 +1,15 @@
 /* global Vue, VueRouter, axios, AmCharts, tracking, uchihaExample, $, Carousel3d, Siema */
 
-var EMOTION_API_ID = "";
-var EMOTION_API_KEY1 = "";
+var FACE_API_ID = "";
+var FACE_API_KEY1 = "";
 var sessionId = "";
+
+var params = {
+  returnFaceId: "true",
+  returnFaceLandmarks: "false",
+  returnFaceAttributes:
+    "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise"
+};
 
 var HomePage = {
   template: "#home-page",
@@ -16,7 +23,7 @@ var HomePage = {
   methods: {},
   computed: {}
 };
-  
+
 var UserPage = {
   template: "#user-page",
   data: function() {
@@ -154,7 +161,9 @@ var UserPage = {
   mounted: function() {},
   methods: {
     userEmotionsChart: function(statsEmotion, index) {
-      var userSessionCurrentImage = document.getElementById("userSessionCurrentImage" + index);
+      var userSessionCurrentImage = document.getElementById(
+        "userSessionCurrentImage" + index
+      );
       var chart = AmCharts.makeChart("userStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -251,9 +260,9 @@ var UserPage = {
         gridAlpha: 0,
         position: "top"
       });
-      chart.addListener("changed", function (event) {
+      chart.addListener("changed", function(event) {
         if (event.index) {
-          userSessionCurrentImage.src = statsEmotion[event.index].image
+          userSessionCurrentImage.src = statsEmotion[event.index].image;
           var emotionChart = AmCharts.makeChart("emotion-chartdiv" + index, {
             theme: "black",
             type: "serial",
@@ -949,8 +958,8 @@ var VisualProwessPage = {
           window.statsTrackerEnabled = !window.statsTrackerEnabled;
           if (window.statsTrackerEnabled) {
             axios.get("/keys").then(function(response) {
-              EMOTION_API_ID = response.data.id;
-              EMOTION_API_KEY1 = response.data.key;
+              FACE_API_ID = response.data.id;
+              FACE_API_KEY1 = response.data.key;
               sessionId = response.data.session_id;
             });
             vm.intervalId = setInterval(function() {
@@ -971,8 +980,8 @@ var VisualProwessPage = {
           window.filterTrackerEnabled = !window.filterTrackerEnabled;
           if (window.filterTrackerEnabled) {
             axios.get("/keys").then(function(response) {
-              EMOTION_API_ID = response.data.id;
-              EMOTION_API_KEY1 = response.data.key;
+              FACE_API_ID = response.data.id;
+              FACE_API_KEY1 = response.data.key;
               sessionId = response.data.session_id;
             });
             vm.intervalId = setInterval(function() {
@@ -1097,7 +1106,7 @@ var VisualProwessPage = {
           };
 
           var a1 = $.ajax({
-              url: EMOTION_API_ID,
+              url: FACE_API_ID + "?" + $.param(params),
               beforeSend: function(xhrObj) {
                 xhrObj.setRequestHeader(
                   "Content-Type",
@@ -1105,7 +1114,7 @@ var VisualProwessPage = {
                 );
                 xhrObj.setRequestHeader(
                   "Ocp-Apim-Subscription-Key",
-                  EMOTION_API_KEY1
+                  FACE_API_KEY1
                 );
               },
               type: "POST",
@@ -1129,47 +1138,85 @@ var VisualProwessPage = {
                 vm.result = data;
                 vm.currentStatsEmotions.push({
                   id: vm.currentStatsEmotionsId + 1,
-                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
-                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
-                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
-                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
-                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
-                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
-                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
-                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                  anger: (
+                    vm.result[0].faceAttributes.emotion.anger * 100
+                  ).toFixed(4),
+                  contempt: (
+                    vm.result[0].faceAttributes.emotion.contempt * 100
+                  ).toFixed(4),
+                  disgust: (
+                    vm.result[0].faceAttributes.emotion.disgust * 100
+                  ).toFixed(4),
+                  fear: (
+                    vm.result[0].faceAttributes.emotion.fear * 100
+                  ).toFixed(4),
+                  happiness: (
+                    vm.result[0].faceAttributes.emotion.happiness * 100
+                  ).toFixed(4),
+                  neutral: (
+                    vm.result[0].faceAttributes.emotion.neutral * 100
+                  ).toFixed(4),
+                  sadness: (
+                    vm.result[0].faceAttributes.emotion.sadness * 100
+                  ).toFixed(4),
+                  surprise: (
+                    vm.result[0].faceAttributes.emotion.surprise * 100
+                  ).toFixed(4)
                 });
-                vm.emotions = vm.result[0].scores;
+                vm.emotions = vm.result[0].faceAttributes.emotion;
                 vm.statsEmotions.push({
                   id: vm.statsEmotionsId + 1,
-                  anger: (vm.result[0].scores.anger * 100).toFixed(4),
-                  contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
-                  disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
-                  fear: (vm.result[0].scores.fear * 100).toFixed(4),
-                  happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
-                  neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
-                  sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
-                  surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                  anger: (
+                    vm.result[0].faceAttributes.emotion.anger * 100
+                  ).toFixed(4),
+                  contempt: (
+                    vm.result[0].faceAttributes.emotion.contempt * 100
+                  ).toFixed(4),
+                  disgust: (
+                    vm.result[0].faceAttributes.emotion.disgust * 100
+                  ).toFixed(4),
+                  fear: (
+                    vm.result[0].faceAttributes.emotion.fear * 100
+                  ).toFixed(4),
+                  happiness: (
+                    vm.result[0].faceAttributes.emotion.happiness * 100
+                  ).toFixed(4),
+                  neutral: (
+                    vm.result[0].faceAttributes.emotion.neutral * 100
+                  ).toFixed(4),
+                  sadness: (
+                    vm.result[0].faceAttributes.emotion.sadness * 100
+                  ).toFixed(4),
+                  surprise: (
+                    vm.result[0].faceAttributes.emotion.surprise * 100
+                  ).toFixed(4)
                 });
               }
-            }).fail(function(data) {
-              alert(
-                "Code: " +
-                  data.responseJSON.error.code +
-                  " Message:" +
-                  data.responseJSON.error.message
-              );
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+              // Display error message.
+              var errorString =
+                errorThrown === ""
+                  ? "Error. "
+                  : errorThrown + " (" + jqXHR.status + "): ";
+              errorString +=
+                jqXHR.responseText === ""
+                  ? ""
+                  : jQuery.parseJSON(jqXHR.responseText).message
+                    ? jQuery.parseJSON(jqXHR.responseText).message
+                    : jQuery.parseJSON(jqXHR.responseText).error.message;
+              alert(errorString);
             }),
             a2 = a1.then(function(result) {
               axios
                 .post("/v1/visual_prowesses", {
-                  anger: vm.result[0].scores.anger,
-                  contempt: vm.result[0].scores.contempt,
-                  disgust: vm.result[0].scores.disgust,
-                  fear: vm.result[0].scores.fear,
-                  happiness: vm.result[0].scores.happiness,
-                  neutral: vm.result[0].scores.neutral,
-                  sadness: vm.result[0].scores.sadness,
-                  surprise: vm.result[0].scores.surprise,
+                  anger: vm.result[0].faceAttributes.emotion.anger,
+                  contempt: vm.result[0].faceAttributes.emotion.contempt,
+                  disgust: vm.result[0].faceAttributes.emotion.disgust,
+                  fear: vm.result[0].faceAttributes.emotion.fear,
+                  happiness: vm.result[0].faceAttributes.emotion.happiness,
+                  neutral: vm.result[0].faceAttributes.emotion.neutral,
+                  sadness: vm.result[0].faceAttributes.emotion.sadness,
+                  surprise: vm.result[0].faceAttributes.emotion.surprise,
                   image: dataURL,
                   leftPx: vm.result[0].faceRectangle.left,
                   topPx: vm.result[0].faceRectangle.top,
@@ -1756,8 +1803,8 @@ var SharinganPage = {
               window.statsTrackerEnabled = !window.statsTrackerEnabled;
               if (window.statsTrackerEnabled) {
                 axios.get("/keys").then(function(response) {
-                  EMOTION_API_ID = response.data.id;
-                  EMOTION_API_KEY1 = response.data.key;
+                  FACE_API_ID = response.data.id;
+                  FACE_API_KEY1 = response.data.key;
                   sessionId = response.data.session_id;
                 });
                 vm.intervalId = setInterval(function() {
@@ -1915,7 +1962,7 @@ var SharinganPage = {
             };
 
             var a1 = $.ajax({
-                url: EMOTION_API_ID,
+                url: FACE_API_ID + "?" + $.param(params),
                 beforeSend: function(xhrObj) {
                   xhrObj.setRequestHeader(
                     "Content-Type",
@@ -1923,7 +1970,7 @@ var SharinganPage = {
                   );
                   xhrObj.setRequestHeader(
                     "Ocp-Apim-Subscription-Key",
-                    EMOTION_API_KEY1
+                    FACE_API_KEY1
                   );
                 },
                 type: "POST",
@@ -1931,26 +1978,48 @@ var SharinganPage = {
                 processData: false,
                 success: function(data) {
                   vm.result = data;
-                  vm.emotions = vm.result[0].scores;
+                  vm.emotions = vm.result[0].faceAttributes.emotion;
                   vm.statsEmotions.push({
                     // id: vm.statsEmotions[vm.statsEmotions.length - 1].id,
-                    anger: (vm.result[0].scores.anger * 100).toFixed(4),
-                    contempt: (vm.result[0].scores.contempt * 100).toFixed(4),
-                    disgust: (vm.result[0].scores.disgust * 100).toFixed(4),
-                    fear: (vm.result[0].scores.fear * 100).toFixed(4),
-                    happiness: (vm.result[0].scores.happiness * 100).toFixed(4),
-                    neutral: (vm.result[0].scores.neutral * 100).toFixed(4),
-                    sadness: (vm.result[0].scores.sadness * 100).toFixed(4),
-                    surprise: (vm.result[0].scores.surprise * 100).toFixed(4)
+                    anger: (
+                      vm.result[0].faceAttributes.emotion.anger * 100
+                    ).toFixed(4),
+                    contempt: (
+                      vm.result[0].faceAttributes.emotion.contempt * 100
+                    ).toFixed(4),
+                    disgust: (
+                      vm.result[0].faceAttributes.emotion.disgust * 100
+                    ).toFixed(4),
+                    fear: (
+                      vm.result[0].faceAttributes.emotion.fear * 100
+                    ).toFixed(4),
+                    happiness: (
+                      vm.result[0].faceAttributes.emotion.happiness * 100
+                    ).toFixed(4),
+                    neutral: (
+                      vm.result[0].faceAttributes.emotion.neutral * 100
+                    ).toFixed(4),
+                    sadness: (
+                      vm.result[0].faceAttributes.emotion.sadness * 100
+                    ).toFixed(4),
+                    surprise: (
+                      vm.result[0].faceAttributes.emotion.surprise * 100
+                    ).toFixed(4)
                   });
                 }
-              }).fail(function(data) {
-                alert(
-                  "Code: " +
-                    data.responseJSON.error.code +
-                    " Message:" +
-                    data.responseJSON.error.message
-                );
+              }).fail(function(jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString =
+                  errorThrown === ""
+                    ? "Error. "
+                    : errorThrown + " (" + jqXHR.status + "): ";
+                errorString +=
+                  jqXHR.responseText === ""
+                    ? ""
+                    : jQuery.parseJSON(jqXHR.responseText).message
+                      ? jQuery.parseJSON(jqXHR.responseText).message
+                      : jQuery.parseJSON(jqXHR.responseText).error.message;
+                alert(errorString);
               }),
               a2 = a1.then(function(result) {
                 // .then() returns a new promise
@@ -2151,14 +2220,14 @@ var SharinganPage = {
                       faces[0].vertices[135]
                     }`,
 
-                    anger: vm.result[0].scores.anger,
-                    contempt: vm.result[0].scores.contempt,
-                    disgust: vm.result[0].scores.disgust,
-                    fear: vm.result[0].scores.fear,
-                    happiness: vm.result[0].scores.happiness,
-                    neutral: vm.result[0].scores.neutral,
-                    sadness: vm.result[0].scores.sadness,
-                    surprise: vm.result[0].scores.surprise,
+                    anger: vm.result[0].faceAttributes.emotion.anger,
+                    contempt: vm.result[0].faceAttributes.emotion.contempt,
+                    disgust: vm.result[0].faceAttributes.emotion.disgust,
+                    fear: vm.result[0].faceAttributes.emotion.fear,
+                    happiness: vm.result[0].faceAttributes.emotion.happiness,
+                    neutral: vm.result[0].faceAttributes.emotion.neutral,
+                    sadness: vm.result[0].faceAttributes.emotion.sadness,
+                    surprise: vm.result[0].faceAttributes.emotion.surprise,
                     image: canvas.toDataURL("image/png"),
                     leftPx: vm.result[0].faceRectangle.left,
                     topPx: vm.result[0].faceRectangle.top,
@@ -2209,7 +2278,9 @@ var SessionsPage = {
   mounted: function() {},
   methods: {
     currentEmotionsChart: function(statsEmotion, index) {
-      var sessionCurrentImage = document.getElementById("sessionCurrentImage" + index);
+      var sessionCurrentImage = document.getElementById(
+        "sessionCurrentImage" + index
+      );
       var chart = AmCharts.makeChart("sessionStatsEmotion-chartdiv" + index, {
         type: "serial",
         theme: "black",
@@ -2307,9 +2378,9 @@ var SessionsPage = {
         gridAlpha: 0,
         position: "top"
       });
-      chart.addListener("changed", function (event) {
+      chart.addListener("changed", function(event) {
         if (event.index) {
-          sessionCurrentImage.src = statsEmotion[event.index].image
+          sessionCurrentImage.src = statsEmotion[event.index].image;
           var emotionChart = AmCharts.makeChart("emotion-chartdiv" + index, {
             theme: "black",
             type: "serial",
@@ -2508,7 +2579,7 @@ var app = new Vue({
   data: function() {
     return {
       signedIn: false
-    }
+    };
   },
   created: function() {
     var jwt = localStorage.getItem("jwt");
@@ -2516,10 +2587,10 @@ var app = new Vue({
       axios.defaults.headers.common["Authorization"] = jwt;
       this.signedIn = true;
     }
-    $(document).ready(function(){
-      $('a').click(function(){
-          $('a').removeClass("active");
-          $(this).addClass("active");
+    $(document).ready(function() {
+      $("a").click(function() {
+        $("a").removeClass("active");
+        $(this).addClass("active");
       });
     });
   }
