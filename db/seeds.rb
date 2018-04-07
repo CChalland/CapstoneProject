@@ -7,7 +7,7 @@ Filter.destroy_all
 
 User.create!([
   {user_name: "admin", email: "admin@uchiha.com", password_digest: "$2a$10$BbaXKYNVwSw/eSjFzkAj4eDkO.vWcUNHE5lJYwrnV3/CupKOy35lG", full_name: "Itachi Uchiha", birth_date: "5/19/1993", gender: "Male", membership: false, admin: true},
-  {user_name: "test", email: "test@uchiha.com", password_digest: "$2a$10$BbaXKYNVwSw/eSjFzkAj4eDkO.vWcUNHE5lJYwrnV3/CupKOy35lG", full_name: "Bill Bob", birth_date: "2/1/2018", gender: "Q", membership: false, admin: false}
+  {user_name: "test", email: "test@test.com", password_digest: "$2a$10$BbaXKYNVwSw/eSjFzkAj4eDkO.vWcUNHE5lJYwrnV3/CupKOy35lG", full_name: "Bill Bob", birth_date: "2/1/2018", gender: "Q", membership: false, admin: false}
 ])
 Filter.create!([
   {name: "Animal", anger: File.new('public/img/filters/speak-no-monkey.png'), contempt: File.new('public/img/filters/koala.png'), disgust: File.new('public/img/filters/pirate-skull.png'), fear: File.new('public/img/filters/see-no-monkey.png'), happiness: File.new('public/img/filters/simba.png'), neutral: File.new('public/img/filters/panda.png'), sadness: File.new('public/img/filters/mufasa.png'), surprise: File.new('public/img/filters/cartoon-see-no-monkey.png'), user_id: 1, public?: true},
