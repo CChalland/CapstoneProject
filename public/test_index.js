@@ -981,6 +981,7 @@ var VisualProwessPage = {
           vm.showFilters = !vm.showFilters;
           window.filterTrackerEnabled = !window.filterTrackerEnabled;
           if (window.filterTrackerEnabled) {
+            img.src = vm.activeFilter;
             axios.get("/keys").then(function(response) {
               FACE_API_ID = response.data.id;
               FACE_API_KEY1 = response.data.key;

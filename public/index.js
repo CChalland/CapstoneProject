@@ -935,19 +935,6 @@ var VisualProwessPage = {
       var context = canvas.getContext("2d");
       vm.streaming = true;
 
-      // video.addEventListener(
-      //   "canplay",
-      //   function(ev) {
-      //     if (!vm.streaming) {
-      //       height = video.videoHeight / (video.videoWidth / width);
-      //       frame.setAttribute("width", width);
-      //       frame.setAttribute("height", height);
-      //       vm.streaming = true;
-      //     }
-      //   },
-      //   false
-      // );
-
       var tracker = new tracking.ObjectTracker("face");
       tracker.setInitialScale(3.25);
       tracker.setStepSize(1.68);
@@ -981,6 +968,7 @@ var VisualProwessPage = {
           vm.showFilters = !vm.showFilters;
           window.filterTrackerEnabled = !window.filterTrackerEnabled;
           if (window.filterTrackerEnabled) {
+            img.src = vm.activeFilter;
             axios.get("/keys").then(function(response) {
               FACE_API_ID = response.data.id;
               FACE_API_KEY1 = response.data.key;
